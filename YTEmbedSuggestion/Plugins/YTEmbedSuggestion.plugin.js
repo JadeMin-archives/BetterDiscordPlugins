@@ -5,7 +5,7 @@
  * @authorId 840594543291269120
  * @description Removes the suggestion of random unrelated videos that appear when you pause a YouTube embedded video on Discord.
  * @source https://github.com/JadeMin/BetterDiscord/
- * @updateUrl https://raw.githubusercontent.com/JadeMin/BetterDiscord/main/YTEmbedSuggestion/YTEmbedSuggestion.plugin.js
+ * @updateUrl https://raw.githubusercontent.com/JadeMin/BetterDiscord/main/Plguins/YTEmbedSuggestion/YTEmbedSuggestion.plugin.js
  **/
 
 
