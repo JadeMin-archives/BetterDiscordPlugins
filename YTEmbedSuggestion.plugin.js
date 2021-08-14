@@ -28,6 +28,9 @@ module.exports = (()=> {
 		getAuthor(){ return config.info.author; }
 		getVersion(){ return config.info.version; }
 
+		load() {
+			this.interval = null;
+		}
 		start() {
 			this.interval = setInterval(()=> {
 				document.querySelectorAll("iframe[src^='https://www.youtube.com/embed/']").forEach(element=> {
@@ -38,14 +41,15 @@ module.exports = (()=> {
 							identifier
 						});
 					}	
-
+					
 					if(!identifier) element.src += "&rel=0";
 				});
 			}, 0);
 		} 
 		stop() {
-			if(interval) clearInterval(this.interval);
-			else {
+			if(this.interval) {
+				clearInterval(this.interval);
+			} else {
 				console.warn(`[${config.info.name}] interval is ${interval}`);
 			}
 		}
