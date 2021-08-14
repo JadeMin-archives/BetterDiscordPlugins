@@ -9,9 +9,8 @@
  **/
 
 
-let interval = null;
-
 class YTEmbedSuggestion {
+	interval = 
 	start() {
 		interval = setInterval(()=> {
 			document.querySelectorAll("iframe[src^='https://www.youtube.com/embed/']").forEach(element=> {
