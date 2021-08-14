@@ -27,6 +27,7 @@ module.exports = (()=> {
 		getName(){ return config.info.name; }
 		getAuthor(){ return config.info.author; }
 		getVersion(){ return config.info.version; }
+		getDescription(){ return config.info.description; }
 
 		load() {
 			this.interval = null;
