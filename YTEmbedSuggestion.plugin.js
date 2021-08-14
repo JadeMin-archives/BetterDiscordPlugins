@@ -23,7 +23,6 @@ class YTEmbedSuggestion {
 					});
 				}	
 
-
 				if(!identifier) element.src += "&rel=0";
 			});
 		}, 0);
