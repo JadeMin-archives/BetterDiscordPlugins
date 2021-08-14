@@ -18,7 +18,7 @@ class YTEmbedSuggestions {
 						src: element.src,
 						identifier
 					});
-				}
+				}	
 
 
 				if(!identifier) element.src += "&rel=0";
