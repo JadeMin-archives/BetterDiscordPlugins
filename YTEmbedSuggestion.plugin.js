@@ -16,7 +16,7 @@ module.exports = (()=> {
 			"author": "KlartNET",
 			"version": "0.1.0",
 			"authorId": "840594543291269120",
-			"description": "Allows you to download all Themes from BD's Website within Discord",
+			"description": "Removes the suggestion of random unrelated videos that appear when you pause any YouTube embedded video on Discord.",
 			"source": "https://github.com/JadeMin/YTEmbedSuggestion",
 			"updateUrl": "https://raw.githubusercontent.com/JadeMin/YTEmbedSuggestion/main/YTEmbedSuggestion.plugin.js",
 		}
