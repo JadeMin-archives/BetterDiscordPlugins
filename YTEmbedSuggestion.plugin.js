@@ -24,9 +24,10 @@ module.exports = (()=> {
 
 
 	return class {
-		getName () {return config.info.name;}
-		getAuthor () {return config.info.author;}
-		getVersion () {return config.info.version;}
+		getName(){ return config.info.name; }
+		getAuthor(){ return config.info.author; }
+		getVersion(){ return config.info.version; }
+
 		start() {
 			this.interval = setInterval(()=> {
 				document.querySelectorAll("iframe[src^='https://www.youtube.com/embed/']").forEach(element=> {
