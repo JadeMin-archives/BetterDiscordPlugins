@@ -3,7 +3,7 @@
  * @version 0.1.0
  * @author KlartNET
  * @authorId 840594543291269120
- * @description Replaces the suggestion of random unrelated videos that appear when you pause a YouTube embedded video on Discord.
+ * @description Replaces random unrelated video suggestions that appear when you playing a Youtube embedded video player on Discord. (This doesn't remove "More videos" itself!)
  * @source https://github.com/JadeMin/BetterDiscordAddons/
  * @updateUrl https://raw.githubusercontent.com/JadeMin/BetterDiscordAddons/main/Plugins/YTEmbedSuggestion/YTEmbedSuggestion.plugin.js
  **/
@@ -15,7 +15,7 @@ module.exports = (()=> {
 			"name": "YTEmbedSuggestion",
 			"author": "KlartNET",
 			"version": "0.1.0",
-			"description": "Replaces the suggestion of random unrelated videos that appear when you pause a YouTube embedded video on Discord."
+			"description": "Replaces random unrelated video suggestions that appear when you playing a Youtube embedded video player on Discord. (This doesn't remove \"More videos\" itself!)"
 		}
 	};
 
