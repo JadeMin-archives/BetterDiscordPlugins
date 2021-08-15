@@ -4,7 +4,7 @@
  * @author KlartNET
  * @authorId 840594543291269120
  * @description Replaces irrelevant video recommendations that appear when playing a YouTube embedded video on Discord. _**(You can't remove "More Videos" itself with this plugin.)**_
- * @source https://github.com/JadeMin/BetterDiscordAddons/tree/main/Plugins/YTEmbedSuggestion/
+ * @source https://github.com/JadeMin/BetterDiscordAddons/tree/YTEmbedSuggestion/Plugins/YTEmbedSuggestion
  * @updateUrl https://raw.githubusercontent.com/JadeMin/BetterDiscordAddons/YTEmbedSuggestion/Plugins/YTEmbedSuggestion/YTEmbedSuggestion.plugin.js
  **/
 
