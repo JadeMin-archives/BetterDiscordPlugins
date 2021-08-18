@@ -3,7 +3,7 @@
  * @version 1.0.0
  * @author KlartNET
  * @authorId 840594543291269120
- * @description Replaces the irrelevant video recommendations that when you pause the YouTube Embedded video on Discord. _**(You can't get rid of "More Videos" itself with this plugin!)**_
+ * @description Replaces the irrelevant video recommendations that when you pause the YouTube Embedded video on Discord. _**(You can't remove the "More Videos" itself with this plugin!)**_
  * @source https://github.com/JadeMin/BetterDiscordPlugins/tree/main/YTEmbedSuggestion
  * @updateUrl https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/YTEmbedSuggestion/YTEmbedSuggestion.plugin.js
  **/
@@ -15,12 +15,12 @@ const config = {
 	info: {
 		name: "YTEmbedSuggestion",
 		authors: [{
-			name: "KlartNET#1234",
+			name: "KlartNET",
 			github_username: "JadeMin",
 			discord_id: "840594543291269120"
 		}],
 		version: "1.0.0",
-		description: "Replaces the irrelevant video recommendations that when you pause the YouTube Embedded video on Discord. _**(You can't get rid of \"More Videos\" itself with this plugin!)**_",
+		description: "Replaces the irrelevant video recommendations that when you pause the YouTube Embedded video on Discord. _**(You can't remove the \"More Videos\" itself with this plugin!)**_",
 		updateUrl: "https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/YTEmbedSuggestion/YTEmbedSuggestion.plugin.js"
 	}
 };
