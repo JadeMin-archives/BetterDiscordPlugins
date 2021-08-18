@@ -1,3 +1,3 @@
 # YTEmbedSuggestion
-Replaces irrelevant video recommendations that appear when playing a YouTube embedded video on Discord. _**(You can't remove "More Videos" itself with this plugin.)**_
+Replaces the irrelevant video recommendations that when you pause the YouTube Embedded video on Discord. _**(You can't get rid of "More Videos" itself with this plugin!)**_
 ![Capture](https://user-images.githubusercontent.com/36400787/129460350-94dec5b3-a9f4-47aa-86e5-b151d817d1d8.PNG)
