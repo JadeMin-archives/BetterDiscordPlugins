@@ -10,7 +10,7 @@
 
 
 
-//const fs = require('fs');
+const fs = require('fs');
 const config = {
 	info: {
 		name: "YTEmbedSuggestion",
