@@ -8,9 +8,9 @@
  * @updateUrl https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/YTEmbedSuggestion/YTEmbedSuggestion.plugin.js
  **/
 
-
-
 const fs = require('fs');
+
+
 const config = {
 	info: {
 		name: "YTEmbedSuggestion",
