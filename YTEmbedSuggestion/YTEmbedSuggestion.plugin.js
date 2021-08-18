@@ -14,13 +14,11 @@ const fs = require('fs');
 const config = {
 	info: {
 		name: "YTEmbedSuggestion",
-		authors: [
-			{
-				name: "KlartNET",
-				github_username: "JadeMin",
-				discord_id: "840594543291269120"
-			},
-		],
+		authors: [{
+			name: "KlartNET",
+			github_username: "JadeMin",
+			discord_id: "840594543291269120"
+		}],
 		version: "1.0.0",
 		description: "Replaces irrelevant video recommendations that appear when playing a YouTube embedded video on Discord. _**(You can't remove \"More Videos\" itself with this plugin.)**_",
 		updateUrl: "https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/YTEmbedSuggestion/YTEmbedSuggestion.plugin.js"
