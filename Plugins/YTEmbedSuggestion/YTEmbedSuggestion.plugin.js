@@ -77,13 +77,13 @@ module.exports = !global.ZeresPluginLibrary ? class {
 
 		observer(element) {
 			const target = element.target;
-			if(/^embedVideo\-[a-z0-9]+$/i.test(target.className)) {
+			if(/^(embedVideo\-[a-z0-9]+)\s(embedMedia\-[a-z0-9]+)$/i.test(target.className)) {
 				this.appendRel(target.lastChild);
 			}
 		}
 		appendRel(iframeElement){
 			if( !(iframeElement instanceof HTMLIFrameElement) ) {
-				//console.error(`[Observer in ${config.info.name}] iframe is not an instance of HTMLIFrameElement.`, iframe);
+				console.error(`[Observer in ${config.info.name}] iframe is not an instance of HTMLIFrameElement.`, iframe);
 			} else {
 				if(iframeElement.src.startsWith("https://www.youtube.com/embed/")) {
 					const identifier = !~iframeElement.src.indexOf("&rel=0");
