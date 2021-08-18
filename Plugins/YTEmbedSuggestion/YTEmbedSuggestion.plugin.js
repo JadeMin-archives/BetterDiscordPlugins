@@ -1,6 +1,6 @@
 /**
  * @name YTEmbedSuggestion
- * @version 0.1.0
+ * @version 1.0.0
  * @author KlartNET
  * @authorId 840594543291269120
  * @description Replaces irrelevant video recommendations that appear when playing a YouTube embedded video on Discord. _**(You can't remove "More Videos" itself with this plugin.)**_
@@ -27,7 +27,6 @@ const config = {
 };
 const settings = {
 	"logger": {
-		id: "logger",
 		title: "Developer Logger",
 		description: "Leaves the main log. Do not activate this without good reason! It causes performance degradation. (default: false)",
 		value: false
@@ -61,38 +60,11 @@ module.exports = !global.ZeresPluginLibrary ? class {
 		load() {
 			try {
 				PluginUpdater.checkForUpdate(this.getName(), this.getVersion(), config.info.updateUrl);
-
-				/*//PluginUtilities.loadData("HideStreamPreview");
-				const configs = JSON.parse(fs.readFileSync(`${__dirname}/${this.getName()}.config.json`, 'utf8'));
-				Object.entries(configs).forEach((setting, index)=> {
-					settings[setting[1].id].value = setting[1].value;
-				});*/
 			} catch(error){
 				console.error(error);
 			}
 		}
 		unload(){}
-
-		/*getSettingsPanel() {
-			try {
-				const panel = new Settings.SettingPanel();
-				Object.entries(settings).forEach((setting, index)=> {
-					panel.append(
-						new Settings.Switch(
-							setting[1].title, setting[1].description, setting[1].value,
-							(afterValue)=> {
-								settings[setting[1].id].value = afterValue[1].value;
-								PluginUtilities.saveSettings(`${this.getName()}`, {}[setting[1].id] = afterValue[1].value);
-							}
-						)
-					);
-				});
-
-				return panel.getElement();
-			} catch(error){
-				console.error(error);
-			}
-		}*/
 
 
 
@@ -103,10 +75,9 @@ module.exports = !global.ZeresPluginLibrary ? class {
 		}
 		onStop(){}
 
-
 		observer(element) {
 			const target = element.target;
-			if(/^(embedVideo\-[a-z0-9]+)\s(embedMedia-[a-z0-9]+)$/i.test(target.className)) {
+			if(/^embedVideo\-[a-z0-9]+$/i.test(target.className)) {
 				this.appendRel(target.lastChild);
 			}
 		}
