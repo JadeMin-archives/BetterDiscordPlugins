@@ -4,11 +4,13 @@
  * @author KlartNET
  * @authorId 840594543291269120
  * @description Replaces the irrelevant video recommendations that when you pause the YouTube Embedded video on Discord. _**(You can't remove the "More Videos" itself with this plugin!)**_
- * @source https://github.com/JadeMin/BetterDiscordPlugins/tree/main/YTEmbedSuggestion
+ * @source https://github.com/JadeMin/BetterDiscordPlugins/tree/main/YTEmbedSuggestion/
  * @updateUrl https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/YTEmbedSuggestion/YTEmbedSuggestion.plugin.js
  **/
 
 const fs = require('fs');
+const request = require('request');
+const electron = require('electron');
 
 
 const config = {
@@ -38,14 +40,15 @@ module.exports = !global.ZeresPluginLibrary ? class {
 	constructor(){ this._config = config; }
 
 	load() {
-		BdApi.showConfirmationModal("Library plugin is needed", `ZeresPluginLibrary is missing! Please click "Download" to install it.`, {
+		BdApi.showConfirmationModal(
+			"The library plugin is needed",
+			[`The library plugin needed for **${config.info.name}** is missing! Please click \"Download" to install it.`], {
 			confirmText: "Download",
 			cancelText: "Cancel",
 			onConfirm: ()=> {
-				request.get("https://rauenzi.github.io/BDPluginLibrary/release/0PluginLibrary.plugin.js", (error, response, body) => {
-					if(error) return electron.shell.openExternal("https://github.com/rauenzi/BDPluginLibrary");
-
-					fs.writeFileSync(path.join(BdApi.Plugins.folder, "YTEmbedSuggestion.plugin.js"), body);
+				request.get("https://rauenzi.github.io/BDPluginLibrary/release/0PluginLibrary.plugin.js", async (error, response, body)=> {
+					if(error) return electron.shell.openExternal("https://rauenzi.github.io/BDPluginLibrary/release/0PluginLibrary.plugin.js");
+					await new Promise(resolve=> fs.writeFile(require("path").join(BdApi.Plugins.folder, "0PluginLibrary.plugin.js"), body, resolve));
 				});
 			}
 		});
