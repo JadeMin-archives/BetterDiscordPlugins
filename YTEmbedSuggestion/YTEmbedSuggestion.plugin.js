@@ -12,7 +12,6 @@ const fs = require('fs');
 const request = require('request');
 const electron = require('electron');
 
-
 const config = {
 	info: {
 		name: "YTEmbedSuggestion",
