@@ -7,7 +7,6 @@
  * @source https://github.com/JadeMin/BetterDiscordPlugins/tree/main/YTEmbedSuggestion/
  * @updateUrl https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/YTEmbedSuggestion/YTEmbedSuggestion.plugin.js
  **/
-
 const fs = require('fs');
 const request = require('request');
 const electron = require('electron');
