@@ -34,7 +34,7 @@ const settings = {
 
 
 
-module.exports = !global.ZeresPluginLibrary ? class {
+module.exports = !global.ZeresPluginLibrary? class {
 	constructor(){ this._config = config; }
 
 	load() {
