@@ -83,7 +83,7 @@ module.exports = !global.ZeresPluginLibrary? class {
 		}
 		appendRel(iframeElement){
 			if( !(iframeElement instanceof HTMLIFrameElement) ) {
-				console.error(`[Observer in ${config.info.name}] iframe is not an instance of HTMLIFrameElement.`, iframe);
+				return;
 			} else {
 				if(iframeElement.src.startsWith("https://www.youtube.com/embed/")) {
 					const identifier = !~iframeElement.src.indexOf("&rel=0");
