@@ -24,13 +24,13 @@ const config = {
 		updateUrl: "https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/YTEmbedSuggestion/YTEmbedSuggestion.plugin.js"
 	}
 };
-const settings = {
+/*const settings = {
 	"logger": {
 		title: "Developer Logger",
 		description: "Leaves the main log. Do not activate this without good reason! It may causes performance degradation. (default: false)",
 		value: false
 	}
-};
+};*/
 
 
 
