@@ -82,7 +82,7 @@ module.exports = !global.ZeresPluginLibrary? class {
 			try {
 				const versioner = (content)=> {
 					const remoteVash = content.match(/vash:\s['"]([0-9]\.?){4,}['"]/i);
-					return remoteVash? remoteVash[0].split(' ')[1]:"1.0.0.0";
+					return remoteVash? remoteVash[0].split(' ')[1]:"0.0.0.1";
 				};
 				const comparator = (currentVash, remoteVash)=> { 
 					return remoteVash != config.info.vash;
