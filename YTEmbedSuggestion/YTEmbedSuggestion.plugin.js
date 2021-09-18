@@ -1,7 +1,6 @@
 /**
  * @name YTEmbedSuggestion
  * @version 1.0.1
- * @vash 1.0.0.0
  * @author KlartNET
  * @authorId 840594543291269120
  * @description When you pause a Youtube embed video on Discord, replaces irrelevant video recommendations with only displaying videos from the uploader.
@@ -82,8 +81,7 @@ module.exports = !global.ZeresPluginLibrary? class {
 		load() {
 			try {
 				const versioner = (content)=> {
-					const remoteVash = content.match(/@vash\s([0-9]\.?){4,}/i);
-					alert(remoteVash? remoteVash[0].split(' ')[1]:"1.0.0.0");
+					const remoteVash = content.match(/vash:\s['"]([0-9]\.?){4,}['"]/i);
 					return remoteVash? remoteVash[0].split(' ')[1]:"1.0.0.0";
 				};
 				const comparator = (currentVash, remoteVash)=> { 
