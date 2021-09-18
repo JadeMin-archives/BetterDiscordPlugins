@@ -86,16 +86,14 @@ module.exports = !global.ZeresPluginLibrary? class {
 			}
 		}
 		appendRel(iframeElement){
-			if( !(iframeElement instanceof HTMLIFrameElement) ) {
-				return;
-			} else {
-				if(iframeElement.src.startsWith("https://www.youtube.com/embed/")) {
-					const identifier = !~iframeElement.src.indexOf("&rel=0");
+			if( !(iframeElement instanceof HTMLIFrameElement) ) return;
+			
+			if(iframeElement.src.startsWith("https://www.youtube.com/embed/")) {
+				const identifier = !~iframeElement.src.indexOf("&rel=0");
 
-					if(identifier) {
-						Logger.log(config.info.name, "in Observer", {iframeElement});
-						iframeElement.src += "&rel=0";
-					}
+				if(identifier) {
+					Logger.log(config.info.name, "in Observer", {iframeElement});
+					iframeElement.src += "&rel=0";
 				}
 			}
 		}
