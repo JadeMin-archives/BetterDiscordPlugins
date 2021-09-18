@@ -3,7 +3,7 @@
  * @version 1.0.0
  * @author KlartNET
  * @authorId 840594543291269120
- * @description Replaces the irrelevant video recommendations that when you pause a YouTube Embedded video on Discord. _**(You can't remove the "More Videos" itself with this plugin!)**_
+ * @description When you pause a Youtube Embed video on Discord, replaces irrelevant video recommendations with only displaying videos from the uploader.
  * @source https://github.com/JadeMin/BetterDiscordPlugins/tree/main/YTEmbedSuggestion/
  * @updateUrl https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/YTEmbedSuggestion/YTEmbedSuggestion.plugin.js
  **/
