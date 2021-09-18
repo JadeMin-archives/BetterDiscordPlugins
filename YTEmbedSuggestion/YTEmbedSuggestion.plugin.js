@@ -102,7 +102,7 @@ module.exports = !global.ZeresPluginLibrary? class {
 
 
 		onStart() {
-			Modals.showChangelogModal("Changelog", config.info.version, config.changelog, `Vash: ${config.info.vash}`);
+			//Modals.showChangelogModal("Changelog", config.info.version, config.changelog, `Vash: ${config.info.vash}`);
 			//Logger.info(`The user's locale: [${DiscordAPI.UserSettings.locale}]`);
 			
 			document.querySelectorAll("div[class^='embedVideo-']").forEach(element=> {
