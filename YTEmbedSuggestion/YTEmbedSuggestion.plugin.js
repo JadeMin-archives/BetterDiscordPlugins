@@ -19,10 +19,21 @@ const config = {
 			github_username: "JadeMin",
 			discord_id: "840594543291269120"
 		}],
-		version: "1.0.0",
+		version: "1.0.1",
 		description: "When you pause a Youtube Embed video on Discord, replaces irrelevant video recommendations with only displaying videos from the uploader.",
 		updateUrl: "https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/YTEmbedSuggestion/YTEmbedSuggestion.plugin.js"
-	}
+	},
+	changelog: [
+		{
+			title: "New stuff",
+			items: ["Changelog added"]
+		},
+		{
+			title: "Improvements",
+			type: "improved",
+			items: ["Plugin improvements (not yet finished)"]
+		}
+	]
 };
 /*const settings = {
 	"logger": {
