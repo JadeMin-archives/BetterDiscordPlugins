@@ -58,14 +58,14 @@ module.exports = !global.ZeresPluginLibrary? class {
 	start() {}
 	stop() {}
 }:(([Plugin, Api])=> {
-	const { Settings, PluginUpdater, PluginUtilities } = Api;
+	const { Settings, PluginUpdater, PluginUtilities, Logger } = Api;
 
 	return class YTEmbedSuggestion extends Plugin {
 		load() {
 			try {
 				PluginUpdater.checkForUpdate(this.getName(), this.getVersion(), config.info.updateUrl);
 			} catch(error){
-				console.error(error);
+				Logger.error(config.info.name, error);
 			}
 		}
 		unload(){}
@@ -92,8 +92,10 @@ module.exports = !global.ZeresPluginLibrary? class {
 				if(iframeElement.src.startsWith("https://www.youtube.com/embed/")) {
 					const identifier = !~iframeElement.src.indexOf("&rel=0");
 
-					if(identifier) iframeElement.src += "&rel=0";
-					console.log(`[Observer in ${config.info.name}]`, {iframeElement, identifier});
+					if(identifier) {
+						Logger.log(config.info.name, "in Observer", {iframeElement});
+						iframeElement.src += "&rel=0";
+					}
 				}
 			}
 		}
