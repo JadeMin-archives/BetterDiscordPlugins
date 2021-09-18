@@ -22,7 +22,8 @@ const config = {
 		version: "1.0.2",
 		vash: "0.0.0.2",
 		description: "When you pause a Youtube embed video on Discord, replaces irrelevant video recommendations with only displaying videos from the uploader.",
-		updateUrl: "https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/YTEmbedSuggestion/YTEmbedSuggestion.plugin.js"
+		github_raw: "https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/YTEmbedSuggestion/YTEmbedSuggestion.plugin.js",
+		github: "https://github.com/JadeMin/BetterDiscordPlugins/"
 	},
 	changelog: [
 		{
@@ -89,7 +90,7 @@ module.exports = !global.ZeresPluginLibrary? class {
 					return remoteVash == config.info.vash;
 				};
 
-				PluginUpdater.checkForUpdate(this.getName(), this.getVersion(), config.info.updateUrl, versioner, comparator);
+				PluginUpdater.checkForUpdate(this.getName(), this.getVersion(), config.info.github_raw, versioner, comparator);
 			} catch(error){
 				Toasts.show(`An error occurs while updating the plugin [${config.info.name}]`, {
 					type:"error", timeout:5000
@@ -102,7 +103,7 @@ module.exports = !global.ZeresPluginLibrary? class {
 
 
 		onStart() {
-			Modals.showChangelogModal("Changelog", config.info.version, config.changelog, `Vash: ${config.info.vash}`);
+			//Modals.showChangelogModal("Changelog", config.info.version, config.changelog, `Vash: ${config.info.vash}`);
 			//Logger.info(`The user's locale: [${DiscordAPI.UserSettings.locale}]`);
 			
 			document.querySelectorAll("div[class^='embedVideo-']").forEach(element=> {
