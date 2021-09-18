@@ -25,13 +25,17 @@ const config = {
 	},
 	changelog: [
 		{
-			title: "New stuff",
-			items: ["Changelog added"]
+			title: "Added:",
+			items: [
+				"Changelog added"
+			]
 		},
 		{
-			title: "Improvements",
+			title: "Fixed:",
 			type: "improved",
-			items: ["Plugin improvements (not yet finished)"]
+			items: [
+				"Plugin improvements (not yet finished)"
+			]
 		}
 	]
 };
