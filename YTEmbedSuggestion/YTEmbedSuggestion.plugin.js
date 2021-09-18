@@ -82,14 +82,14 @@ module.exports = !global.ZeresPluginLibrary? class {
 			} catch(error){
 				Logger.error(config.info.name, error);
 			}
-			
-			Modals.showChangelogModal("Changelog", config.info.version, config.changelog);
 		}
 		unload(){}
 
 
 
 		onStart() {
+			Modals.showChangelogModal("Changelog", config.info.version, config.changelog);
+			
 			document.querySelectorAll("div[class^='embedVideo-']").forEach(element=> {
 				this.appendRel(element.lastChild);
 			});
