@@ -20,7 +20,7 @@ const config = {
 			discord_id: "840594543291269120"
 		}],
 		version: "1.0.0",
-		description: "Replaces the irrelevant video recommendations that when you pause the YouTube Embedded video on Discord. _**(You can't remove the \"More Videos\" itself with this plugin!)**_",
+		description: "When you pause a Youtube Embed video on Discord, replaces irrelevant video recommendations with only displaying videos from the uploader.",
 		updateUrl: "https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/YTEmbedSuggestion/YTEmbedSuggestion.plugin.js"
 	}
 };
