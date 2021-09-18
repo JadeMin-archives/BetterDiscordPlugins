@@ -20,7 +20,7 @@ const config = {
 			discord_id: "840594543291269120"
 		}],
 		version: "1.0.1",
-		vash: "1.0.0.0",
+		vash: "0.0.0.1",
 		description: "When you pause a Youtube embed video on Discord, replaces irrelevant video recommendations with only displaying videos from the uploader.",
 		updateUrl: "https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/YTEmbedSuggestion/YTEmbedSuggestion.plugin.js"
 	},
@@ -95,14 +95,13 @@ module.exports = !global.ZeresPluginLibrary? class {
 				});
 				Logger.error(config.info.name, error);
 			}
-			
-			Modals.showChangelogModal("Changelog", config.info.version, config.changelog, `Vash: ${config.info.vash}`);
 		}
 		unload(){}
 
 
 
 		onStart() {
+			Modals.showChangelogModal("Changelog", config.info.version, config.changelog, `Vash: ${config.info.vash}`);
 			//Logger.info(`The user's locale: [${DiscordAPI.UserSettings.locale}]`);
 			
 			document.querySelectorAll("div[class^='embedVideo-']").forEach(element=> {
