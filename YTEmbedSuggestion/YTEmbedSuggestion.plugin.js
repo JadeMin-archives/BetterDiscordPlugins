@@ -1,6 +1,7 @@
 /**
  * @name YTEmbedSuggestion
  * @version 1.0.1
+ * @vash 1.0.0.0
  * @author KlartNET
  * @authorId 840594543291269120
  * @description When you pause a Youtube embed video on Discord, replaces irrelevant video recommendations with only displaying videos from the uploader.
@@ -20,6 +21,7 @@ const config = {
 			discord_id: "840594543291269120"
 		}],
 		version: "1.0.1",
+		vash: "1.0.0.0",
 		description: "When you pause a Youtube embed video on Discord, replaces irrelevant video recommendations with only displaying videos from the uploader.",
 		updateUrl: "https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/YTEmbedSuggestion/YTEmbedSuggestion.plugin.js"
 	},
@@ -73,22 +75,36 @@ module.exports = !global.ZeresPluginLibrary? class {
 	start() {}
 	stop() {}
 }:(([Plugin, Api])=> {
-	const { Modals, PluginUpdater, Logger } = Api;
+	const { Toasts, DiscordAPI, Modals, PluginUpdater, Logger } = Api;
+	window.PluginUpdater = PluginUpdater;
 
 	return class YTEmbedSuggestion extends Plugin {
 		load() {
 			try {
-				PluginUpdater.checkForUpdate(this.getName(), this.getVersion(), config.info.updateUrl);
+				const versioner = (content)=> {
+					const remoteVash = content.match(/@vash\s([0-9]\.?){4,}/i);
+					alert(remoteVash? remoteVash[0].split(' ')[1]:"1.0.0.0");
+					return remoteVash? remoteVash[0].split(' ')[1]:"1.0.0.0";
+				};
+				const comparator = (currentVash, remoteVash)=> { 
+					return remoteVash != config.info.vash;
+				};
+
+				PluginUpdater.checkForUpdate(this.getName(), this.getVersion(), config.info.updateUrl, versioner, comparator);
 			} catch(error){
+				Toasts.show(`An error occurs while updating the plugin [${config.info.name}]`, {
+					type:"error", timeout:5000
+				});
 				Logger.error(config.info.name, error);
 			}
+			
+			Modals.showChangelogModal("Changelog", config.info.version, config.changelog, `Vash: ${config.info.vash}`);
 		}
 		unload(){}
 
 
 
 		onStart() {
-			Modals.showChangelogModal("Changelog", config.info.version, config.changelog);
 			//Logger.info(`The user's locale: [${DiscordAPI.UserSettings.locale}]`);
 			
 			document.querySelectorAll("div[class^='embedVideo-']").forEach(element=> {
