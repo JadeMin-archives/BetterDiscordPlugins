@@ -69,7 +69,7 @@ module.exports = !global.ZeresPluginLibrary? class {
 	start() {}
 	stop() {}
 }:(([Plugin, Api])=> {
-	const { PluginUpdater, Logger } = Api;
+	const { Modals, PluginUpdater, Logger } = Api;
 
 	return class YTEmbedSuggestion extends Plugin {
 		load() {
