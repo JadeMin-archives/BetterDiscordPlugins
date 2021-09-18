@@ -1,6 +1,6 @@
 /**
  * @name YTEmbedSuggestion
- * @version 1.0.0
+ * @version 1.0.1
  * @author KlartNET
  * @authorId 840594543291269120
  * @description When you pause a Youtube Embed video on Discord, replaces irrelevant video recommendations with only displaying videos from the uploader.
