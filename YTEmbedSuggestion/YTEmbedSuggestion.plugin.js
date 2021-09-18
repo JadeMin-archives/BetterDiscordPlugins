@@ -20,7 +20,7 @@ const config = {
 			discord_id: "840594543291269120"
 		}],
 		version: "1.0.2",
-		vash: "0.0.0.2",
+		vash: "0.0.0.1",
 		description: "When you pause a Youtube embed video on Discord, replaces irrelevant video recommendations with only displaying videos from the uploader.",
 		updateUrl: "https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/YTEmbedSuggestion/YTEmbedSuggestion.plugin.js"
 	},
@@ -29,7 +29,7 @@ const config = {
 			title: "Added:",
 			items: [
 				"Changelog added.",
-				"I edit a code very often, so I added an identification number (vash).\nIf you have any problems or questions, please contact KlartNET#8669."
+				"I edit codes very often, so I added an identification number(vash).\nIf you have any problems or questions, please contact KlartNET#8669."
 			]
 		},
 		{
@@ -83,7 +83,7 @@ module.exports = !global.ZeresPluginLibrary? class {
 			try {
 				const versioner = (content)=> {
 					const remoteVash = content.match(/vash:\s['"]([0-9]\.?){4,}['"]/i);
-					return remoteVash? remoteVash[0].split(' ')[1]:"0.0.0.1";
+					return remoteVash? remoteVash[0].split(' ')[1]:"0.0.0.0";
 				};
 				const comparator = (currentVash, remoteVash)=> { 
 					return remoteVash != config.info.vash;
