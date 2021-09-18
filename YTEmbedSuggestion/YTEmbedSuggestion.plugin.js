@@ -44,9 +44,13 @@ module.exports = !global.ZeresPluginLibrary? class {
 			confirmText: "Download",
 			cancelText: "Cancel",
 			onConfirm: ()=> {
-				request.get("https://rauenzi.github.io/BDPluginLibrary/release/0PluginLibrary.plugin.js", async (error, response, body)=> {
-					if(error) return electron.shell.openExternal("https://rauenzi.github.io/BDPluginLibrary/release/0PluginLibrary.plugin.js");
-					await new Promise(resolve=> fs.writeFile(require("path").join(BdApi.Plugins.folder, "0PluginLibrary.plugin.js"), body, resolve));
+				const libraryUrl = "https://rauenzi.github.io/BDPluginLibrary/release/0PluginLibrary.plugin.js";
+				request.get(libraryUrl, async (error, response, body)=> {
+					if(error) return electron.shell.openExternal(libraryUrl);
+					
+					await new Promise(resolve=> {
+						fs.writeFile(require("path").join(BdApi.Plugins.folder, "0PluginLibrary.plugin.js"), body, resolve);
+					});
 				});
 			}
 		});
