@@ -27,14 +27,14 @@ const config = {
 		{
 			title: "Added:",
 			items: [
-				"Changelog added"
+				"Changelog added."
 			]
 		},
 		{
-			title: "Fixed:",
-			type: "improved",
+			title: "Progress:",
+			type: "progress",
 			items: [
-				"Plugin improvements (not yet finished)"
+				"Plugin performance improved. (not yet finished)"
 			]
 		}
 	]
