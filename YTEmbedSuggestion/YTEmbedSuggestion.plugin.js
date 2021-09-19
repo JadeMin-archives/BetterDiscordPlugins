@@ -110,8 +110,8 @@ var YTEmbedSuggestion = (()=> {
 				load() {
 					try {
 						const versioner = (content)=> {
-							const remoteVash = content.match(/vash:\s['"]([0-9]\.?){4,}['"]/i);
-							return remoteVash? remoteVash[0].split(' ')[1]:"0.0.0.0";
+							const remoteVash = content.match(/vash\:\s['"]([0-9]\.?){4,}['"]/i);
+							return remoteVash? remoteVash[0].replace(/vash\:\s/i, '').replace(/['"]/g, ''):"0.0.0.0";
 						};
 						const comparator = (currentVash, remoteVash)=> {
 							return remoteVash != config.info.vash;
@@ -130,7 +130,7 @@ var YTEmbedSuggestion = (()=> {
 
 
 				onStart() {
-					//Modals.showChangelogModal("changelog", config.info.version, config.changelog);
+					Modals.showChangelogModal("changelog", config.info.version, config.changelog);
 					//Logger.info(`The user's locale: [${DiscordAPI.UserSettings.locale}]`);
 					
 					document.querySelectorAll("div[class^='embedVideo-']").forEach(element=> {
