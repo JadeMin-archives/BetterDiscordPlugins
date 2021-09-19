@@ -46,7 +46,7 @@ var YTEmbedSuggestion = (()=> {
 				discord_id: "840594543291269120"
 			}],
 			version: "1.0.2",
-			vash: "0.0.0.2",
+			vash: "0.0.0.1",
 			description: "When you pause a Youtube embed video on Discord, replaces irrelevant video recommendations with only displaying videos from the uploader.",
 			github: "https://github.com/JadeMin/BetterDiscordPlugins/",
 			github_raw: "https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/YTEmbedSuggestion/YTEmbedSuggestion.plugin.js"
@@ -110,14 +110,27 @@ var YTEmbedSuggestion = (()=> {
 				load() {
 					try {
 						const versioner = (content)=> {
+							let remotes = {};
+        					const remoteVersion = content.match(/['"][0-9]+\.[0-9]+\.[0-9]+['"]/i);
 							const remoteVash = content.match(/vash\:\s['"]([0-9]\.?){4,}['"]/i);
-							return remoteVash? remoteVash[0].replace(/vash\:\s/i, '').replace(/['"]/g, ''):"0.0.0.0";
+							
+							remotes["version"] = remoteVersion? remoteVersion.toString().replace(/['"]/g, '') : "0.0.0";
+							remotes["vash"] = remoteVash? remoteVash[0].replace(/vash\:\s/i, '').replace(/['"]/g, '') : "0.0.0.0";
+							return remotes;
 						};
-						const comparator = (currentVersion, remoteVash)=> {
-							return remoteVash != config.info.vash;
+						const comparator = (currentVersion, remotes)=> {
+							Logger.log(remotes.vash);
+							Logger.log(remotes.version);
+							if(remotes.vash != config.info.vash){
+								return true;
+							} else {
+								if(remotes.version != config.info.version){
+									return true;
+								} else return false;
+							}
 						};
 
-						PluginUpdater.checkForUpdate(this.getName(), this.getVersion(), config.info.updateUrl, versioner, comparator);
+						PluginUpdater.checkForUpdate(this.getName(), this.getVersion(), config.info.github_raw, versioner, comparator);
 					} catch(error){
 						Toasts.show(`An error occurs while updating the plugin [${config.info.name}]`, {
 							type:"error", timeout:5000
