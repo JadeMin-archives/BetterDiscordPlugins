@@ -119,8 +119,7 @@ var YTEmbedSuggestion = (()=> {
 							return remotes;
 						};
 						const comparator = (currentVersion, remotes)=> {
-							Logger.log(remotes.vash);
-							Logger.log(remotes.version);
+							Logger.log(remotes.version, remotes.vash);
 							if(remotes.vash != config.info.vash){
 								return true;
 							} else {
