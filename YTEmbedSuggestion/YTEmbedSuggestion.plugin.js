@@ -127,18 +127,18 @@ var YTEmbedSuggestion = (()=> {
 								} else result = false;
 							}
 
-							if(result === true) {
+							//if(result === true) {
 								Logger.log(`\nCurrent Vash: [${config.info.vash}]\nRemote Vash: [${remotes.vash}]`);
-							}
+							//}
 							return result;
 						};
 
 						PluginUpdater.checkForUpdate(this.getName(), this.getVersion(), config.info.github_raw, versioner, comparator);
 					} catch(error){
+						Logger.error(config.info.name, error);
 						Toasts.show(`An error occurs while updating the plugin [${config.info.name}]`, {
 							type:"error", timeout:5000
 						});
-						Logger.error(config.info.name, error);
 					}
 				}
 				unload(){}
