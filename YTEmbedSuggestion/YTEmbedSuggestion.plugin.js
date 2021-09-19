@@ -46,7 +46,7 @@ var YTEmbedSuggestion = (()=> {
 				discord_id: "840594543291269120"
 			}],
 			version: "1.0.2",
-			vash: "0.0.0.2",
+			vash: "0.0.0.1",
 			description: "When you pause a Youtube embed video on Discord, replaces irrelevant video recommendations with only displaying videos from the uploader.",
 			github: "https://github.com/JadeMin/BetterDiscordPlugins/",
 			github_raw: "https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/YTEmbedSuggestion/YTEmbedSuggestion.plugin.js"
@@ -130,7 +130,7 @@ var YTEmbedSuggestion = (()=> {
 
 
 				onStart() {
-					Modals.showChangelogModal("changelog", config.info.version, config.changelog);
+					//Modals.showChangelogModal("changelog", config.info.version, config.changelog);
 					//Logger.info(`The user's locale: [${DiscordAPI.UserSettings.locale}]`);
 					
 					document.querySelectorAll("div[class^='embedVideo-']").forEach(element=> {
