@@ -46,7 +46,7 @@ var YTEmbedSuggestion = (()=> {
 				discord_id: "840594543291269120"
 			}],
 			version: "1.0.2",
-			vash: "0.0.0.2",
+			vash: "0.0.0.1",
 			description: "When you pause a Youtube embed video on Discord, replaces irrelevant video recommendations with only displaying videos from the uploader.",
 			github: "https://github.com/JadeMin/BetterDiscordPlugins/",
 			github_raw: "https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/YTEmbedSuggestion/YTEmbedSuggestion.plugin.js"
@@ -119,14 +119,19 @@ var YTEmbedSuggestion = (()=> {
 							return remotes;
 						};
 						const comparator = (currentVersion, remotes)=> {
-							Logger.log(remotes.version, remotes.vash);
+							let result;
 							if(remotes.vash != config.info.vash){
-								return true;
+								result =  true;
 							} else {
 								if(remotes.version != config.info.version){
-									return true;
-								} else return false;
+									result = true;
+								} else result = false;
 							}
+
+							//if(result === true) {
+								Logger.log(`\nCurrent Vash: [${config.info.vash}]\nRemote Vash: [${remotes.vash}]`);
+							//}
+							return result;
 						};
 
 						PluginUpdater.checkForUpdate(this.getName(), this.getVersion(), config.info.github_raw, versioner, comparator);
