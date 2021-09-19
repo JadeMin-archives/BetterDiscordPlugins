@@ -5,7 +5,8 @@
  * @authorId 840594543291269120
  * @description When you pause a Youtube embed video on Discord, replaces irrelevant video recommendations with only displaying videos from the uploader.
  * @source https://github.com/JadeMin/BetterDiscordPlugins/tree/main/YTEmbedSuggestion/
- * @updateUrl https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/YTEmbedSuggestion/YTEmbedSuggestion.plugin.js
+ * @github https://github.com/JadeMin/BetterDiscordPlugins/
+ * @github_raw https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/YTEmbedSuggestion/YTEmbedSuggestion.plugin.js
 **/
 
 /*@cc_on
@@ -45,9 +46,10 @@ var YTEmbedSuggestion = (()=> {
 				discord_id: "840594543291269120"
 			}],
 			version: "1.0.2",
-			vash: "0.0.0.3",
+			vash: "0.0.0.1",
 			description: "When you pause a Youtube embed video on Discord, replaces irrelevant video recommendations with only displaying videos from the uploader.",
-			updateUrl: "https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/YTEmbedSuggestion/YTEmbedSuggestion.plugin.js"
+			github: "https://github.com/JadeMin/BetterDiscordPlugins/",
+			github_raw: "https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/YTEmbedSuggestion/YTEmbedSuggestion.plugin.js"
 		},
 		changelog: [
 			{
@@ -112,7 +114,7 @@ var YTEmbedSuggestion = (()=> {
 							return remoteVash? remoteVash[0].split(' ')[1]:"0.0.0.0";
 						};
 						const comparator = (currentVash, remoteVash)=> {
-							return remoteVash == config.info.vash;
+							return remoteVash != config.info.vash;
 						};
 
 						PluginUpdater.checkForUpdate(this.getName(), this.getVersion(), config.info.updateUrl, versioner, comparator);
@@ -150,7 +152,7 @@ var YTEmbedSuggestion = (()=> {
 						const identifier = !~iframeElement.src.indexOf("&rel=0");
 
 						if(identifier) {
-							Logger.log(config.info.name, "in Observer", {iframeElement});
+							Logger.log("in Observer", {iframeElement});
 							iframeElement.src += "&rel=0";
 						}
 					}
