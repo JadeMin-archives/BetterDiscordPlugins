@@ -8,7 +8,6 @@
  * @github https://github.com/JadeMin/BetterDiscordPlugins/
  * @github_raw https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/YTEmbedSuggestion/YTEmbedSuggestion.plugin.js
 **/
-
 /*@cc_on
 @if (@_jscript)
 		// Offer to self-install for clueless users that try to run this directly.
@@ -18,7 +17,7 @@
 	var pathSelf = WScript.ScriptFullName;
 	
 		// Put the user at ease by addressing them in the first person
-	shell.Popup("It looks like you've mistakenly tried to run me directly. \n(Don't do that!)", 0, "I'm a plugin for BetterDiscord", 0x30);
+	shell.Popup("It looks like you've mistakenly tried to run me directly.\nDon't do that!", 0, "I'm a plugin for \"BetterDiscord\"", 0x30);
 	if (fs.GetParentFolderName(pathSelf) === fs.GetAbsolutePathName(pathPlugins)) {
 		shell.Popup("I'm in the correct folder already.", 0, "I'm already installed", 0x40);
 	} else if (!fs.FolderExists(pathPlugins)) {
@@ -128,9 +127,9 @@ var YTEmbedSuggestion = (()=> {
 								} else result = false;
 							}
 
-							if(result === true) {
+							//if(result === true) {
 								Logger.log(`\nCurrent Vash: [${config.info.vash}]\nRemote Vash: [${remotes.vash}]`);
-							}
+							//}
 							return result;
 						};
 
