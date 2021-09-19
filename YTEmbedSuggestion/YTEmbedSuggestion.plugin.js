@@ -146,7 +146,7 @@ var YTEmbedSuggestion = (()=> {
 
 
 				onStart() {
-					//Modals.showChangelogModal("changelog", config.info.version, config.changelog);
+					//Modals.showChangelogModal("changelog", config.info.version, config.changelog, `vash: ${config.info.vash}`);
 					//Logger.info(`The user's locale: [${DiscordAPI.UserSettings.locale}]`);
 					
 					document.querySelectorAll("div[class^='embedVideo-']").forEach(element=> {
