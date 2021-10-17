@@ -105,9 +105,9 @@ const YTEmbedSuggestion = (()=> {
 								} else result = false;
 							}
 
-							//if(result === true) {
+							/*if(result === true) {
 								Logger.log(`\nCurrent Vash: [${config.info.vash}]\nRemote Vash: [${remotes.vash}]`);
-							//}
+							/*}
 							return result;
 						};
 
