@@ -23,7 +23,7 @@ const YTEmbedSuggestion = (()=> {
 				discord_id: "840594543291269120"
 			}],
 			version: "1.0.2",
-			vash: "0.0.0.2",
+			vash: "0.0.0.1",
 			description: "Replaces irrelevant video recommendations with only displaying videos from the uploader when you pause a Youtube embed video on Discord",
 			github: "https://github.com/JadeMin/BetterDiscordPlugins/",
 			github_raw: "https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/YTEmbedSuggestion/YTEmbedSuggestion.plugin.js"
@@ -105,9 +105,8 @@ const YTEmbedSuggestion = (()=> {
 								} else result = false;
 							}
 
-							/*if(result === true) {
+							//if(result === true)
 								Logger.log(`\nCurrent Vash: [${config.info.vash}]\nRemote Vash: [${remotes.vash}]`);
-							/*}
 							return result;
 						};
 
