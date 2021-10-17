@@ -3,7 +3,7 @@
  * @version 1.0.2
  * @author KlartNET
  * @authorId 840594543291269120
- * @description When you pause a Youtube embed video on Discord, replaces irrelevant video recommendations with only displaying videos from the uploader.
+ * @description Replaces irrelevant video recommendations with only displaying videos from the uploader when you pause a Youtube embed video on Discord
  * @source https://github.com/JadeMin/BetterDiscordPlugins/tree/main/YTEmbedSuggestion/
  * @github https://github.com/JadeMin/BetterDiscordPlugins/
  * @github_raw https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/YTEmbedSuggestion/YTEmbedSuggestion.plugin.js
@@ -13,7 +13,7 @@ const request = require('request');
 const electron = require('electron');
 
 
-var YTEmbedSuggestion = (()=> {
+const YTEmbedSuggestion = (()=> {
 	const config = {
 		info: {
 			name: "YTEmbedSuggestion",
@@ -23,8 +23,8 @@ var YTEmbedSuggestion = (()=> {
 				discord_id: "840594543291269120"
 			}],
 			version: "1.0.2",
-			vash: "0.0.0.1",
-			description: "When you pause a Youtube embed video on Discord, replaces irrelevant video recommendations with only displaying videos from the uploader.",
+			vash: "0.0.0.2",
+			description: "Replaces irrelevant video recommendations with only displaying videos from the uploader when you pause a Youtube embed video on Discord",
 			github: "https://github.com/JadeMin/BetterDiscordPlugins/",
 			github_raw: "https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/YTEmbedSuggestion/YTEmbedSuggestion.plugin.js"
 		},
