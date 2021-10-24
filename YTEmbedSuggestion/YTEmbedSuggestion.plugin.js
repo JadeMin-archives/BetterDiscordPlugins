@@ -8,12 +8,37 @@
  * @github https://github.com/JadeMin/BetterDiscordPlugins/
  * @github_raw https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/YTEmbedSuggestion/YTEmbedSuggestion.plugin.js
 **/
-const fs = require('fs');
-const request = require('request');
-const electron = require('electron');
+/*@cc_on
+@if (@_jscript)
+    
+    // Offer to self-install for clueless users that try to run this directly.
+    var shell = WScript.CreateObject("WScript.Shell");
+    var fs = new ActiveXObject("Scripting.FileSystemObject");
+    var pathPlugins = shell.ExpandEnvironmentStrings("%APPDATA%\\BetterDiscord\\plugins");
+    var pathSelf = WScript.ScriptFullName;
+    // Put the user at ease by addressing them in the first person
+    shell.Popup("It looks like you've mistakenly tried to run me directly. \n(Don't do that!)", 0, "I'm a plugin for BetterDiscord", 0x30);
+    if (fs.GetParentFolderName(pathSelf) === fs.GetAbsolutePathName(pathPlugins)) {
+        shell.Popup("I'm in the correct folder already.", 0, "I'm already installed", 0x40);
+    } else if (!fs.FolderExists(pathPlugins)) {
+        shell.Popup("I can't find the BetterDiscord plugins folder.\nAre you sure it's even installed?", 0, "Can't install myself", 0x10);
+    } else if (shell.Popup("Should I copy myself to BetterDiscord's plugins folder for you?", 0, "Do you need some help?", 0x34) === 6) {
+        fs.CopyFile(pathSelf, fs.BuildPath(pathPlugins, fs.GetFileName(pathSelf)), true);
+        // Show the user where to put plugins in the future
+        shell.Exec("explorer " + pathPlugins);
+        shell.Popup("I'm installed!", 0, "Successfully installed", 0x40);
+    }
+    WScript.Quit();
 
+@else@*/
 
-const YTEmbedSuggestion = (()=> {
+module.exports = (()=> {
+	const fs = require('fs');
+	const request = require('request');
+	const Electron = require('electron');
+	const Path = require('path');
+
+	
 	const config = {
 		info: {
 			name: "YTEmbedSuggestion",
@@ -22,7 +47,7 @@ const YTEmbedSuggestion = (()=> {
 				github_username: "JadeMin",
 				discord_id: "840594543291269120"
 			}],
-			version: "1.0.2",
+			version: "1.0.3",
 			vash: "0.0.0.1",
 			description: "Replaces irrelevant video recommendations with only displaying videos from the uploader when you pause a Youtube embed video on Discord",
 			github: "https://github.com/JadeMin/BetterDiscordPlugins/",
@@ -43,22 +68,24 @@ const YTEmbedSuggestion = (()=> {
 					"Plugin performance improved. (not yet finished)"
 				]
 			}
+		],
+		defaultConfig: [
+			{
+				type: "switch",
+				id: "devlogger",
+				name: "Developer Logger",
+				note: "Leaves the main log. Do not activate this without good reason! It may causes performance degradation. (default: false)",
+				value: false
+			}
 		]
 	};
-	/*const settings = {
-		"logger": {
-			title: "Developer Logger",
-			description: "Leaves the main log. Do not activate this without good reason! It may causes performance degradation. (default: false)",
-			value: false
-		}
-	};*/
 	
 
 
 
 	return !global.ZeresPluginLibrary? class {
 		constructor(){ this._config = config; }
-       		getName() { return config.info.name; }
+		getName() { return config.info.name; }
 		getAuthor() { return config.info.authors.map(a => a.name).join(", "); }
 		getDescription() { return config.info.description; }
 		getVersion() { return config.info.version; }
@@ -72,10 +99,10 @@ const YTEmbedSuggestion = (()=> {
 				onConfirm: ()=> {
 					const libraryUrl = "https://rauenzi.github.io/BDPluginLibrary/release/0PluginLibrary.plugin.js";
 					request.get(libraryUrl, async (error, response, body)=> {
-						if(error) return electron.shell.openExternal(libraryUrl);
+						if(error) return Electron.shell.openExternal(libraryUrl);
 						
 						await new Promise(resolve=> {
-							fs.writeFile(require("path").join(BdApi.Plugins.folder, "0PluginLibrary.plugin.js"), body, resolve);
+							fs.writeFile(Path.join(BdApi.Plugins.folder, "0PluginLibrary.plugin.js"), body, resolve);
 						});
 					});
 				}
@@ -83,11 +110,13 @@ const YTEmbedSuggestion = (()=> {
 		}
 		start(){}
 		stop(){}
-	}:(([Plugin, Api])=> {
+	} : (([Plugin, Api])=> {
 		const plugin = (Plugin, Api)=> {
-			const { Toasts, DiscordAPI, Modals, PluginUpdater, Logger } = Api;
+			const { Toasts, DiscordAPI, Modals, Patcher, PluginUpdater, Logger } = Api;
 
 			return class YTEmbedSuggestion extends Plugin {
+				constructor(){ super(); }
+
 				load() {
 					try {
 						const versioner = (content)=> {
@@ -109,8 +138,7 @@ const YTEmbedSuggestion = (()=> {
 								} else result = false;
 							}
 
-							//if(result === true)
-								Logger.log(`\nCurrent Vash: [${config.info.vash}]\nRemote Vash: [${remotes.vash}]`);
+							if(this.settings.devlogger) Logger.log(`\nCurrent Vash: [${config.info.vash}]\nRemote Vash: [${remotes.vash}]`);
 							return result;
 						};
 
@@ -134,7 +162,7 @@ const YTEmbedSuggestion = (()=> {
 						this.appendRel(element.lastChild);
 					});
 				}
-				onStop(){}
+				onStop() {}
 
 				observer(element) {
 					const target = element.target;
@@ -148,11 +176,15 @@ const YTEmbedSuggestion = (()=> {
 					if(iframeElement.src.startsWith("https://www.youtube.com/embed/")) {
 						const identifier = !~iframeElement.src.indexOf("&rel=0");
 
-						if(identifier) {
-							Logger.log("in Observer", {iframeElement});
-							iframeElement.src += "&rel=0";
-						}
+						if(this.settings.devlogger) Logger.log("in Observer", {iframeElement});
+						iframeElement.src += "&rel=0";
 					}
+				}
+
+
+				getSettingsPanel() {
+					const panel = this.buildSettingsPanel();
+					return panel.getElement();
 				}
 			};
 		};
@@ -161,3 +193,4 @@ const YTEmbedSuggestion = (()=> {
 		return plugin(Plugin, Api);
 	})(global.ZeresPluginLibrary.buildPlugin(config));
 })();
+/*@end@*/
