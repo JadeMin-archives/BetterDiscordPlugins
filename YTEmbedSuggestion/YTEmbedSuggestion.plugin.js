@@ -51,8 +51,7 @@ module.exports = (()=> {
 			{
 				title: "Added:",
 				items: [
-					"Changelog added.",
-					"I edit codes very often, so I added an identification number(vash).\nIf you have any problems or questions, please contact KlartNET#8669."
+					"Changelog added."
 				]
 			},
 			{
