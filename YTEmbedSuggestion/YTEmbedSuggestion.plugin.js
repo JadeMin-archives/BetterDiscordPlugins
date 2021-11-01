@@ -41,7 +41,7 @@ module.exports = (()=> {
 				discord_id: "840594543291269120",
 				github_username: "JadeMin"
 			}],
-			version: "1.0.30012",
+			version: "1.0.30014",
 			//vash: "0.0.0.2",
 			description: "Replaces irrelevant video recommendations with only displaying videos from the uploader when you pause a Youtube embed video on Discord",
 			github: "https://github.com/JadeMin/BetterDiscordPlugins/",
@@ -51,7 +51,8 @@ module.exports = (()=> {
 			{
 				title: "Added:",
 				items: [
-					"Changelog added."
+					"Changelog added.",
+					"I edit codes very often, so I added an identification number(vash).\nIf you have any problems or questions, please contact KlartNET#8669."
 				]
 			},
 			{
@@ -178,7 +179,7 @@ module.exports = (()=> {
 					if(iframeElement.src.startsWith("https://www.youtube.com/embed/")) {
 						const identifier = !~iframeElement.src.indexOf("&rel=0");
 
-						if(this.settings.devlogger) Logger.log("in Observer", {iframeElement, identifier});
+						if(this.settings.dev.logger) Logger.log("in Observer", {iframeElement, identifier});
 						iframeElement.src += "&rel=0";
 					}
 				}
