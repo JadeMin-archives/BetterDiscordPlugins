@@ -1,12 +1,6 @@
 /**
  * @name YTEmbedSuggestion
- * @version 1.0.3
- * @author KlartNET
  * @authorId 840594543291269120
- * @description Replaces irrelevant video recommendations with only displaying videos from the uploader when you pause a Youtube embed video on Discord
- * @source https://github.com/JadeMin/BetterDiscordPlugins/tree/main/YTEmbedSuggestion/
- * @github https://github.com/JadeMin/BetterDiscordPlugins/
- * @github_raw https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/YTEmbedSuggestion/YTEmbedSuggestion.plugin.js
 **/
 /*@cc_on
 @if (@_jscript)
@@ -44,11 +38,11 @@ module.exports = (()=> {
 			name: "YTEmbedSuggestion",
 			authors: [{
 				name: "KlartNET",
-				github_username: "JadeMin",
-				discord_id: "840594543291269120"
+				discord_id: "840594543291269120",
+				github_username: "JadeMin"
 			}],
-			version: "1.0.3",
-			vash: "0.0.0.2",
+			version: "1.0.30012",
+			//vash: "0.0.0.2",
 			description: "Replaces irrelevant video recommendations with only displaying videos from the uploader when you pause a Youtube embed video on Discord",
 			github: "https://github.com/JadeMin/BetterDiscordPlugins/",
 			github_raw: "https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/YTEmbedSuggestion/YTEmbedSuggestion.plugin.js"
@@ -71,11 +65,18 @@ module.exports = (()=> {
 		],
 		defaultConfig: [
 			{
-				type: "switch",
-				id: "devlogger",
-				name: "Developer Logger",
-				note: "Leaves the main log. Do not activate this without good reason! It may causes performance degradation. (default: false)",
-				value: false
+                type: "category",
+                name: "Devoloper",
+                id: "dev",
+				settings: [
+					{
+						type: "switch",
+						id: "logger",
+						name: "Developer Logger",
+						note: "Leaves the main log. Do not activate this without good reason! It may causes performance degradation. (default: false)",
+						value: false
+					}
+				]
 			}
 		]
 	};
@@ -112,14 +113,14 @@ module.exports = (()=> {
 		stop(){}
 	} : (([Plugin, Api])=> {
 		const plugin = (Plugin, Api)=> {
-			const { Toasts, DiscordAPI, Modals, Patcher, PluginUpdater, Logger } = Api;
+			const { Toasts, PluginUpdater, Logger } = Api;
 
 			return class YTEmbedSuggestion extends Plugin {
 				constructor(){ super(); }
 
 				load() {
 					try {
-						const versioner = (content)=> {
+						/*const versioner = (content)=> {
 							let remotes = {};
 							const remoteVersion = content.match(/['"][0-9]+\.[0-9]+\.[0-9]+['"]/i);
 							const remoteVash = content.match(/vash\:\s['"]([0-9]\.?){4,}['"]/i);
@@ -138,11 +139,13 @@ module.exports = (()=> {
 								} else result = false;
 							}
 
-							if(this.settings.devlogger) Logger.log(`\nCurrent Vash: [${config.info.vash}]\nRemote Vash: [${remotes.vash}]`);
+							if(this.settings.dev.logger) Logger.log(`\nCurrent Vash: [${config.info.vash}]\nRemote Vash: [${remotes.vash}]`);
 							return result;
 						};
 
-						PluginUpdater.checkForUpdate(this.getName(), this.getVersion(), config.info.github_raw, versioner, comparator);
+						PluginUpdater.checkForUpdate(this.getName(), this.getVersion(), config.info.github_raw, versioner, comparator);*/
+
+						PluginUpdater.checkForUpdate(this.getName(), this.getVersion(), config.info.github_raw);
 					} catch(error){
 						Logger.error(config.info.name, error);
 						Toasts.show(`An error occurs while updating the plugin [${config.info.name}]`, {
@@ -155,7 +158,7 @@ module.exports = (()=> {
 
 
 				onStart() {
-					//Modals.showChangelogModal("changelog", config.info.version, config.changelog, `vash: ${config.info.vash}`);
+					//Modals.showChangelogModal("changelog", config.info.version, config.changelog);
 					//Logger.info(`The user's locale: [${DiscordAPI.UserSettings.locale}]`);
 					
 					document.querySelectorAll("div[class^='embedVideo-']").forEach(element=> {
@@ -176,7 +179,7 @@ module.exports = (()=> {
 					if(iframeElement.src.startsWith("https://www.youtube.com/embed/")) {
 						const identifier = !~iframeElement.src.indexOf("&rel=0");
 
-						if(this.settings.devlogger) Logger.log("in Observer", {iframeElement});
+						if(this.settings.devlogger) Logger.log("in Observer", {iframeElement, identifier});
 						iframeElement.src += "&rel=0";
 					}
 				}
