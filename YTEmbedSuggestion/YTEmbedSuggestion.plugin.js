@@ -1,6 +1,8 @@
 /**
  * @name YTEmbedSuggestion
  * @authorId 840594543291269120
+ * @website https://github.com/JadeMin/BetterDiscordPlugins/
+ * @source https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/YTEmbedSuggestion/YTEmbedSuggestion.plugin.js
 **/
 /*@cc_on
 @if (@_jscript)
