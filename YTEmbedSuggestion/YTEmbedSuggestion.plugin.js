@@ -43,7 +43,7 @@ module.exports = (()=> {
 				discord_id: "840594543291269120",
 				github_username: "JadeMin"
 			}],
-			version: "1.0.30014",
+			version: "1.0.30015",
 			//vash: "0.0.0.2",
 			description: "Replaces irrelevant video recommendations with only displaying videos from the uploader when you pause a Youtube embed video on Discord",
 			github: "https://github.com/JadeMin/BetterDiscordPlugins/",
