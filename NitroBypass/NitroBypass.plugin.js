@@ -53,7 +53,7 @@ module.exports = (()=> {
 				title: "수정:",
 				type: "fixed",
 				items: [
-					"또 오타를 하나 수정했습니다..."
+					"라이브러리의 오역을 수정했습니다."
 				]
 			}
 		],
@@ -95,7 +95,7 @@ module.exports = (()=> {
 		load() {
 			BdApi.showConfirmationModal(
 				"라이브러리 플러그인 설치가 필요합니다.",
-				[`**${config.info.name}** 플러그인 실행에 필요한 라이브러리 플러그인을 찾을 수 없습니다! "다운로드"를 눌러 라이브러리 플러그인을 다운로드하세요`], {
+				[`\`\`**${config.info.name}**\`\` 플러그인 실행에 필요한 라이브러리 플러그인이 없습니다. "다운로드"를 눌러 라이브러리 플러그인을 다운로드하세요!`], {
 				confirmText: "다운로드",
 				cancelText: "취소",
 				onConfirm: ()=> {
