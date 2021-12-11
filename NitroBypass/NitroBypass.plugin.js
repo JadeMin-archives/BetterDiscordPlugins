@@ -39,11 +39,11 @@ module.exports = (()=> {
 		info: {
 			name: "NitroBypass",
 			authors: [{
-				name: "익명#1234",
-				discord_id: "000000000000000000",
+				/*name: "",
+				discord_id: "000000000000000000",*/
 				github_username: "JadeMin"
 			}],
-			version: "1.0.30003",
+			version: "1.0.30004",
 			description: "고해상도의 방송 송출을 니트로 없이 사용하세요!",
 			github: "https://github.com/JadeMin/BetterDiscordPlugins/",
 			github_raw: "https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/NitroBypass/NitroBypass.plugin.js"
@@ -53,11 +53,25 @@ module.exports = (()=> {
 				title: "수정:",
 				type: "fixed",
 				items: [
-					"라이브러리의 오역을 수정했습니다."
+					"또 오타 하나를 수정했습니다..."
 				]
 			}
 		],
 		defaultConfig: [
+			/*{
+				type: "category",
+				name: "일반",
+				id: "general",
+				settings: [
+					{
+						type: "button",
+						id: "showChangelog",
+						name: "업데이트 내역 보기",
+						note: "업데이트 내역을 다시 확인할 수 있습니다.",
+						value: "0"
+					}
+				]
+			},*/
 			{
 				type: "category",
 				name: "개발자 도구",
@@ -74,7 +88,7 @@ module.exports = (()=> {
 						type: "textbox",
 						id: "changeVersion",
 						name: "change version",
-						note: "업데이트 내(Changelog)이 확인됐음을 보관하는 플러그인 시스템 변수입니다. 값 변경을 권장하지 않습니다.",
+						note: "업데이트 내역(Changelog)이 확인됐음을 보관하는 시스템 변수입니다. 값 변경을 권장하지 않습니다.",
 						value: "0"
 					}
 				]
