@@ -43,33 +43,17 @@ module.exports = (()=> {
 				discord_id: "000000000000000000",
 				github_username: "JadeMin"
 			}],
-			version: "1.0.30002",
+			version: "1.0.30003",
 			description: "고해상도의 방송 송출을 니트로 없이 사용하세요!",
 			github: "https://github.com/JadeMin/BetterDiscordPlugins/",
 			github_raw: "https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/NitroBypass/NitroBypass.plugin.js"
 		},
 		changelog: [
 			{
-				title: "추가:",
-				type: "added",
-				items: [
-					"``업데이트 내역`` 팝업창이 추가되었습니다.",
-					"``업데이트 내역`` 기능은 아직 테스트중에 있으며 일부 오류가 있을 수 있습니다."
-				]
-			},
-			{
 				title: "수정:",
 				type: "fixed",
 				items: [
-					"일부 문법과 오타를 수정했습니다."
-				]
-			},
-			{
-				title: "진행중:",
-				type: "progress",
-				items: [
-					"플러그인 성능 개선 작업이 진행중입니다. (미완성)",
-					"니트로 우회 플러그인에 니트로 이모티콘도 우회할 수 있도록 업데이트중입니다."
+					"또 오타를 하나 수정했습니다..."
 				]
 			}
 		],
