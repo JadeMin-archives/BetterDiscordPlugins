@@ -43,7 +43,7 @@ module.exports = (()=> {
 				discord_id: "840594543291269120",
 				github_username: "JadeMin"
 			}],
-			version: "1.0.30015",
+			version: "1.0.30018",
 			//vash: "0.0.0.2",
 			description: "Replaces irrelevant video recommendations with only displaying videos from the uploader when you pause a Youtube embed video on Discord",
 			github: "https://github.com/JadeMin/BetterDiscordPlugins/",
@@ -76,8 +76,15 @@ module.exports = (()=> {
 						name: "Developer Logger",
 						note: "Leaves the main log. Do not activate this without good reason! It may causes performance degradation. (default: false)",
 						value: false
+					},
+					{
+						type: "textbox",
+						id: "changeVersion",
+						name: "CHANGEVERSION",
+						note: "Do not change this without good reason",
+						value: "0"
 					}
-				]
+				],
 			}
 		]
 	};
@@ -95,7 +102,7 @@ module.exports = (()=> {
 		load() {
 			BdApi.showConfirmationModal(
 				"The library plugin is needed",
-				[`The library plugin needed for **${config.info.name}** is missing! Please click \"Download" to install it.`], {
+				[`The library plugin needed for **${config.info.name}** is missing! Please click "Download" to install it.`], {
 				confirmText: "Download",
 				cancelText: "Cancel",
 				onConfirm: ()=> {
@@ -114,12 +121,50 @@ module.exports = (()=> {
 		stop(){}
 	} : (([Plugin, Api])=> {
 		const plugin = (Plugin, Api)=> {
-			const { Toasts, PluginUpdater, Logger } = Api;
+			const { PluginUtilities, Toasts, Modals, PluginUpdater, Logger } = Api;
+			const settings = PluginUtilities.loadSettings(config.info.name);
 
 			return class YTEmbedSuggestion extends Plugin {
 				constructor(){ super(); }
 
+
+				showChangelogModal(legacy=false){
+					if(legacy) {
+						const setting = {
+							"dev": {
+								"changeVersion": config.info.version
+							}
+						};
+						PluginUtilities.saveSettings(config.info.name, setting);
+					}
+
+					return Modals.showChangelogModal("changelog", config.info.version, config.changelog);
+				}
 				load() {
+					// Shows changelog
+					try {
+						if(Object.keys(settings).length) {
+							if(settings.dev.logger) {
+								Logger.log(config.info.name, settings);
+								Logger.log(config.info.name, config.info.version);
+							}
+
+							if(settings.dev.changeVersion != config.info.version) {
+								this.showChangelogModal(false);
+
+								settings.dev.changeVersion = config.info.version;
+								PluginUtilities.saveSettings(config.info.name, settings);
+							}
+						} else this.showChangelogModal(true);
+					} catch(error){
+						Logger.error(config.info.name, error);
+						Toasts.show(`업데이트 내역 창을 띄우는 도중 오류가 발생했습니다. [${config.info.name}]`, {
+							type:"error"
+						});
+					}
+
+
+					// Check updates for the plugin
 					try {
 						/*const versioner = (content)=> {
 							let remotes = {};
@@ -179,8 +224,11 @@ module.exports = (()=> {
 					
 					if(iframeElement.src.startsWith("https://www.youtube.com/embed/")) {
 						const identifier = !~iframeElement.src.indexOf("&rel=0");
-
-						if(this.settings.dev.logger) Logger.log("in Observer", {iframeElement, identifier});
+						
+						if(Object.keys(settings).length){
+							if(settings.dev.logger)
+								Logger.log("in Observer", {iframeElement, identifier});
+						}
 						iframeElement.src += "&rel=0";
 					}
 				}
