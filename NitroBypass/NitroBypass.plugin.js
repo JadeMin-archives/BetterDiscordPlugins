@@ -1,0 +1,194 @@
+/**
+ * @name NitroBypass
+ * @authorId 000000000000000000
+ * @website https://github.com/JadeMin/BetterDiscordPlugins/
+ * @source https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/NitroBypass/NitroBypass.plugin.js
+**/
+/*@cc_on
+@if (@_jscript)
+    
+    // Offer to self-install for clueless users that try to run this directly.
+    var shell = WScript.CreateObject("WScript.Shell");
+    var fs = new ActiveXObject("Scripting.FileSystemObject");
+    var pathPlugins = shell.ExpandEnvironmentStrings("%APPDATA%\\BetterDiscord\\plugins");
+    var pathSelf = WScript.ScriptFullName;
+    // Put the user at ease by addressing them in the first person
+    shell.Popup("It looks like you've mistakenly tried to run me directly. \n(Don't do that!)", 0, "I'm a plugin for BetterDiscord", 0x30);
+    if (fs.GetParentFolderName(pathSelf) === fs.GetAbsolutePathName(pathPlugins)) {
+        shell.Popup("I'm in the correct folder already.", 0, "I'm already installed", 0x40);
+    } else if (!fs.FolderExists(pathPlugins)) {
+        shell.Popup("I can't find the BetterDiscord plugins folder.\nAre you sure it's even installed?", 0, "Can't install myself", 0x10);
+    } else if (shell.Popup("Should I copy myself to BetterDiscord's plugins folder for you?", 0, "Do you need some help?", 0x34) === 6) {
+        fs.CopyFile(pathSelf, fs.BuildPath(pathPlugins, fs.GetFileName(pathSelf)), true);
+        // Show the user where to put plugins in the future
+        shell.Exec("explorer " + pathPlugins);
+        shell.Popup("I'm installed!", 0, "Successfully installed", 0x40);
+    }
+    WScript.Quit();
+
+@else@*/
+
+module.exports = (()=> {
+	const fs = require('fs');
+	const request = require('request');
+	const Electron = require('electron');
+	const Path = require('path');
+
+	
+	const config = {
+		info: {
+			name: "NitroBypass",
+			authors: [{
+				name: "익명#1234",
+				discord_id: "000000000000000000",
+				github_username: "JadeMin"
+			}],
+			version: "1.0.30001",
+			description: "고해상도의 방송 송출을 니트로 없이 사용하세요!",
+			github: "https://github.com/JadeMin/BetterDiscordPlugins/",
+			github_raw: "https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/NitroBypass/NitroBypass.plugin.js"
+		},
+		changelog: [
+			{
+				title: "추가:",
+				items: [
+					"본 \"업데이트 내역\" 팝업창이 추가되었습니다."
+				]
+			},
+			{
+				title: "진행중:",
+				type: "progress",
+				items: [
+					"플러그인 성능 개선이 진행중입니다. (미완성)",
+					"니트로 우회 플러그인에 니트로 이모티콘도 우회할 수 있도록 업데이트중입니다."
+				]
+			}
+		],
+		defaultConfig: [
+			{
+				type: "category",
+				name: "개발자 도구",
+				id: "dev",
+				settings: [
+					{
+						type: "switch",
+						id: "logger",
+						name: "개발자 로그",
+						note: "개발자 로그를 남깁니다. 이 옵션을 정당한 이유 없이 활성화하지 마세요! 일부 기기에서는 성능 저하가 발생할 수 있습니다. (기본값: 꺼짐)",
+						value: false
+					},
+					{
+						type: "textbox",
+						id: "changeVersion",
+						name: "change version",
+						note: "업데이트 내용(Changelog)이 확인됐음을 보관하는 플러그인 시스템 변수입니다. 값 변경을 권장하지 않습니다.",
+						value: "0"
+					}
+				]
+			}
+		]
+	};
+	
+
+
+
+	return !global.ZeresPluginLibrary? class {
+		constructor(){ this._config = config; }
+		getName() { return config.info.name; }
+		getAuthor() { return config.info.authors.map(a => a.name).join(", "); }
+		getDescription() { return config.info.description; }
+		getVersion() { return config.info.version; }
+		
+		load() {
+			BdApi.showConfirmationModal(
+				"라이브러리 플러그인 설치가 필요합니다.",
+				[`**${config.info.name}** 플러그인 실행에 필요한 라이브러리 플러그인을 찾을 수 없습니다! "다운로드"를 눌러 라이브러리 플러그인을 다운로드하세요`], {
+				confirmText: "다운로드",
+				cancelText: "취소",
+				onConfirm: ()=> {
+					const libraryUrl = "https://rauenzi.github.io/BDPluginLibrary/release/0PluginLibrary.plugin.js";
+					request.get(libraryUrl, async (error, response, body)=> {
+						if(error) return Electron.shell.openExternal(libraryUrl);
+						
+						await new Promise(resolve=> {
+							fs.writeFile(Path.join(BdApi.Plugins.folder, "0PluginLibrary.plugin.js"), body, resolve);
+						});
+					});
+				}
+			});
+		}
+		start(){}
+		stop(){}
+	} : (([Plugin, Library])=> {
+		const plugin = (Plugin, Library)=> {
+			const {
+				DiscordAPI,
+				PluginUtilities,
+				PluginUpdater,
+				Modals, Toasts, Logger
+			} = Library;
+			const settings = PluginUtilities.loadSettings(config.info.name);
+			
+
+			return class NitroBypass extends Plugin {
+				constructor(){ super(); }
+
+				load(){
+					// Shows changelog
+					if(settings.dev.logger) {
+						Logger.log(settings);
+						Logger.log(config.info.version);
+					}
+					try {
+						if(settings) {
+							if(settings.dev.changeVersion != config.info.version) {
+								settings.dev.changeVersion = config.info.version;
+								
+								Modals.showChangelogModal("changelog", config.info.version, config.changelog);
+								PluginUtilities.saveSettings(config.info.name, settings);
+							}
+						}
+					} catch(e){ Logger.error(e); }
+
+
+					// Check updates for the plugin
+					try {
+						PluginUpdater.checkForUpdate(this.getName(), this.getVersion(), config.info.github_raw);
+					} catch(error){
+						Logger.error(config.info.name, error);
+						Toasts.show(`An error occurs while updating the plugin [${config.info.name}]`, {
+							type:"error", timeout:5000
+						});
+					}
+				}
+				unload(){}
+
+
+
+				onStart() {
+					DiscordAPI.currentUser.discordObject.premiumType = 2;
+				}
+				onStop() {
+					DiscordAPI.currentUser.discordObject.premiumType = undefined;
+				}
+				onSwitch() {
+					if(settings.dev.logger) {
+						Logger.log(DiscordAPI);
+						Logger.log(DiscordAPI.currentUser);
+						Logger.log(DiscordAPI.currentUser.discordObject);
+						Logger.log(DiscordAPI.currentUser.discordObject.premiumType);
+					}
+				}
+
+				getSettingsPanel() {
+					const panel = this.buildSettingsPanel();
+					return panel.getElement();
+				}
+			};
+		};
+
+
+		return plugin(Plugin, Library);
+	})(global.ZeresPluginLibrary.buildPlugin(config));
+})();
+/*@end@*/
