@@ -43,7 +43,7 @@ module.exports = (()=> {
 				discord_id: "000000000000000000",
 				github_username: "JadeMin"
 			}],
-			version: "1.0.30001",
+			version: "1.0.30002",
 			description: "고해상도의 방송 송출을 니트로 없이 사용하세요!",
 			github: "https://github.com/JadeMin/BetterDiscordPlugins/",
 			github_raw: "https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/NitroBypass/NitroBypass.plugin.js"
@@ -51,15 +51,24 @@ module.exports = (()=> {
 		changelog: [
 			{
 				title: "추가:",
+				type: "added",
 				items: [
-					"본 \"업데이트 내역\" 팝업창이 추가되었습니다."
+					"\"업데이트 내역\" 팝업창이 추가되었습니다.",
+					"\"업데이트 내역\" 기능은 아직 테스트중에 있으며 일부 오류가 있을 수 있습니다."
+				]
+			},
+			{
+				title: "수정:",
+				type: "fixed",
+				items: [
+					"일부 변수 지정과 오타를 수정했습니다"
 				]
 			},
 			{
 				title: "진행중:",
 				type: "progress",
 				items: [
-					"플러그인 성능 개선이 진행중입니다. (미완성)",
+					"플러그인 성능 개선 작업이 진행중입니다. (미완성)",
 					"니트로 우회 플러그인에 니트로 이모티콘도 우회할 수 있도록 업데이트중입니다."
 				]
 			}
@@ -81,7 +90,7 @@ module.exports = (()=> {
 						type: "textbox",
 						id: "changeVersion",
 						name: "change version",
-						note: "업데이트 내용(Changelog)이 확인됐음을 보관하는 플러그인 시스템 변수입니다. 값 변경을 권장하지 않습니다.",
+						note: "업데이트 내(Changelog)이 확인됐음을 보관하는 플러그인 시스템 변수입니다. 값 변경을 권장하지 않습니다.",
 						value: "0"
 					}
 				]
@@ -133,30 +142,49 @@ module.exports = (()=> {
 			return class NitroBypass extends Plugin {
 				constructor(){ super(); }
 
+
+				showChangelogModal(legacy=false){
+					if(legacy) {
+						const setting = {
+							"dev": {
+								"changeVersion": config.info.version
+							}
+						};
+						PluginUtilities.saveSettings(config.info.name, setting);
+					}
+
+					return Modals.showChangelogModal("changelog", config.info.version, config.changelog);
+				}
 				load(){
 					// Shows changelog
-					if(settings.dev.logger) {
-						Logger.log(settings);
-						Logger.log(config.info.version);
-					}
 					try {
-						if(settings) {
+						if(Object.keys(settings).length) {
+							if(settings.dev.logger) {
+								Logger.log(config.info.name, settings);
+								Logger.log(config.info.name, config.info.version);
+							}
+
 							if(settings.dev.changeVersion != config.info.version) {
+								this.showChangelogModal(false);
+
 								settings.dev.changeVersion = config.info.version;
-								
-								Modals.showChangelogModal("changelog", config.info.version, config.changelog);
 								PluginUtilities.saveSettings(config.info.name, settings);
 							}
-						}
-					} catch(e){ Logger.error(e); }
+						} else this.showChangelogModal(true);
+					} catch(error){
+						Logger.error(config.info.name, error);
+						Toasts.show(`업데이트 내역 창을 띄우는 도중 오류가 발생했습니다. [${config.info.name}]`, {
+							type:"error"
+						});
+					}
 
 
-					// Check updates for the plugin
+					// Check updates
 					try {
 						PluginUpdater.checkForUpdate(this.getName(), this.getVersion(), config.info.github_raw);
 					} catch(error){
 						Logger.error(config.info.name, error);
-						Toasts.show(`An error occurs while updating the plugin [${config.info.name}]`, {
+						Toasts.show(`플러그인을 업데이트하는도중 오류가 발생했습니다. [${config.info.name}]`, {
 							type:"error", timeout:5000
 						});
 					}
@@ -172,11 +200,13 @@ module.exports = (()=> {
 					DiscordAPI.currentUser.discordObject.premiumType = undefined;
 				}
 				onSwitch() {
-					if(settings.dev.logger) {
-						Logger.log(DiscordAPI);
-						Logger.log(DiscordAPI.currentUser);
-						Logger.log(DiscordAPI.currentUser.discordObject);
-						Logger.log(DiscordAPI.currentUser.discordObject.premiumType);
+					if(Object.keys(settings).length) {
+						if(settings.dev.logger) {
+							Logger.log(config.info.name, DiscordAPI);
+							Logger.log(config.info.name, DiscordAPI.currentUser);
+							Logger.log(config.info.name, DiscordAPI.currentUser.discordObject);
+							Logger.log(config.info.name, DiscordAPI.currentUser.discordObject.premiumType);
+						}
 					}
 				}
 
