@@ -43,7 +43,7 @@ module.exports = (()=> {
 			}],
 			version: "1.0.10004",
 			//vash: "0.0.0.2",
-			description: " 디스코드 공식 기능인 ``메시지 신고 기능``을 활성화합니다.",
+			description: "숨겨진 디스코드 공식 기능인 ``메시지 신고 기능``을 활성화합니다.",
 			github: "https://github.com/JadeMin/BetterDiscordPlugins/",
 			github_raw: "https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/ReportMessages/ReportMessages.plugin.js"
 		}
