@@ -95,7 +95,7 @@ module.exports = (()=> {
 					{
 						type: "textbox",
 						id: "changeVersion",
-						name: "change version",
+						name: "CHANGEVERSION",
 						note: "업데이트 내역(Changelog)이 확인됐음을 보관하는 시스템 변수입니다. 값 변경을 권장하지 않습니다.",
 						value: "0"
 					}
