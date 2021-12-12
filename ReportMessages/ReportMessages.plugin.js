@@ -41,12 +41,38 @@ module.exports = (()=> {
 				name: "KlartNET",
 				github_username: "JadeMin"
 			}],
-			version: "1.0.10004",
+			version: "1.0.10005",
 			//vash: "0.0.0.2",
 			description: "숨겨진 디스코드 공식 기능인 ``메시지 신고 기능``을 활성화합니다.",
 			github: "https://github.com/JadeMin/BetterDiscordPlugins/",
 			github_raw: "https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/ReportMessages/ReportMessages.plugin.js"
-		}
+		},
+		changelog: [
+			{
+				title: "수정:",
+				type: "fixed",
+				items: [
+					"자신이 보낸 메시지는 신고할 수 없도록 수정했습니다."
+				]
+			}
+		],
+		defaultConfig: [
+			{
+				type: "category",
+				name: "개발자 도구",
+				id: "dev",
+				settings: [
+					{
+						type: "textbox",
+						id: "changeVersion",
+						name: "CHANGEVERSION",
+						note: "업데이트 내역(Changelog)이 확인됐음을 보관하는 시스템 변수입니다. 값 변경을 권장하지 않습니다.",
+						value: "0",
+						disable: true
+					}
+				]
+			}
+		]
 	};
 	
 
@@ -83,17 +109,53 @@ module.exports = (()=> {
 		const plugin = (Plugin, Library)=> {
 			const {
 				WebpackModules, Patcher,
+				PluginUtilities,
 				PluginUpdater,
-				Toasts, Logger
+				Toasts, Modals, Logger
 			} = Library;
+			const settings = PluginUtilities.loadSettings(config.info.name);
 
 
 			return class ReportMessages extends Plugin {
 				constructor(){ super(); }
+				showChangelogModal(legacy=false) {
+					if(legacy) {
+						const setting = {
+							"dev": {
+								"changeVersion": config.info.version
+							}
+						};
+						PluginUtilities.saveSettings(config.info.name, setting);
+					}
 
-
-
+					return Modals.showChangelogModal("changelog", config.info.version, config.changelog);
+				}
+				
+				
 				load() {
+					// Shows changelog
+					try {
+						if(Object.keys(settings).length) {
+							if(settings.dev.logger) {
+								Logger.log(config.info.name, settings);
+								Logger.log(config.info.name, config.info.version);
+							}
+
+							if(settings.dev.changeVersion != config.info.version) {
+								this.showChangelogModal(false);
+
+								settings.dev.changeVersion = config.info.version;
+								PluginUtilities.saveSettings(config.info.name, settings);
+							}
+						} else this.showChangelogModal(true);
+					} catch(error){
+						Logger.error(config.info.name, error);
+						Toasts.show(`업데이트 내역 창을 띄우는 도중 오류가 발생했습니다. [${config.info.name}]`, {
+							type:"error"
+						});
+					}
+					
+					
 					// Check updates
 					try {
 						PluginUpdater.checkForUpdate(this.getName(), this.getVersion(), config.info.github_raw);
@@ -111,8 +173,15 @@ module.exports = (()=> {
 					const MiniPopover = WebpackModules.getModule(module=> module?.default?.displayName === "MiniPopover");
 
 					Patcher.after(MiniPopover, "default", (_thisObject, args)=> {
-						const child = args[0].children.filter(element=> element?.hasOwnProperty("props"));
-						if(child.length) child[0].props.canReport = true;
+						const children = args[0].children.filter(element=> element?.hasOwnProperty("props"));
+						
+						if(children.length) {
+							const props = children[0].props;
+							
+							if(props.message.author.id !== DiscordAPI.currentUser.discordObject.id) {
+								props.canReport = true;
+							}
+						}
 					});
 				}
 				onStop(){
