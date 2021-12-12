@@ -41,7 +41,7 @@ module.exports = (()=> {
 				name: "KlartNET",
 				github_username: "JadeMin"
 			}],
-			version: "1.0.10005",
+			version: "1.0.10006",
 			//vash: "0.0.0.2",
 			description: "숨겨진 디스코드 공식 기능인 ``메시지 신고 기능``을 활성화합니다.",
 			github: "https://github.com/JadeMin/BetterDiscordPlugins/",
@@ -52,7 +52,7 @@ module.exports = (()=> {
 				title: "수정:",
 				type: "fixed",
 				items: [
-					"자신이 보낸 메시지는 신고할 수 없도록 수정했습니다."
+					"솟같은 능지를 수정했습니다."
 				]
 			}
 		],
@@ -107,7 +107,7 @@ module.exports = (()=> {
 	} : (([Plugin, Library])=> {
 		const plugin = (Plugin, Library)=> {
 			const {
-				WebpackModules, Patcher,
+				DiscordAPI, WebpackModules, Patcher,
 				PluginUtilities,
 				PluginUpdater,
 				Toasts, Modals, Logger
