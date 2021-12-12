@@ -1,7 +1,7 @@
 /**
  * @name ReportMessages
  * @website https://github.com/JadeMin/BetterDiscordPlugins/
- * @source https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/ReportMessage/ReportMessage.plugin.js
+ * @source https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/ReportMessages/ReportMessages.plugin.js
 **/
 /*@cc_on
 @if (@_jscript)
@@ -41,7 +41,7 @@ module.exports = (()=> {
 				name: "KlartNET",
 				github_username: "JadeMin"
 			}],
-			version: "1.0.10003",
+			version: "1.0.10004",
 			//vash: "0.0.0.2",
 			description: "비활성화된 디스코드 공식 기능인 ``메시지 신고 기능``을 활성화합니다.",
 			github: "https://github.com/JadeMin/BetterDiscordPlugins/",
