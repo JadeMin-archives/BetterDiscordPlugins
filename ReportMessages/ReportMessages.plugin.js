@@ -152,8 +152,9 @@ module.exports = (()=> {
 							if(this.getSettings().dev.changeVersion != config.info.version) {
 								this.showChangelogModal(false);
 
-								this.getSettings().dev.changeVersion = config.info.version;
-								PluginUtilities.saveSettings(config.info.name, this.getSettings());
+								const _settings = this.getSettings();
+								_settings.dev.changeVersion = config.info.version;
+								PluginUtilities.saveSettings(config.info.name, _settings);
 							}
 						} else this.showChangelogModal(true);
 					} catch(error){
