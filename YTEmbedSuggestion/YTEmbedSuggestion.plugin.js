@@ -43,7 +43,7 @@ module.exports = (()=> {
 				discord_id: "840594543291269120",
 				github_username: "JadeMin"
 			}],
-			version: "1.0.30018",
+			version: "1.0.30019",
 			//vash: "0.0.0.2",
 			description: "Replaces irrelevant video recommendations with only displaying videos from the uploader when you pause a Youtube embed video on Discord",
 			github: "https://github.com/JadeMin/BetterDiscordPlugins/",
@@ -51,16 +51,10 @@ module.exports = (()=> {
 		},
 		changelog: [
 			{
-				title: "Added:",
-				items: [
-					"Changelog added."
-				]
-			},
-			{
 				title: "Progress:",
 				type: "progress",
 				items: [
-					"Plugin performance improved. (not yet finished)"
+					"Plugin performance sightly improved. (not yet finished)"
 				]
 			}
 		],
@@ -126,8 +120,6 @@ module.exports = (()=> {
 
 			return class YTEmbedSuggestion extends Plugin {
 				constructor(){ super(); }
-
-
 				showChangelogModal(legacy=false){
 					if(legacy) {
 						const setting = {
@@ -140,20 +132,25 @@ module.exports = (()=> {
 
 					return Modals.showChangelogModal("changelog", config.info.version, config.changelog);
 				}
+				getSettings() {
+					return PluginUtilities.loadSettings(config.info.name);
+				}
+
+				
 				load() {
 					// Shows changelog
 					try {
-						if(Object.keys(settings).length) {
-							if(settings.dev.logger) {
-								Logger.log(config.info.name, settings);
+						if(Object.keys(this.getSettings()).length) {
+							if(this.getSettings().dev.logger) {
+								Logger.log(config.info.name, this.getSettings());
 								Logger.log(config.info.name, config.info.version);
 							}
 
-							if(settings.dev.changeVersion != config.info.version) {
+							if(this.getSettings().dev.changeVersion != config.info.version) {
 								this.showChangelogModal(false);
 
-								settings.dev.changeVersion = config.info.version;
-								PluginUtilities.saveSettings(config.info.name, settings);
+								this.getSettings().dev.changeVersion = config.info.version;
+								PluginUtilities.saveSettings(config.info.name, this.getSettings());
 							}
 						} else this.showChangelogModal(true);
 					} catch(error){
@@ -225,9 +222,8 @@ module.exports = (()=> {
 					if(iframeElement.src.startsWith("https://www.youtube.com/embed/")) {
 						const identifier = !~iframeElement.src.indexOf("&rel=0");
 						
-						if(Object.keys(settings).length){
-							if(settings.dev.logger)
-								Logger.log("in Observer", {iframeElement, identifier});
+						if(this.getSettings()?.dev?.logger) {
+							Logger.log("in Observer", {iframeElement, identifier});
 						}
 						iframeElement.src += "&rel=0";
 					}
