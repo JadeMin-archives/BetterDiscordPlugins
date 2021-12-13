@@ -53,7 +53,7 @@ module.exports = (()=> {
 				title: "수정:",
 				type: "fixed",
 				items: [
-					"이제 플러그인을 비활성화하면 니트로 우회가 해제됩니다."
+					"플러그인 설정을 변경해도 새로고침하기 전까지 바로 적용되지 않는 문제를 수정했습니다."
 				]
 			},
 			{
@@ -142,7 +142,6 @@ module.exports = (()=> {
 				PluginUpdater,
 				Modals, Toasts, Logger
 			} = Library;
-			const settings = PluginUtilities.loadSettings(config.info.name);
 			
 
 			return class NitroBypass extends Plugin {
@@ -159,24 +158,27 @@ module.exports = (()=> {
 
 					return Modals.showChangelogModal("changelog", config.info.version, config.changelog);
 				}
-				
+				getSettings() {
+					return PluginUtilities.loadSettings(config.info.name);
+				}
+
 				
 				load() {
 					this._premiumType = DiscordAPI.currentUser.discordObject.premiumType;
 
 					// Shows changelog
 					try {
-						if(Object.keys(settings).length) {
-							if(settings.dev.logger) {
-								Logger.log(config.info.name, settings);
+						if(Object.keys(this.getSettings()).length) {
+							if(this.getSettings().dev.logger) {
+								Logger.log(config.info.name, this.getSettings());
 								Logger.log(config.info.name, config.info.version);
 							}
 
-							if(settings.dev.changeVersion != config.info.version) {
+							if(this.getSettings().dev.changeVersion != config.info.version) {
 								this.showChangelogModal(false);
 
-								settings.dev.changeVersion = config.info.version;
-								PluginUtilities.saveSettings(config.info.name, settings);
+								this.getSettings().dev.changeVersion = config.info.version;
+								PluginUtilities.saveSettings(config.info.name, this.getSettings());
 							}
 						} else this.showChangelogModal(true);
 					} catch(error){
@@ -200,6 +202,7 @@ module.exports = (()=> {
 				unload(){}
 				
 				
+				
 				onStart() {
 					DiscordAPI.currentUser.discordObject.premiumType = 2;
 				}
@@ -207,13 +210,11 @@ module.exports = (()=> {
 					DiscordAPI.currentUser.discordObject.premiumType = this._premiumType;
 				}
 				onSwitch() {
-					if(Object.keys(settings).length) {
-						if(settings.dev.logger) {
-							Logger.log(config.info.name, DiscordAPI);
-							Logger.log(config.info.name, DiscordAPI.currentUser);
-							Logger.log(config.info.name, DiscordAPI.currentUser.discordObject);
-							Logger.log(config.info.name, DiscordAPI.currentUser.discordObject.premiumType);
-						}
+					if(this.getSettings()?.dev?.logger) {
+						Logger.log(config.info.name, DiscordAPI);
+						Logger.log(config.info.name, DiscordAPI.currentUser);
+						Logger.log(config.info.name, DiscordAPI.currentUser.discordObject);
+						Logger.log(config.info.name, DiscordAPI.currentUser.discordObject.premiumType);
 					}
 				}
 
