@@ -43,7 +43,7 @@ module.exports = (()=> {
 				discord_id: "000000000000000000",*/
 				github_username: "JadeMin"
 			}],
-			version: "1.0.30006",
+			version: "1.0.30007",
 			description: "고해상도의 방송 송출을 니트로 없이 사용하세요!",
 			github: "https://github.com/JadeMin/BetterDiscordPlugins/",
 			github_raw: "https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/NitroBypass/NitroBypass.plugin.js"
@@ -177,8 +177,9 @@ module.exports = (()=> {
 							if(this.getSettings().dev.changeVersion != config.info.version) {
 								this.showChangelogModal(false);
 
-								this.getSettings().dev.changeVersion = config.info.version;
-								PluginUtilities.saveSettings(config.info.name, this.getSettings());
+								const _settings = this.getSettings();
+								_settings.dev.changeVersion = config.info.version;
+								PluginUtilities.saveSettings(config.info.name, _settings);
 							}
 						} else this.showChangelogModal(true);
 					} catch(error){
