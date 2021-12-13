@@ -43,7 +43,7 @@ module.exports = (()=> {
 				discord_id: "840594543291269120",
 				github_username: "JadeMin"
 			}],
-			version: "1.0.30019",
+			version: "1.0.30020",
 			//vash: "0.0.0.2",
 			description: "Replaces irrelevant video recommendations with only displaying videos from the uploader when you pause a Youtube embed video on Discord",
 			github: "https://github.com/JadeMin/BetterDiscordPlugins/",
@@ -149,13 +149,14 @@ module.exports = (()=> {
 							if(this.getSettings().dev.changeVersion != config.info.version) {
 								this.showChangelogModal(false);
 
-								this.getSettings().dev.changeVersion = config.info.version;
-								PluginUtilities.saveSettings(config.info.name, this.getSettings());
+								const _settings = this.getSettings();
+								_settings.dev.changeVersion = config.info.version;
+								PluginUtilities.saveSettings(config.info.name, _settings);
 							}
 						} else this.showChangelogModal(true);
 					} catch(error){
 						Logger.error(config.info.name, error);
-						Toasts.show(`업데이트 내역 창을 띄우는 도중 오류가 발생했습니다. [${config.info.name}]`, {
+						Toasts.show(`An error occurs while showing up the changelog. [${config.info.name}]`, {
 							type:"error"
 						});
 					}
@@ -191,7 +192,7 @@ module.exports = (()=> {
 						PluginUpdater.checkForUpdate(this.getName(), this.getVersion(), config.info.github_raw);
 					} catch(error){
 						Logger.error(config.info.name, error);
-						Toasts.show(`An error occurs while updating the plugin [${config.info.name}]`, {
+						Toasts.show(`An error occurred while updating the plugin [${config.info.name}]`, {
 							type:"error", timeout:5000
 						});
 					}
