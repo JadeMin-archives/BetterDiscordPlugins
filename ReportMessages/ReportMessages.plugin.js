@@ -41,7 +41,7 @@ module.exports = (()=> {
 				name: "KlartNET",
 				github_username: "JadeMin"
 			}],
-			version: "1.0.10006",
+			version: "1.0.10007",
 			//vash: "0.0.0.2",
 			description: "숨겨진 디스코드 공식 기능인 ``메시지 신고 기능``을 활성화합니다.",
 			github: "https://github.com/JadeMin/BetterDiscordPlugins/",
@@ -50,9 +50,16 @@ module.exports = (()=> {
 		changelog: [
 			{
 				title: "수정:",
-				type: "fixed",
+				type: "added",
 				items: [
-					"일부 시스템 모듈이 누락된 문제를 해결했습니다."
+					"설정을 변경할 경우 바로 동기화되지 않는 문제를 수정했습니다."
+				]
+			},
+			{
+				title: "진행중:",
+				type: "progress",
+				items: [
+					"특정한 사용자의 메시지만 신고 기능을 활성화하는 옵션을 추가중입니다."
 				]
 			}
 		],
@@ -112,7 +119,6 @@ module.exports = (()=> {
 				PluginUpdater,
 				Toasts, Modals, Logger
 			} = Library;
-			const settings = PluginUtilities.loadSettings(config.info.name);
 
 
 			return class ReportMessages extends Plugin {
@@ -129,22 +135,25 @@ module.exports = (()=> {
 
 					return Modals.showChangelogModal("changelog", config.info.version, config.changelog);
 				}
+				getSettings() {
+					return PluginUtilities.loadSettings(config.info.name);
+				}
 				
 				
 				load() {
 					// Shows changelog
 					try {
-						if(Object.keys(settings).length) {
-							if(settings.dev.logger) {
-								Logger.log(config.info.name, settings);
+						if(Object.keys(this.getSettings()).length) {
+							if(this.getSettings().dev.logger) {
+								Logger.log(config.info.name, this.getSettings());
 								Logger.log(config.info.name, config.info.version);
 							}
 
-							if(settings.dev.changeVersion != config.info.version) {
+							if(this.getSettings().dev.changeVersion != config.info.version) {
 								this.showChangelogModal(false);
 
-								settings.dev.changeVersion = config.info.version;
-								PluginUtilities.saveSettings(config.info.name, settings);
+								this.getSettings().dev.changeVersion = config.info.version;
+								PluginUtilities.saveSettings(config.info.name, this.getSettings());
 							}
 						} else this.showChangelogModal(true);
 					} catch(error){
