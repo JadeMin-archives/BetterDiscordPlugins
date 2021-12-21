@@ -195,7 +195,7 @@ module.exports = (()=> {
 						PluginUpdater.checkForUpdate(this.getName(), this.getVersion(), config.info.github_raw);
 					} catch(error){
 						Logger.error(config.info.name, error);
-						Toasts.show(`플러그인의 업데이트를 확인하는도중 오류가 발생했습니다. [${config.info.name}]`, {
+						Toasts.show(`플러그인의 업데이트를 확인하는 도중 오류가 발생했습니다. [${config.info.name}]`, {
 							type:"error", timeout:5000
 						});
 					}
