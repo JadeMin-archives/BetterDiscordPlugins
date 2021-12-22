@@ -1,6 +1,5 @@
 /**
  * @name YTEmbedSuggestion
- * @authorId 840594543291269120
  * @website https://github.com/JadeMin/BetterDiscordPlugins/
  * @source https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/YTEmbedSuggestion/YTEmbedSuggestion.plugin.js
 **/
@@ -40,7 +39,6 @@ module.exports = (()=> {
 			name: "YTEmbedSuggestion",
 			authors: [{
 				name: "KlartNET",
-				discord_id: "840594543291269120",
 				github_username: "JadeMin"
 			}],
 			version: "1.0.30020",
