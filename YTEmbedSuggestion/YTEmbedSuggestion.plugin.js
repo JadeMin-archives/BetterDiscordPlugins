@@ -111,9 +111,9 @@ module.exports = (()=> {
 		}
 		start(){}
 		stop(){}
-	} : (([Plugin, Api])=> {
-		const plugin = (Plugin, Api)=> {
-			const { PluginUtilities, Toasts, Modals, PluginUpdater, Logger } = Api;
+	} : (([Plugin, Library])=> {
+		const plugin = (Plugin, Library)=> {
+			const { PluginUtilities, Toasts, Modals, PluginUpdater, Logger } = Library;
 			const settings = PluginUtilities.loadSettings(config.info.name);
 
 			return class YTEmbedSuggestion extends Plugin {
@@ -237,7 +237,7 @@ module.exports = (()=> {
 		};
 
 
-		return plugin(Plugin, Api);
+		return plugin(Plugin, Library);
 	})(global.ZeresPluginLibrary.buildPlugin(config));
 })();
 /*@end@*/
