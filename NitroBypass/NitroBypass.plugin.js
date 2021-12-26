@@ -41,7 +41,7 @@ module.exports = (()=> {
 				discord_id: "000000000000000000",*/
 				github_username: "JadeMin"
 			}],
-			version: "1.0.40009",
+			version: "1.0.40010",
 			description: "고해상도의 방송 송출을 니트로 없이 사용하세요!",
 			github: "https://github.com/JadeMin/BetterDiscordPlugins/",
 			github_raw: "https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/NitroBypass/NitroBypass.plugin.js"
@@ -163,17 +163,18 @@ module.exports = (()=> {
 				}
 				initAnalytics(){
 					(function(){
+						const properties = {
+							gtag: 'UA-143612368-4',
+							gtm: 'GTM-KJR5P8Q'
+						};
+
 						const gtagScript = document.createElement('script');
 						gtagScript.async = true;
-						gtagScript.src = "https://www.googletagmanager.com/gtag/js?id=UA-143612368-4";
+						gtagScript.src = `https://www.googletagmanager.com/gtag/js?id=${properties.gtag}`;
 						gtagScript.id = "gtag";
 						gtagScript.onload = ()=> {
-							window.dataLayer = window.dataLayer || [];
-							const properties = {
-								gtag: 'UA-143612368-4',
-								gtm: 'GTM-KJR5P8Q'
-							};
-							const gtag = (...args)=> dataLayer.push(...args);
+							window.dataLayer = [];
+							const gtag = (...args)=> dataLayer.push(args);
 
 
 							(function GTAG(){
