@@ -41,7 +41,7 @@ module.exports = (()=> {
 				name: "KlartNET",
 				github_username: "JadeMin"
 			}],
-			version: "1.0.10008",
+			version: "1.0.10009",
 			//vash: "0.0.0.2",
 			description: "숨겨진 디스코드 공식 기능인 ``메시지 신고 기능``을 활성화합니다.",
 			github: "https://github.com/JadeMin/BetterDiscordPlugins/",
@@ -52,14 +52,14 @@ module.exports = (()=> {
 				title: "수정:",
 				type: "added",
 				items: [
-					"플러그인 설정을 변경해도 새로고침하기 전까지 바로 적용되지 않는 문제를 수정했습니다."
+					"파일을 업로드할 때 한번에 2~3개의 오류가 발생하며 이로 인해 렉을 유발하는 이슈를 해결했습니다."
 				]
 			},
 			{
 				title: "진행중:",
 				type: "progress",
 				items: [
-					"특정한 사용자의 메시지만 신고 기능을 활성화하는 옵션을 추가중입니다."
+					"특정 종류의 사용자가 보낸 메시지에만 신고 버튼을 활성화하는 옵션을 추가중입니다."
 				]
 			}
 		],
@@ -187,7 +187,7 @@ module.exports = (()=> {
 						if(children.length) {
 							const props = children[0].props;
 							
-							if(props.message.author.id !== DiscordAPI.currentUser.discordObject.id) {
+							if(props?.message?.author?.id !== DiscordAPI.currentUser.discordObject.id) {
 								props.canReport = true;
 							}
 						}
