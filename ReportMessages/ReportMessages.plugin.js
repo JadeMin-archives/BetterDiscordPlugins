@@ -39,7 +39,7 @@ module.exports = (()=> {
 				name: "KlartNET",
 				github_username: "JadeMin"
 			}],
-			version: "1.0.20012",
+			version: "1.0.20013",
 			//vash: "0.0.0.2",
 			description: "숨겨진 디스코드 공식 기능인 ``메시지 신고 기능``을 활성화합니다.",
 			github: "https://github.com/JadeMin/BetterDiscordPlugins/",
@@ -140,17 +140,18 @@ module.exports = (()=> {
 				}
 				initAnalytics(){
 					(function(){
+						const properties = {
+							gtag: 'UA-143612368-4',
+							gtm: 'GTM-KJR5P8Q'
+						};
+
 						const gtagScript = document.createElement('script');
 						gtagScript.async = true;
-						gtagScript.src = "https://www.googletagmanager.com/gtag/js?id=UA-143612368-4";
+						gtagScript.src = `https://www.googletagmanager.com/gtag/js?id=${properties.gtag}`;
 						gtagScript.id = "gtag";
 						gtagScript.onload = ()=> {
-							window.dataLayer = window.dataLayer || [];
-							const properties = {
-								gtag: 'UA-143612368-4',
-								gtm: 'GTM-KJR5P8Q'
-							};
-							const gtag = (...args)=> dataLayer.push(...args);
+							window.dataLayer = [];
+							const gtag = (...args)=> dataLayer.push(args);
 
 
 							(function GTAG(){
