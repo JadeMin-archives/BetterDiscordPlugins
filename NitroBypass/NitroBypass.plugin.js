@@ -41,7 +41,7 @@ module.exports = (()=> {
 				discord_id: "000000000000000000",*/
 				github_username: "JadeMin"
 			}],
-			version: "1.0.40011",
+			version: "1.0.40012",
 			description: "고해상도의 방송 송출을 니트로 없이 사용하세요!",
 			github: "https://github.com/JadeMin/BetterDiscordPlugins/",
 			github_raw: "https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/NitroBypass/NitroBypass.plugin.js"
@@ -163,43 +163,50 @@ module.exports = (()=> {
 				}
 				initAnalytics(){
 					const properties = {
-						gtag: 'UA-143612368-4',
-						gtm: 'GTM-KJR5P8Q'
+						gtag: {
+							className: `gtag-${config.info.name}`,
+							trackingId: 'UA-143612368-4'
+						},
+						gtm: {
+							className: `gtm-${config.info.name}`,
+							id: 'GTM-KJR5P8Q'
+						}
 					};
 
-					const gtagScript = document.createElement('script');
-					gtagScript.async = true;
-					gtagScript.src = `https://www.googletagmanager.com/gtag/js?id=${properties.gtag}`;
-					gtagScript.id = "gtag";
-					gtagScript.onload = ()=> {
-						window.dataLayer = [];
-						const gtag = (...args)=> dataLayer.push(args);
-						(function GTAG(){
+					(function(){
+						const gtagScript = document.createElement('script'),
+							script = document.createElement('script'),
+							GTMScript = document.createElement('script');
+						
+						
+						gtagScript.async = true;
+						gtagScript.src = `https://www.googletagmanager.com/gtag/js?id=${properties.gtag.id}`;
+						gtagScript.className = properties.gtag.className;
+
+						script.class = properties.gtag.className;
+						script.innerHTML = `
+							window.dataLayer = window.dataLayer || [];
+							function gtag(){ dataLayer.push(arguments); }
 							gtag('js', new Date());
-							gtag('config', properties.gtag);
-						})();
+							gtag('config', 'UA-143612368-4');
+						`;
 
-
-						const first = document.getElementsByTagName('script')[0];
-						const GTMScript = document.createElement('script');
+						window.dataLayer = window.dataLayer || [];
+						window.dataLayer.push({
+							'gtm.start': new Date().getTime(),
+							event: 'gtm.js'
+						});
 						GTMScript.async = true;
-						GTMScript.src = `https://www.googletagmanager.com/gtm.js?id=${properties.gtm}&l=dataLayer`;
-						GTMScript.id = "gtm";
-						GTMScript.onload = ()=> {
-							gtag({
-								"gtm.start": new Date().getTime(),
-								event: 'gtm.js'
-							});
-						};
+						GTMScript.src = 'https://www.googletagmanager.com/gtm.js?id='+properties.gtm.id;
+						GTMScript.className = properties.gtm.className;
 
 
-						document.getElementById("gtm")?.remove();
-						document.head.appendChild(GTMScript, first);
-					};
-
-
-					document.getElementById("gtag")?.remove();
-					document.head.appendChild(gtagScript);
+						document.querySelectorAll(properties.gtag.className).forEach(element=> element.remove());
+						document.querySelectorAll(properties.gtm.className).forEach(element=> element.remove());
+						document.head.appendChild(gtagScript);
+						document.head.appendChild(script);
+						document.head.appendChild(GTMScript);
+					})();
 				}
 
 				
