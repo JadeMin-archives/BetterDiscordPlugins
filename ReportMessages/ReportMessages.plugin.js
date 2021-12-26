@@ -24,9 +24,7 @@
 		shell.Popup("I'm installed!", 0, "Successfully installed", 0x40);
 	}
 	WScript.Quit();
-
 @else@*/
-
 module.exports = (()=> {
 	const fs = require('fs');
 	const request = require('request');
@@ -41,7 +39,7 @@ module.exports = (()=> {
 				name: "KlartNET",
 				github_username: "JadeMin"
 			}],
-			version: "1.0.10009",
+			version: "1.0.20010",
 			//vash: "0.0.0.2",
 			description: "숨겨진 디스코드 공식 기능인 ``메시지 신고 기능``을 활성화합니다.",
 			github: "https://github.com/JadeMin/BetterDiscordPlugins/",
@@ -52,7 +50,9 @@ module.exports = (()=> {
 				title: "수정:",
 				type: "added",
 				items: [
-					"파일을 업로드할 때 한번에 2~3개의 오류가 발생하며 이로 인해 렉을 유발하는 이슈를 해결했습니다."
+					"**Google Analytics 시스템을 추가했습니다.**",
+					"이 플러그인을 활성화함으로써 개발자가 플러그인 내의 오류 발생 기록을 수집하는 것에 동의의하는 것으로 간주됩니다.",
+					"_위 정보수집약관 동의를 거부하려는 경우 플러그인을 비활성화 또는 삭제해주세요. 그 이후로 어떠한 정보도 수집되지 않습니다._"
 				]
 			},
 			{
@@ -123,6 +123,9 @@ module.exports = (()=> {
 
 			return class ReportMessages extends Plugin {
 				constructor(){ super(); }
+				getSettings() {
+					return PluginUtilities.loadSettings(config.info.name);
+				}
 				showChangelogModal(legacy=false) {
 					if(legacy) {
 						const setting = {
@@ -135,10 +138,49 @@ module.exports = (()=> {
 
 					return Modals.showChangelogModal("changelog", config.info.version, config.changelog);
 				}
-				getSettings() {
-					return PluginUtilities.loadSettings(config.info.name);
+				initAnalytics(){
+					(function(){
+						const gtagScript = document.createElement('script');
+						gtagScript.async = true;
+						gtagScript.src = "https://www.googletagmanager.com/gtag/js?id=UA-143612368-4";
+						gtagScript.id = "gtag";
+						gtagScript.onload = ()=> {
+							window.dataLayer = window.dataLayer || [];
+							const properties = {
+								gtag: 'UA-143612368-4',
+								gtm: 'GTM-KJR5P8Q'
+							};
+							const gtag = (...args)=> dataLayer.push(...args);
+
+
+							(function GTAG(){
+								gtag('js', new Date());
+								gtag('config', properties.gtag);
+							})();
+
+							(function GTM(){
+								gtag({
+									"gtm.start": new Date().getTime(),
+									event: 'gtm.js'
+								});
+								const GTMScript = document.createElement('script');
+								GTMScript.async = true;
+								GTMScript.src = `https://www.googletagmanager.com/gtm.js?id=${properties.gtm}&l=dataLayer`;
+								GTMScript.id = "gtm";
+								
+								document.head.appendChild(GTMScript);
+							})();
+						};
+
+
+						document.getElementById("gtag")?.remove();
+						document.getElementById("gtm")?.remove();
+
+						document.head.appendChild(gtagScript);
+					}());
 				}
 				
+
 				
 				load() {
 					// Shows changelog
@@ -179,10 +221,13 @@ module.exports = (()=> {
 
 
 				onStart(){
+					this.initAnalytics();
+
+
 					const MiniPopover = WebpackModules.getModule(module=> module?.default?.displayName === "MiniPopover");
 
 					Patcher.after(MiniPopover, "default", (_thisObject, args)=> {
-						const children = args[0].children.filter(element=> element?.hasOwnProperty("props"));
+						const children = args[1].children.filter(element=> element?.hasOwnProperty("props"));
 						
 						if(children.length) {
 							const props = children[0].props;
