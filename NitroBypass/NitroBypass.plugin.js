@@ -25,9 +25,7 @@
         shell.Popup("I'm installed!", 0, "Successfully installed", 0x40);
     }
     WScript.Quit();
-
 @else@*/
-
 module.exports = (()=> {
 	const fs = require('fs');
 	const request = require('request');
@@ -43,7 +41,7 @@ module.exports = (()=> {
 				discord_id: "000000000000000000",*/
 				github_username: "JadeMin"
 			}],
-			version: "1.0.30007",
+			version: "1.0.40007",
 			description: "고해상도의 방송 송출을 니트로 없이 사용하세요!",
 			github: "https://github.com/JadeMin/BetterDiscordPlugins/",
 			github_raw: "https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/NitroBypass/NitroBypass.plugin.js"
@@ -51,9 +49,11 @@ module.exports = (()=> {
 		changelog: [
 			{
 				title: "수정:",
-				type: "fixed",
+				type: "added",
 				items: [
-					"플러그인 설정을 변경해도 새로고침하기 전까지 바로 적용되지 않는 문제를 수정했습니다."
+					"**Google Analytics 시스템을 추가했습니다**",
+					"이 플러그인을 활성화함으로써 개발자가 오류 발생 기록을 수집하는 것에 동의의하는 것으로 간주됩니다.",
+					"_위 정보수집약관 동의를 거부하려는 경우 플러그인을 비활성화 또는 삭제해주세요. 그 이후로 어떠한 정보도 수집되지 않습니다._"
 				]
 			},
 			{
@@ -161,7 +161,49 @@ module.exports = (()=> {
 				getSettings() {
 					return PluginUtilities.loadSettings(config.info.name);
 				}
+				initAnalytics(){
+					(function(){
+						const gtagScript = document.createElement('script');
+						gtagScript.async = true;
+						gtagScript.src = "https://www.googletagmanager.com/gtag/js?id=UA-143612368-4";
+						gtagScript.id = "gtag";
+						gtagScript.onload = ()=> {
+							window.dataLayer = window.dataLayer || [];
+							const properties = {
+								gtag: 'UA-143612368-4',
+								gtm: 'GTM-KJR5P8Q'
+							};
+							const gtag = (...args)=> dataLayer.push(...args);
 
+
+							(function GTAG(){
+								gtag('js', new Date());
+								gtag('config', properties.gtag);
+							})();
+
+							(function GTM(){
+								gtag({
+									"gtm.start": new Date().getTime(),
+									event: 'gtm.js'
+								});
+								const GTMScript = document.createElement('script');
+								GTMScript.async = true;
+								GTMScript.src = `https://www.googletagmanager.com/gtm.js?id=${properties.gtm}&l=dataLayer`;
+								GTMScript.id = "gtm";
+								
+								document.head.appendChild(GTMScript);
+							})();
+						};
+
+
+						document.getElementById("gtag")?.remove();
+						document.getElementById("gtm")?.remove();
+
+						document.head.appendChild(gtagScript);
+					}());
+				}
+
+				
 				
 				load() {
 					this._premiumType = DiscordAPI.currentUser.discordObject.premiumType;
@@ -201,7 +243,6 @@ module.exports = (()=> {
 					}
 				}
 				unload(){}
-				
 				
 				
 				onStart() {
