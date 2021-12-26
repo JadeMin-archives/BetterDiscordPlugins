@@ -227,7 +227,7 @@ module.exports = (()=> {
 					const MiniPopover = WebpackModules.getModule(module=> module?.default?.displayName === "MiniPopover");
 
 					Patcher.after(MiniPopover, "default", (_thisObject, args)=> {
-						const children = args[1].children.filter(element=> element?.hasOwnProperty("props"));
+						const children = args[0].children.filter(element=> element?.hasOwnProperty("props"));
 						
 						if(children.length) {
 							const props = children[0].props;
