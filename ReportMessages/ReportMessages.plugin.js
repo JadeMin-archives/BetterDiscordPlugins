@@ -139,48 +139,44 @@ module.exports = (()=> {
 					return Modals.showChangelogModal("changelog", config.info.version, config.changelog);
 				}
 				initAnalytics(){
-					(function(){
-						const properties = {
-							gtag: 'UA-143612368-4',
-							gtm: 'GTM-KJR5P8Q'
-						};
+					const properties = {
+						gtag: 'UA-143612368-4',
+						gtm: 'GTM-KJR5P8Q'
+					};
 
-						const gtagScript = document.createElement('script');
-						gtagScript.async = true;
-						gtagScript.src = `https://www.googletagmanager.com/gtag/js?id=${properties.gtag}`;
-						gtagScript.id = "gtag";
-						gtagScript.onload = ()=> {
-							window.dataLayer = dataLayer || [];
-							const gtag = (...args)=> dataLayer.push(args);
-							(function GTAG(){
-								gtag('js', new Date());
-								gtag('config', properties.gtag);
-							})();
+					const gtagScript = document.createElement('script');
+					gtagScript.async = true;
+					gtagScript.src = `https://www.googletagmanager.com/gtag/js?id=${properties.gtag}`;
+					gtagScript.id = "gtag";
+					gtagScript.onload = ()=> {
+						window.dataLayer = [];
+						const gtag = (...args)=> dataLayer.push(args);
+						(function GTAG(){
+							gtag('js', new Date());
+							gtag('config', properties.gtag);
+						})();
 
 
-							(function GTM(){
-								const first = document.getElementsByTagName('script')[0];
-								const GTMScript = document.createElement('script');
-								GTMScript.async = true;
-								GTMScript.src = `https://www.googletagmanager.com/gtm.js?id=${properties.gtm}&l=dataLayer`;
-								GTMScript.id = "gtm";
-								GTMScript.onload = ()=> {
-									gtag({
-										"gtm.start": new Date().getTime(),
-										event: 'gtm.js'
-									});
-								};
-								
-
-								document.getElementById("gtm")?.remove();
-								document.head.appendChild(GTMScript, first);
-							})();
+						const first = document.getElementsByTagName('script')[0];
+						const GTMScript = document.createElement('script');
+						GTMScript.async = true;
+						GTMScript.src = `https://www.googletagmanager.com/gtm.js?id=${properties.gtm}&l=dataLayer`;
+						GTMScript.id = "gtm";
+						GTMScript.onload = ()=> {
+							gtag({
+								"gtm.start": new Date().getTime(),
+								event: 'gtm.js'
+							});
 						};
 
 
-						document.getElementById("gtag")?.remove();
-						document.head.appendChild(gtagScript);
-					}());
+						document.getElementById("gtm")?.remove();
+						document.head.appendChild(GTMScript, first);
+					};
+
+
+					document.getElementById("gtag")?.remove();
+					document.head.appendChild(gtagScript);
 				}
 				
 
