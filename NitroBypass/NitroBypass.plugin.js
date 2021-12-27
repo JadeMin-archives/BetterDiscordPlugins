@@ -180,7 +180,7 @@ module.exports = (()=> {
 						
 						
 						gtagScript.async = true;
-						gtagScript.src = `https://www.googletagmanager.com/gtag/js?id=${properties.gtag.id}`;
+						gtagScript.src = `https://www.googletagmanager.com/gtag/js?id=${properties.gtag.trackingId}`;
 						gtagScript.className = properties.gtag.className;
 
 						script.className = properties.gtag.className;
