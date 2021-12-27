@@ -197,7 +197,7 @@ module.exports = (()=> {
 							event: 'gtm.js'
 						});
 						GTMScript.async = true;
-						GTMScript.src = 'https://www.googletagmanager.com/gtm.js?id='+properties.gtm.id;
+						GTMScript.src = `https://www.googletagmanager.com/gtm.js?id=${properties.gtm.id}`;
 						GTMScript.className = properties.gtm.className;
 
 
