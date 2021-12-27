@@ -5,7 +5,6 @@
 **/
 /*@cc_on
 @if (@_jscript)
-	
 	// Offer to self-install for clueless users that try to run this directly.
 	var shell = WScript.CreateObject("WScript.Shell");
 	var fs = new ActiveXObject("Scripting.FileSystemObject");
@@ -39,7 +38,7 @@ module.exports = (()=> {
 				name: "KlartNET",
 				github_username: "JadeMin"
 			}],
-			version: "1.0.20015",
+			version: "1.0.20016",
 			//vash: "0.0.0.2",
 			description: "숨겨진 디스코드 공식 기능인 ``메시지 신고 기능``을 활성화합니다.",
 			github: "https://github.com/JadeMin/BetterDiscordPlugins/",
@@ -160,7 +159,7 @@ module.exports = (()=> {
 						gtagScript.src = `https://www.googletagmanager.com/gtag/js?id=${properties.gtag.id}`;
 						gtagScript.className = properties.gtag.className;
 
-						script.class = properties.gtag.className;
+						script.className = properties.gtag.className;
 						script.innerHTML = `
 							window.dataLayer = window.dataLayer || [];
 							function gtag(){ dataLayer.push(arguments); }
