@@ -165,11 +165,11 @@ module.exports = (()=> {
 					const properties = {
 						gtag: {
 							className: `gtag-${config.info.name}`,
-							trackingId: 'UA-143612368-4'
+							trackingId: "UA-143612368-4"
 						},
 						gtm: {
 							className: `gtm-${config.info.name}`,
-							id: 'GTM-KJR5P8Q'
+							id: "GTM-KJR5P8Q"
 						}
 					};
 
