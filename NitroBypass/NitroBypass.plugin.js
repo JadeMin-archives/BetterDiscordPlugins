@@ -188,7 +188,7 @@ module.exports = (()=> {
 							window.dataLayer = window.dataLayer || [];
 							function gtag(){ dataLayer.push(arguments); }
 							gtag('js', new Date());
-							gtag('config', 'UA-143612368-4');
+							gtag('config', "${properties.gtag.trackingId}");
 						`;
 
 						window.dataLayer = window.dataLayer || [];
