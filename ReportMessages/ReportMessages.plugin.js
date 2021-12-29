@@ -230,10 +230,10 @@ module.exports = (()=> {
 
 				onStart(){
 					this.initAnalytics();
-
-
 					const MiniPopover = WebpackModules.getModule(module=> module?.default?.displayName === "MiniPopover");
-
+					const MenuItem = WebpackModules.getModule(module=> module?.default?.displayName === "MenuItem");
+					
+					
 					Patcher.after(MiniPopover, "default", (_thisObject, args)=> {
 						const children = args[0].children.filter(element=> element?.hasOwnProperty("props"));
 						
@@ -245,6 +245,17 @@ module.exports = (()=> {
 							}
 						}
 					});
+
+					/*Patcher.after(MenuItem, 'default', (_thisObject, args)=> {
+						const menuItem = args[0];
+
+						if(menuItem.id == 'tts') {
+							document.getElementById(menuItem?.menuItemProps?.id)?.setAttribute('style', "display: none;");
+						}
+						if(menuItem.id == 'mark-unread') {
+							document.getElementById(menuItem?.menuItemProps?.id)?.setAttribute('style', "display: none;");
+						}
+					});*/
 				}
 				onStop(){
 					Patcher.unpatchAll();
