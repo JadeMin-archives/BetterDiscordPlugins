@@ -220,8 +220,8 @@ module.exports = (()=> {
 				
 				
 				load() {
-					this.currentUser = DiscordModules.UserStore.getCurrentUser();
-					this._premiumType = this.currentUser.premiumType;
+					this.currentUser = DiscordModules.UserStore.getCurrentUser;
+					this._premiumType = this.currentUser().premiumType;
 
 					// Shows changelog
 					try {
@@ -263,16 +263,16 @@ module.exports = (()=> {
 				onStart() {
 					this.initAnalytics();
 					
-					this.currentUser.premiumType = 2;
+					this.currentUser().premiumType = 2;
 				}
 				onStop() {
-					this.currentUser.premiumType = this._premiumType;
+					this.currentUser().premiumType = this._premiumType;
 				}
 				onSwitch() {
 					if(this.getSettings()?.dev?.logger) {
 						const _currentUser = DiscordModules.UserStore.getCurrentUser();
 
-						Logger.log(config.info.name, this.currentUser);
+						Logger.log(config.info.name, this.currentUser());
 						Logger.log(config.info.name, _currentUser);
 					}
 				}
