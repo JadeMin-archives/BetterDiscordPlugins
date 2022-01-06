@@ -6,27 +6,25 @@
 **/
 /*@cc_on
 @if (@_jscript)
-	// Offer to self-install for clueless users that try to run this directly.
-	var shell = WScript.CreateObject("WScript.Shell");
-	var fs = new ActiveXObject("Scripting.FileSystemObject");
-	var pathPlugins = shell.ExpandEnvironmentStrings("%APPDATA%\\BetterDiscord\\plugins");
-	var pathSelf = WScript.ScriptFullName;
-	
-	// Put the user at ease by addressing them in the first person
-	shell.Popup("It looks like you've mistakenly tried to run me directly. \n(Don't do that!)", 0, "I'm a plugin for BetterDiscord", 0x30);
-	
-	if(fs.GetParentFolderName(pathSelf) === fs.GetAbsolutePathName(pathPlugins)) {
-		shell.Popup("I'm in the correct folder already.", 0, "I'm already installed", 0x40);
-	} else if(!fs.FolderExists(pathPlugins)) {
-		shell.Popup("I can't find the BetterDiscord plugins folder.\nAre you sure it's even installed?", 0, "Can't install myself", 0x10);
-	} else if(shell.Popup("Should I copy myself to BetterDiscord's plugins folder for you?", 0, "Do you need some help?", 0x34) === 6) {
-		fs.CopyFile(pathSelf, fs.BuildPath(pathPlugins, fs.GetFileName(pathSelf)), true);
-		
-		// Show the user where to put plugins in the future
-		shell.Exec("explorer " + pathPlugins);
-		shell.Popup("I'm installed!", 0, "Successfully installed", 0x40);
-	}
-	WScript.Quit();
+    
+    // Offer to self-install for clueless users that try to run this directly.
+    var shell = WScript.CreateObject("WScript.Shell");
+    var fs = new ActiveXObject("Scripting.FileSystemObject");
+    var pathPlugins = shell.ExpandEnvironmentStrings("%APPDATA%\\BetterDiscord\\plugins");
+    var pathSelf = WScript.ScriptFullName;
+    // Put the user at ease by addressing them in the first person
+    shell.Popup("It looks like you've mistakenly tried to run me directly. \n(Don't do that!)", 0, "I'm a plugin for BetterDiscord", 0x30);
+    if (fs.GetParentFolderName(pathSelf) === fs.GetAbsolutePathName(pathPlugins)) {
+        shell.Popup("I'm in the correct folder already.", 0, "I'm already installed", 0x40);
+    } else if (!fs.FolderExists(pathPlugins)) {
+        shell.Popup("I can't find the BetterDiscord plugins folder.\nAre you sure it's even installed?", 0, "Can't install myself", 0x10);
+    } else if (shell.Popup("Should I copy myself to BetterDiscord's plugins folder for you?", 0, "Do you need some help?", 0x34) === 6) {
+        fs.CopyFile(pathSelf, fs.BuildPath(pathPlugins, fs.GetFileName(pathSelf)), true);
+        // Show the user where to put plugins in the future
+        shell.Exec("explorer " + pathPlugins);
+        shell.Popup("I'm installed!", 0, "Successfully installed", 0x40);
+    }
+    WScript.Quit();
 @else@*/
 module.exports = (()=> {
 	const fs = require('fs');
@@ -43,14 +41,14 @@ module.exports = (()=> {
 				discord_id: "000000000000000000",*/
 				github_username: "JadeMin"
 			}],
-			version: "1.0.40014",
+			version: "1.0.40015",
 			description: "고해상도의 방송 송출을 니트로 없이 사용하세요!",
 			github: "https://github.com/JadeMin/BetterDiscordPlugins/",
 			github_raw: "https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/NitroBypass/NitroBypass.plugin.js"
 		},
 		changelog: [
 			{
-				title: "수정:",
+				title: "새 기능:",
 				type: "added",
 				items: [
 					"**Google Analytics 시스템을 추가했습니다**",
@@ -59,11 +57,18 @@ module.exports = (()=> {
 				]
 			},
 			{
+				title: "수정:",
+				type: "fix",
+				items: [
+					"Deprecated된 캐시변수(``DiscordAPI.current.discordObject``) 대신 디스코드 내장 함수(``DiscordModules.UserStore.getCurrentUser``)를 사용하는 것으로 수정했습니다."
+				]
+			},
+			{
 				title: "진행중:",
 				type: "progress",
 				items: [
 					"플러그인 내장 기능으로 ``니트로 이모티콘 우회`` 기능을 추가할 예정입니다.",
-					"플러그인 성능 개선 작업이 진행중입니다. (미완성)"
+					"플러그인 성능 개선 작업이 진행중입니다."
 				]
 			}
 		],
@@ -139,7 +144,7 @@ module.exports = (()=> {
 	} : (([Plugin, Library])=> {
 		const plugin = (Plugin, Library)=> {
 			const {
-				DiscordAPI,
+				DiscordModules,
 				PluginUtilities,
 				PluginUpdater,
 				Modals, Toasts, Logger
@@ -148,6 +153,10 @@ module.exports = (()=> {
 
 			return class NitroBypass extends Plugin {
 				constructor(){ super(); }
+
+				getSettings() {
+					return PluginUtilities.loadSettings(config.info.name);
+				}
 				showChangelogModal(legacy=false) {
 					if(legacy) {
 						const setting = {
@@ -160,18 +169,15 @@ module.exports = (()=> {
 
 					return Modals.showChangelogModal("changelog", config.info.version, config.changelog);
 				}
-				getSettings() {
-					return PluginUtilities.loadSettings(config.info.name);
-				}
 				initAnalytics(){
 					const properties = {
 						gtag: {
 							className: `gtag-${config.info.name}`,
-							trackingId: "UA-143612368-4"
+							trackingId: 'UA-143612368-4'
 						},
 						gtm: {
 							className: `gtm-${config.info.name}`,
-							id: "GTM-KJR5P8Q"
+							id: 'GTM-KJR5P8Q'
 						}
 					};
 
@@ -214,7 +220,8 @@ module.exports = (()=> {
 				
 				
 				load() {
-					this._premiumType = DiscordAPI.currentUser.discordObject.premiumType;
+					this.currentUser = DiscordModules.UserStore.getCurrentUser();
+					this._premiumType = this.currentUser.premiumType;
 
 					// Shows changelog
 					try {
@@ -256,17 +263,17 @@ module.exports = (()=> {
 				onStart() {
 					this.initAnalytics();
 					
-					DiscordAPI.currentUser.discordObject.premiumType = 2;
+					this.currentUser.premiumType = 2;
 				}
 				onStop() {
-					DiscordAPI.currentUser.discordObject.premiumType = this._premiumType;
+					this.currentUser.premiumType = this._premiumType;
 				}
 				onSwitch() {
 					if(this.getSettings()?.dev?.logger) {
-						Logger.log(config.info.name, DiscordAPI);
-						Logger.log(config.info.name, DiscordAPI.currentUser);
-						Logger.log(config.info.name, DiscordAPI.currentUser.discordObject);
-						Logger.log(config.info.name, DiscordAPI.currentUser.discordObject.premiumType);
+						const _currentUser = DiscordModules.UserStore.getCurrentUser();
+
+						Logger.log(config.info.name, this.currentUser);
+						Logger.log(config.info.name, _currentUser);
 					}
 				}
 
