@@ -41,7 +41,7 @@ module.exports = (()=> {
 				name: "KlartNET",
 				github_username: "JadeMin"
 			}],
-			version: "1.0.20017",
+			version: "1.0.20018",
 			//vash: "0.0.0.2",
 			description: "숨겨진 디스코드 공식 기능인 ``메시지 신고 기능``을 활성화합니다.",
 			github: "https://github.com/JadeMin/BetterDiscordPlugins/",
@@ -49,12 +49,19 @@ module.exports = (()=> {
 		},
 		changelog: [
 			{
-				title: "수정:",
+				title: "새 기능:",
 				type: "added",
 				items: [
 					"**Google Analytics 시스템을 추가했습니다**",
 					"이 플러그인을 활성화함으로써 개발자가 오류 발생 기록을 수집하는 것에 동의의하는 것으로 간주됩니다.",
 					"_위 정보수집약관 동의를 거부하려는 경우 플러그인을 비활성화 또는 삭제해주세요. 그 이후로 어떠한 정보도 수집되지 않습니다._"
+				]
+			},
+			{
+				title: "수정:",
+				type: "fix",
+				items: [
+					"캐쉬형 변수(``DiscordAPI.currentUser.discordObject``) 대신 디스코드 내장 함수(``DiscordModules.UserStore.getCurrentUser``)로 대체했습니다."
 				]
 			},
 			{
