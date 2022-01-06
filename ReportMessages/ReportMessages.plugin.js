@@ -116,7 +116,7 @@ module.exports = (()=> {
 	} : (([Plugin, Library])=> {
 		const plugin = (Plugin, Library)=> {
 			const {
-				DiscordAPI, WebpackModules, Patcher,
+				DiscordModules, WebpackModules, Patcher,
 				PluginUtilities,
 				PluginUpdater,
 				Toasts, Modals, Logger
@@ -191,6 +191,7 @@ module.exports = (()=> {
 
 				
 				load() {
+					this.currentUser = DiscordModules.UserStore.getCurrentUser;
 					// Shows changelog
 					try {
 						if(Object.keys(this.getSettings()).length) {
@@ -240,7 +241,7 @@ module.exports = (()=> {
 						if(children.length) {
 							const props = children[0].props;
 							
-							if(props?.message?.author?.id !== DiscordAPI.currentUser.discordObject.id) {
+							if(props?.message?.author?.id !== this.currentUser().id) {
 								props.canReport = true;
 							}
 						}
