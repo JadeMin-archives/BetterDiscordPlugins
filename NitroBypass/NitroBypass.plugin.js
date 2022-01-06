@@ -41,7 +41,7 @@ module.exports = (()=> {
 				discord_id: "000000000000000000",*/
 				github_username: "JadeMin"
 			}],
-			version: "1.0.40015",
+			version: "1.0.40016",
 			description: "고해상도의 방송 송출을 니트로 없이 사용하세요!",
 			github: "https://github.com/JadeMin/BetterDiscordPlugins/",
 			github_raw: "https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/NitroBypass/NitroBypass.plugin.js"
@@ -60,7 +60,7 @@ module.exports = (()=> {
 				title: "수정:",
 				type: "fix",
 				items: [
-					"Deprecated된 캐시변수(``DiscordAPI.current.discordObject``) 대신 디스코드 내장 함수(``DiscordModules.UserStore.getCurrentUser``)를 사용하는 것으로 수정했습니다."
+					"캐쉬형 변수(``DiscordAPI.currentUser.discordObject``) 대신 디스코드 내장 함수(``DiscordModules.UserStore.getCurrentUser``)로 대체했습니다."
 				]
 			},
 			{
