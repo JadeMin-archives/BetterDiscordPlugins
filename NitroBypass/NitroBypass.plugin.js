@@ -41,7 +41,7 @@ module.exports = (()=> {
 				discord_id: "000000000000000000",*/
 				github_username: "JadeMin"
 			}],
-			version: "1.0.50000",
+			version: "1.0.50002",
 			description: "고해상도의 방송 송출을 니트로 없이 사용하세요!",
 			github: "https://github.com/JadeMin/BetterDiscordPlugins/",
 			github_raw: "https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/NitroBypass/NitroBypass.plugin.js"
@@ -209,8 +209,8 @@ module.exports = (()=> {
 						GTMScript.className = properties.gtm.className;
 
 
-						document.querySelectorAll(properties.gtag.className).forEach(element=> element.remove());
-						document.querySelectorAll(properties.gtm.className).forEach(element=> element.remove());
+						document.querySelectorAll(`.${properties.gtag.className}`).forEach(element=> element.remove());
+						document.querySelectorAll(`.${properties.gtm.className}`).forEach(element=> element.remove());
 						document.head.appendChild(gtagScript);
 						document.head.appendChild(script);
 						document.head.appendChild(GTMScript);
