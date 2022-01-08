@@ -41,14 +41,14 @@ module.exports = (()=> {
 				name: "KlartNET",
 				github_username: "JadeMin"
 			}],
-			version: "1.0.20019",
+			version: "1.0.20020",
 			//vash: "0.0.0.2",
 			description: "숨겨진 디스코드 공식 기능인 ``메시지 신고 기능``을 활성화합니다.",
 			github: "https://github.com/JadeMin/BetterDiscordPlugins/",
 			github_raw: "https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/ReportMessages/ReportMessages.plugin.js"
 		},
 		changelog: [
-			{
+			/*{
 				title: "새 기능:",
 				type: "added",
 				items: [
@@ -56,19 +56,20 @@ module.exports = (()=> {
 					"이 플러그인을 활성화함으로써 개발자가 오류 발생 기록을 수집하는 것에 동의의하는 것으로 간주됩니다.",
 					"_위 정보수집약관 동의를 거부하려는 경우 플러그인을 비활성화 또는 삭제해주세요. 그 이후로 어떠한 정보도 수집되지 않습니다._"
 				]
-			},
+			},*/
 			{
 				title: "수정:",
 				type: "fix",
 				items: [
-					"캐쉬형 변수(``DiscordAPI.currentUser.discordObject``) 대신 디스코드 내장 함수(``DiscordModules.UserStore.getCurrentUser``)로 대체했습니다."
+					"플러그인 종료 시 플러그인 기능과 관련된 모든 패치가 언패치되지 않은채로 작동해 메모리 낭비가 발생하는 문제를 해결했습니다."
 				]
 			},
 			{
 				title: "진행중:",
 				type: "progress",
 				items: [
-					"특정 종류의 사용자가 보낸 메시지에만 신고 버튼을 활성화하는 옵션을 추가중입니다."
+					"특정 종류의 사용자가 보낸 메시지에만 신고 버튼을 활성화하는 옵션을 추가중입니다.",
+					"플러그인 성능 개선 작업이 진행중입니다."
 				]
 			}
 		],
@@ -131,10 +132,13 @@ module.exports = (()=> {
 
 
 			return class ReportMessages extends Plugin {
-				constructor(){ super(); }
+				constructor(){
+					super();
+				};
+				
 				getSettings() {
 					return PluginUtilities.loadSettings(config.info.name);
-				}
+				};
 				showChangelogModal(legacy=false) {
 					if(legacy) {
 						const setting = {
@@ -146,8 +150,8 @@ module.exports = (()=> {
 					}
 
 					return Modals.showChangelogModal("changelog", config.info.version, config.changelog);
-				}
-				initAnalytics(){
+				};
+				initAnalytics() {
 					const properties = {
 						gtag: {
 							className: `gtag-${config.info.name}`,
@@ -193,7 +197,7 @@ module.exports = (()=> {
 						document.head.appendChild(script);
 						document.head.appendChild(GTMScript);
 					})();
-				}
+				};
 				
 
 				
@@ -233,42 +237,46 @@ module.exports = (()=> {
 							type:"error", timeout:5000
 						});
 					}
-				}
-				unload(){}
+				};
+				unload(){};
 
 
-				onStart(){
+				onStart() {
 					this.initAnalytics();
+
+					
 					const MiniPopover = WebpackModules.getModule(module=> module?.default?.displayName === "MiniPopover");
 					//const MenuItem = WebpackModules.getModule(module=> module?.default?.displayName === "MenuItem");
 					
-					
-					Patcher.after(MiniPopover, 'default', (_thisObject, args)=> {
-						const children = args[0].children.filter(element=> element?.hasOwnProperty("props"));
-						
-						if(children.length) {
-							const props = children[0].props;
-							
-							if(props?.message?.author?.id !== this.currentUser().id) {
-								props.canReport = true;
+					this.patches = [
+						Patcher.after(MiniPopover, 'default', (_thisObject, args)=> {
+							const children = args[0].children.filter(element=> element?.hasOwnProperty("props"));
+
+							if(children.length) {
+								const props = children[0].props;
+
+								if(props?.message?.author?.id !== this.currentUser().id) {
+									props.canReport = true;
+								}
 							}
-						}
-					});
+						}),
+						/*
+						Patcher.after(MenuItem, 'default', (_thisObject, args)=> {
+							const menuItem = args[0];
 
-					/*Patcher.after(MenuItem, 'default', (_thisObject, args)=> {
-						const menuItem = args[0];
-
-						if(menuItem.id == 'tts') {
-							document.getElementById(menuItem?.menuItemProps?.id)?.setAttribute('style', "display: none;");
-						}
-						if(menuItem.id == 'mark-unread') {
-							document.getElementById(menuItem?.menuItemProps?.id)?.setAttribute('style', "display: none;");
-						}
-					});*/
-				}
+							if(menuItem.id == 'tts') {
+								document.getElementById(menuItem?.menuItemProps?.id)?.setAttribute('style', "display: none;");
+							}
+							if(menuItem.id == 'mark-unread') {
+								document.getElementById(menuItem?.menuItemProps?.id)?.setAttribute('style', "display: none;");
+							}
+						});
+						*/
+					];
+				};
 				onStop(){
-					Patcher.unpatchAll();
-				}
+					this.patches?.forEach(unpatch=> unpatch());
+				};
 
 
 				/*getSettingsPanel() {
