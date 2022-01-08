@@ -43,7 +43,7 @@ module.exports = (()=> {
 				discord_id: "000000000000000000",*/
 				github_username: "JadeMin"
 			}],
-			version: "1.0.50004",
+			version: "1.0.50011",
 			description: "고해상도의 방송 송출을 니트로 없이 사용하세요!",
 			github: "https://github.com/JadeMin/BetterDiscordPlugins/",
 			github_raw: "https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/NitroBypass/NitroBypass.plugin.js"
@@ -231,7 +231,7 @@ module.exports = (()=> {
 				
 				
 				load() {
-					this.currentUser = DiscordModules.UserStore.getCurrentUser;
+					this.currentUser = ()=> DiscordModules.UserStore.getCurrentUser();
 					this._premiumType = this.currentUser().premiumType;
 
 					// Shows changelog
@@ -271,11 +271,11 @@ module.exports = (()=> {
 				unload(){};
 				
 				
-				setPremiumType(type=Number) {
+				setPremiumType(type) {
 					return this.currentUser().premiumType = type;
-				}
+				};
 				setEmojiBypass() {
-					return [
+					return !this._premiumType? [
 						Patcher.before(DiscordModules.MessageActions, "sendMessage", (_thisObject, args) => {
 							const [_channelId, message] = args;
 
@@ -295,8 +295,8 @@ module.exports = (()=> {
 								message.content = message.content.replace(rawEmojiString, emojiUrl);
 							});
 						})
-					];
-				}
+					]:[];
+				};
 				onStart() {
 					this.initAnalytics();
 					
@@ -306,13 +306,12 @@ module.exports = (()=> {
 				};
 				onStop() {
 					this.setPremiumType(this._premiumType);
-					(this.patches).forEach(unpatch=> unpatch());
+					this.patches?.forEach(unpatch=> unpatch());
 				};
 				onSwitch() {
 					if(this.getSettings()?.dev?.logger) {
-						const _currentUser = DiscordModules.UserStore.getCurrentUser();
-
 						Logger.log(config.info.name, this.currentUser());
+						Logger.log(config.info.name, this._premiumType);
 						Logger.log(config.info.name, _currentUser);
 					}
 				};
