@@ -97,7 +97,7 @@ module.exports = (()=> {
 	return !global.ZeresPluginLibrary? class {
 		constructor(){ this._config = config; }
 		getName() { return config.info.name; }
-		getAuthor() { return config.info.authors.map(a => a.name).join(", "); }
+		getAuthor() { return config.info.authors.map(author => author.name).join(", "); }
 		getDescription() { return config.info.description; }
 		getVersion() { return config.info.version; }
 		
