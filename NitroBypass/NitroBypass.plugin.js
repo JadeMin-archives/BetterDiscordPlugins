@@ -268,9 +268,7 @@ module.exports = (()=> {
 					this.currentUser().premiumType = 2;
 					
 						// bypass emoji
-					const MessageActions = DiscordModules.MessageActions;
-
-					Patcher.before(MessageActions, "sendMessage", (_thisObject, args) => {
+					Patcher.before(DiscordModules.MessageActions, "sendMessage", (_thisObject, args) => {
 						const [_channelId, message] = args;
 					
 						message.validNonShortcutEmojis.forEach(emoji=> {
@@ -281,7 +279,7 @@ module.exports = (()=> {
 							message.content = message.content.replace(emojiFullDir, emoji.url+`&size=${48}`);
 						});
 					});
-					Patcher.before(MessageActions, "editMessage", (_thisObject, args) => {
+					Patcher.before(DiscordModules.MessageActions, "editMessage", (_thisObject, args) => {
 						const [_guildId, _channelId, message] = args;
 						
 						message.content.match(/<(a)?:(.*)?:\d{18}>/g).forEach(rawEmojiString=> {
