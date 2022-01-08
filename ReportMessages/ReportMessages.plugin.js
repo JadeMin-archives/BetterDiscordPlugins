@@ -202,7 +202,7 @@ module.exports = (()=> {
 
 				
 				load() {
-					this.currentUser = DiscordModules.UserStore.getCurrentUser;
+					this.currentUser = ()=> DiscordModules.UserStore.getCurrentUser();
 					
 					// Shows changelog
 					try {
@@ -274,7 +274,7 @@ module.exports = (()=> {
 						*/
 					];
 				};
-				onStop(){
+				onStop() {
 					this.patches?.forEach(unpatch=> unpatch());
 				};
 
