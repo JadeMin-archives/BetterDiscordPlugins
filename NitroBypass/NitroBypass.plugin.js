@@ -6,22 +6,20 @@
 **/
 /*@cc_on
 @if (@_jscript)
+    
     // Offer to self-install for clueless users that try to run this directly.
     var shell = WScript.CreateObject("WScript.Shell");
     var fs = new ActiveXObject("Scripting.FileSystemObject");
     var pathPlugins = shell.ExpandEnvironmentStrings("%APPDATA%\\BetterDiscord\\plugins");
     var pathSelf = WScript.ScriptFullName;
-    
     // Put the user at ease by addressing them in the first person
     shell.Popup("It looks like you've mistakenly tried to run me directly. \n(Don't do that!)", 0, "I'm a plugin for BetterDiscord", 0x30);
-    
     if (fs.GetParentFolderName(pathSelf) === fs.GetAbsolutePathName(pathPlugins)) {
         shell.Popup("I'm in the correct folder already.", 0, "I'm already installed", 0x40);
     } else if (!fs.FolderExists(pathPlugins)) {
         shell.Popup("I can't find the BetterDiscord plugins folder.\nAre you sure it's even installed?", 0, "Can't install myself", 0x10);
     } else if (shell.Popup("Should I copy myself to BetterDiscord's plugins folder for you?", 0, "Do you need some help?", 0x34) === 6) {
         fs.CopyFile(pathSelf, fs.BuildPath(pathPlugins, fs.GetFileName(pathSelf)), true);
-	
         // Show the user where to put plugins in the future
         shell.Exec("explorer " + pathPlugins);
         shell.Popup("I'm installed!", 0, "Successfully installed", 0x40);
@@ -43,7 +41,7 @@ module.exports = (()=> {
 				discord_id: "000000000000000000",*/
 				github_username: "JadeMin"
 			}],
-			version: "1.0.40016",
+			version: "1.0.50000",
 			description: "고해상도의 방송 송출을 니트로 없이 사용하세요!",
 			github: "https://github.com/JadeMin/BetterDiscordPlugins/",
 			github_raw: "https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/NitroBypass/NitroBypass.plugin.js"
@@ -59,17 +57,17 @@ module.exports = (()=> {
 				]
 			},
 			{
-				title: "수정:",
-				type: "fix",
+				title: "새 기능:",
+				type: "added",
 				items: [
-					"캐쉬형 변수(``DiscordAPI.currentUser.discordObject``) 대신 디스코드 내장 함수(``DiscordModules.UserStore.getCurrentUser``)로 대체했습니다."
+					"**``니트로 이모티콘 우회`` 기능이 추가됐습니다!**",
+					"_(주의: 본 기능은 니트로 시스템을 우회하는 것이 아닌 이모티콘의 사진 링크를 대신 보내는 방식입니다.)_"
 				]
 			},
 			{
 				title: "진행중:",
 				type: "progress",
 				items: [
-					"플러그인 내장 기능으로 ``니트로 이모티콘 우회`` 기능을 추가할 예정입니다.",
 					"플러그인 성능 개선 작업이 진행중입니다."
 				]
 			}
@@ -119,7 +117,7 @@ module.exports = (()=> {
 	return !global.ZeresPluginLibrary? class {
 		constructor(){ this._config = config; }
 		getName() { return config.info.name; }
-		getAuthor() { return config.info.authors.map(a => a.name).join(", "); }
+		getAuthor() { return config.info.authors.map(author=> author.name).join(", "); }
 		getDescription() { return config.info.description; }
 		getVersion() { return config.info.version; }
 		
@@ -131,7 +129,7 @@ module.exports = (()=> {
 				cancelText: "취소",
 				onConfirm: ()=> {
 					const libraryUrl = "https://rauenzi.github.io/BDPluginLibrary/release/0PluginLibrary.plugin.js";
-					request.get(libraryUrl, async (error, response, body)=> {
+					request.get(libraryUrl, async (error, response, body) => {
 						if(error) return Electron.shell.openExternal(libraryUrl);
 						
 						await new Promise(resolve=> {
@@ -146,7 +144,7 @@ module.exports = (()=> {
 	} : (([Plugin, Library])=> {
 		const plugin = (Plugin, Library)=> {
 			const {
-				DiscordModules,
+				DiscordModules, Patcher,
 				PluginUtilities,
 				PluginUpdater,
 				Modals, Toasts, Logger
@@ -265,10 +263,36 @@ module.exports = (()=> {
 				onStart() {
 					this.initAnalytics();
 					
+					
+						// bypass stream
 					this.currentUser().premiumType = 2;
+					
+						// bypass emoji
+					const MessageActions = DiscordModules.MessageActions;
+
+					Patcher.before(MessageActions, "sendMessage", (_thisObject, args) => {
+						const [_channelId, message] = args;
+					
+						message.validNonShortcutEmojis.forEach(emoji=> {
+							if(emoji.url.startsWith("/assets/")) return;
+							const emojiName = emoji.allNamesString.replace(/~\d/g, "");
+							const emojiFullDir = `<${emoji.animated? "a":''}${emojiName}${emoji.id}>`;
+							
+							message.content = message.content.replace(emojiFullDir, emoji.url+`&size=${48}`);
+						});
+					});
+					Patcher.before(MessageActions, "editMessage", (_thisObject, args) => {
+						const [_guildId, _channelId, message] = args;
+						
+						message.content.match(/<(a)?:(.*)?:\d{18}>/g).forEach(rawEmojiString=> {
+							const emojiUrl = `https://cdn.discordapp.com/emojis/${rawEmojiString.match(/\d{18}/g)[0]}?size=${48}`;
+							message.content = message.content.replace(rawEmojiString, emojiUrl);
+						});
+					});
 				}
 				onStop() {
 					this.currentUser().premiumType = this._premiumType;
+					Patcher.unpatchAll();
 				}
 				onSwitch() {
 					if(this.getSettings()?.dev?.logger) {
