@@ -41,7 +41,7 @@ module.exports = (()=> {
 				name: "KlartNET",
 				github_username: "JadeMin"
 			}],
-			version: "1.0.20020",
+			version: "1.0.20019",
 			//vash: "0.0.0.2",
 			description: "숨겨진 디스코드 공식 기능인 ``메시지 신고 기능``을 활성화합니다.",
 			github: "https://github.com/JadeMin/BetterDiscordPlugins/",
@@ -97,7 +97,7 @@ module.exports = (()=> {
 	return !global.ZeresPluginLibrary? class {
 		constructor(){ this._config = config; }
 		getName() { return config.info.name; }
-		getAuthor() { return config.info.authors.map(author => author.name).join(", "); }
+		getAuthor() { return config.info.authors.map(a => a.name).join(", "); }
 		getDescription() { return config.info.description; }
 		getVersion() { return config.info.version; }
 		
@@ -244,7 +244,7 @@ module.exports = (()=> {
 				onStart() {
 					this.initAnalytics();
 
-					
+
 					const MiniPopover = WebpackModules.getModule(module=> module?.default?.displayName === "MiniPopover");
 					//const MenuItem = WebpackModules.getModule(module=> module?.default?.displayName === "MenuItem");
 					
@@ -277,7 +277,6 @@ module.exports = (()=> {
 				onStop(){
 					this.patches?.forEach(unpatch=> unpatch());
 				};
-
 
 				/*getSettingsPanel() {
 					const panel = this.buildSettingsPanel();
