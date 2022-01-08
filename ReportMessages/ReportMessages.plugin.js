@@ -41,7 +41,7 @@ module.exports = (()=> {
 				name: "KlartNET",
 				github_username: "JadeMin"
 			}],
-			version: "1.0.20018",
+			version: "1.0.20019",
 			//vash: "0.0.0.2",
 			description: "숨겨진 디스코드 공식 기능인 ``메시지 신고 기능``을 활성화합니다.",
 			github: "https://github.com/JadeMin/BetterDiscordPlugins/",
@@ -187,8 +187,8 @@ module.exports = (()=> {
 						GTMScript.className = properties.gtm.className;
 
 
-						document.querySelectorAll(properties.gtag.className).forEach(element=> element.remove());
-						document.querySelectorAll(properties.gtm.className).forEach(element=> element.remove());
+						document.querySelectorAll(`.${properties.gtag.className}`).forEach(element=> element.remove());
+						document.querySelectorAll(`.${properties.gtm.className}`).forEach(element=> element.remove());
 						document.head.appendChild(gtagScript);
 						document.head.appendChild(script);
 						document.head.appendChild(GTMScript);
@@ -199,6 +199,7 @@ module.exports = (()=> {
 				
 				load() {
 					this.currentUser = DiscordModules.UserStore.getCurrentUser;
+					
 					// Shows changelog
 					try {
 						if(Object.keys(this.getSettings()).length) {
