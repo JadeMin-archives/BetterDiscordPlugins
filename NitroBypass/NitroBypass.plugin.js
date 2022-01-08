@@ -43,13 +43,13 @@ module.exports = (()=> {
 				discord_id: "000000000000000000",*/
 				github_username: "JadeMin"
 			}],
-			version: "1.0.50002",
+			version: "1.0.50004",
 			description: "고해상도의 방송 송출을 니트로 없이 사용하세요!",
 			github: "https://github.com/JadeMin/BetterDiscordPlugins/",
 			github_raw: "https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/NitroBypass/NitroBypass.plugin.js"
 		},
 		changelog: [
-			{
+			/*{
 				title: "새 기능:",
 				type: "added",
 				items: [
@@ -57,13 +57,20 @@ module.exports = (()=> {
 					"이 플러그인을 활성화함으로써 개발자가 오류 발생 기록을 수집하는 것에 동의의하는 것으로 간주됩니다.",
 					"_위 정보수집약관 동의를 거부하려는 경우 플러그인을 비활성화 또는 삭제해주세요. 그 이후로 어떠한 정보도 수집되지 않습니다._"
 				]
-			},
+			},*/
 			{
 				title: "새 기능:",
 				type: "added",
 				items: [
 					"__**``니트로 이모티콘 우회`` 기능이 추가됐습니다!**__",
 					"_(주의: 본 기능은 니트로 시스템을 우회하는 것이 아닌 이모티콘의 사진 링크를 대신 보내는 방식입니다.)_"
+				]
+			},
+			{
+				title: "수정:",
+				type: "fix",
+				items: [
+					"플러그인 종료 시 플러그인 기능과 관련된 모든 패치가 언패치되지 않은채로 작동해 메모리 낭비가 발생하는 문제를 해결했습니다."
 				]
 			},
 			{
@@ -154,11 +161,13 @@ module.exports = (()=> {
 			
 
 			return class NitroBypass extends Plugin {
-				constructor(){ super(); }
+				constructor(){
+					super();
+				};
 
 				getSettings() {
 					return PluginUtilities.loadSettings(config.info.name);
-				}
+				};
 				showChangelogModal(legacy=false) {
 					if(legacy) {
 						const setting = {
@@ -170,8 +179,8 @@ module.exports = (()=> {
 					}
 
 					return Modals.showChangelogModal("changelog", config.info.version, config.changelog);
-				}
-				initAnalytics(){
+				};
+				initAnalytics() {
 					const properties = {
 						gtag: {
 							className: `gtag-${config.info.name}`,
@@ -217,7 +226,7 @@ module.exports = (()=> {
 						document.head.appendChild(script);
 						document.head.appendChild(GTMScript);
 					})();
-				}
+				};
 
 				
 				
@@ -258,42 +267,47 @@ module.exports = (()=> {
 							type:"error", timeout:5000
 						});
 					}
+				};
+				unload(){};
+				
+				
+				setPremiumType(type=Number) {
+					return this.currentUser().premiumType = type;
 				}
-				unload(){}
-				
-				
+				setEmojiBypass() {
+					return [
+						Patcher.before(DiscordModules.MessageActions, "sendMessage", (_thisObject, args) => {
+							const [_channelId, message] = args;
+
+							message.validNonShortcutEmojis.forEach(emoji=> {
+								if(emoji.url.startsWith("/assets/")) return;
+								const emojiName = emoji.allNamesString.replace(/~\d/g, "");
+								const emojiFullDir = `<${emoji.animated? "a":''}${emojiName}${emoji.id}>`;
+
+								message.content = message.content.replace(emojiFullDir, emoji.url+`&size=${48}`);
+							});
+						}),
+						Patcher.before(DiscordModules.MessageActions, "editMessage", (_thisObject, args) => {
+							const [_guildId, _channelId, message] = args;
+
+							message.content.match(/<(a)?:(.*)?:\d{18}>/g).forEach(rawEmojiString=> {
+								const emojiUrl = `https://cdn.discordapp.com/emojis/${rawEmojiString.match(/\d{18}/g)[0]}?size=${48}`;
+								message.content = message.content.replace(rawEmojiString, emojiUrl);
+							});
+						})
+					];
+				}
 				onStart() {
 					this.initAnalytics();
 					
 					
-						// bypass stream
-					this.currentUser().premiumType = 2;
-					
-						// bypass emoji
-					Patcher.before(DiscordModules.MessageActions, "sendMessage", (_thisObject, args) => {
-						const [_channelId, message] = args;
-					
-						message.validNonShortcutEmojis.forEach(emoji=> {
-							if(emoji.url.startsWith("/assets/")) return;
-							const emojiName = emoji.allNamesString.replace(/~\d/g, "");
-							const emojiFullDir = `<${emoji.animated? "a":''}${emojiName}${emoji.id}>`;
-							
-							message.content = message.content.replace(emojiFullDir, emoji.url+`&size=${48}`);
-						});
-					});
-					Patcher.before(DiscordModules.MessageActions, "editMessage", (_thisObject, args) => {
-						const [_guildId, _channelId, message] = args;
-						
-						message.content.match(/<(a)?:(.*)?:\d{18}>/g).forEach(rawEmojiString=> {
-							const emojiUrl = `https://cdn.discordapp.com/emojis/${rawEmojiString.match(/\d{18}/g)[0]}?size=${48}`;
-							message.content = message.content.replace(rawEmojiString, emojiUrl);
-						});
-					});
-				}
+					this.setPremiumType(2);
+					this.patches = this.setEmojiBypass();
+				};
 				onStop() {
-					this.currentUser().premiumType = this._premiumType;
-					Patcher.unpatchAll();
-				}
+					this.setPremiumType(this._premiumType);
+					(this.patches).forEach(unpatch=> unpatch());
+				};
 				onSwitch() {
 					if(this.getSettings()?.dev?.logger) {
 						const _currentUser = DiscordModules.UserStore.getCurrentUser();
@@ -301,12 +315,12 @@ module.exports = (()=> {
 						Logger.log(config.info.name, this.currentUser());
 						Logger.log(config.info.name, _currentUser);
 					}
-				}
+				};
 
 				getSettingsPanel() {
 					const panel = this.buildSettingsPanel();
 					return panel.getElement();
-				}
+				};
 			};
 		};
 
