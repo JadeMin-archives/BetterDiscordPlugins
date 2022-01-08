@@ -239,10 +239,10 @@ module.exports = (()=> {
 				onStart(){
 					this.initAnalytics();
 					const MiniPopover = WebpackModules.getModule(module=> module?.default?.displayName === "MiniPopover");
-					const MenuItem = WebpackModules.getModule(module=> module?.default?.displayName === "MenuItem");
+					//const MenuItem = WebpackModules.getModule(module=> module?.default?.displayName === "MenuItem");
 					
 					
-					Patcher.after(MiniPopover, "default", (_thisObject, args)=> {
+					Patcher.after(MiniPopover, 'default', (_thisObject, args)=> {
 						const children = args[0].children.filter(element=> element?.hasOwnProperty("props"));
 						
 						if(children.length) {
