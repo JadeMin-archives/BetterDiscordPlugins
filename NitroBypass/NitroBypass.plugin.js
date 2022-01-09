@@ -275,25 +275,35 @@ module.exports = (()=> {
 					return this.currentUser().premiumType = type;
 				};
 				setEmojiBypass() {
+					const MessageActions = DiscordModules.MessageActions;
+
 					return !this._premiumType? [
-						Patcher.before(DiscordModules.MessageActions, "sendMessage", (_thisObject, args) => {
+						Patcher.before(MessageActions, "sendMessage", (_thisObject, args) => {
 							const [_channelId, message] = args;
+							const validNonShortcutEmojis = message.validNonShortcutEmojis;
 
-							message.validNonShortcutEmojis.forEach(emoji=> {
-								if(emoji.url.startsWith("/assets/")) return;
-								const emojiName = emoji.allNamesString.replace(/~\d/g, "");
-								const emojiFullDir = `<${emoji.animated? "a":''}${emojiName}${emoji.id}>`;
+							if(validNonShortcutEmojis) {
+								validNonShortcutEmojis.forEach(emoji=> {
+									if(emoji.url.startsWith("/assets/")) return;
+									const emojiName = emoji.allNamesString.replace(/~\d/g, "");
+									const emojiFullDir = `<${emoji.animated? "a":''}${emojiName}${emoji.id}>`;
 
-								message.content = message.content.replace(emojiFullDir, emoji.url+`&size=${48}`);
-							});
+									message.content = message.content.replace(emojiFullDir, emoji.url+`&size=${48}`);
+								});
+							}
+							return args;
 						}),
-						Patcher.before(DiscordModules.MessageActions, "editMessage", (_thisObject, args) => {
+						Patcher.before(MessageActions, "editMessage", (_thisObject, args) => {
 							const [_guildId, _channelId, message] = args;
+							const rawEmojiStrings = message.content.match(/<(a)?:(.*)?:\d{18}>/g);
 
-							message.content.match(/<(a)?:(.*)?:\d{18}>/g).forEach(rawEmojiString=> {
-								const emojiUrl = `https://cdn.discordapp.com/emojis/${rawEmojiString.match(/\d{18}/g)[0]}?size=${48}`;
-								message.content = message.content.replace(rawEmojiString, emojiUrl);
-							});
+							if(rawEmojiStrings) {
+								rawEmojiStrings.forEach(rawEmojiString=> {
+									const emojiUrl = `https://cdn.discordapp.com/emojis/${rawEmojiString.match(/\d{18}/g)[0]}?size=${48}`;
+									message.content = message.content.replace(rawEmojiString, emojiUrl);
+								});
+							}
+							return args;
 						})
 					]:[];
 				};
