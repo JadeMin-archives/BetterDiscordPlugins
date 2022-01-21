@@ -6,8 +6,8 @@ class NOTEY {
 	fetchNotes(){
 		return new Promise(resolve => {
 			ZLibrary.DiscordModules.APIModule.get(ZLibrary.DiscordModules.DiscordConstants.Endpoints.NOTES).then(response=> {
-				this._NOTES = [response.body, response];
 				resolve([response.body, response]);
+				this._NOTES = [response.body, response];
 			});
 		});
 	}
