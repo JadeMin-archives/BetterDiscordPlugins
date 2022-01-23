@@ -1,10 +1,7 @@
 /**
  * @name OpenDMChannel
- * @version 1.0.1
- * @author KlartNET
- * @authorId 840594543291269120
- * @description Open a DM channel for the specific user.
- * @source https://github.com/JadeMin/BetterDiscordPlugins/tree/main/openUserProfile/
+ * @name ReportMessages
+ * @source https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/OpenDMChannel/OpenDMChannel.plugin.js
 **/
 const config = {
 	info: {
