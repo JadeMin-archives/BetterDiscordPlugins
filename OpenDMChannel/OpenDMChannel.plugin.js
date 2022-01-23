@@ -71,11 +71,9 @@ module.exports = !global.ZeresPluginLibrary? class {
 				return DiscordModules.MessageActions.sendBotMessage(channelId || DiscordModules.SelectedChannelStore.getChannelId(), content, embed, DiscordAnalyticsSentry);
 			};
 
-			BUILT_IN_SECTIONS["BetterDiscord"] = {
-				id: "KlartNET",
-				type: 0,
+			BUILT_IN_SECTIONS["KlartNET"] = {
 				get name(){
-					return "KlartNET Plugins";
+					return "KlartNET_Plugins";
 				}
 			};
 			this.CUSTOM_CMD_INDEX = BUILT_IN_COMMANDS.push({
@@ -147,7 +145,7 @@ module.exports = !global.ZeresPluginLibrary? class {
 			const { BUILT_IN_COMMANDS, BUILT_IN_SECTIONS } = WebpackModules.getByProps("BUILT_IN_COMMANDS");
 
 			console.log(delete BUILT_IN_COMMANDS[this.CUSTOM_CMD_INDEX - 1]);
-			console.log(delete BUILT_IN_SECTIONS["BetterDiscord"]);
+			console.log(delete BUILT_IN_SECTIONS["KlartNET"]);
 		};
 	};
 })(global.ZeresPluginLibrary.buildPlugin(config));
