@@ -54,7 +54,7 @@ module.exports = !global.ZeresPluginLibrary? class {
 				await PluginUpdater.checkForUpdate(this.getName(), this.getVersion(), config.info.github_raw);
 			} catch(error){
 				Logger.error(error);
-				Toasts.show(`플러그인의 업데이트를 확인하는 도중 오류가 발생했습니다. [${config.info.name}]`, {
+				Toasts.show(`An error occurred while updating the plugin. [${config.info.name}]`, {
 					type:"error", timeout:5000
 				});
 			}
@@ -81,7 +81,7 @@ module.exports = !global.ZeresPluginLibrary? class {
 			this.CUSTOM_CMD_INDEX = BUILT_IN_COMMANDS.push({
 				applicationId: "KlartNET",
 				execute: async (args, {guild, channel}) => {
-					const argumentUser = args.find(arg=> arg.name == "user");
+					const argumentUser = args.find(arg=> arg.name == "userID");
 					if(argumentUser) {
 						const userId = argumentUser.value;
 						const targetUser = DiscordModules.UserStore.getUser(userId);
@@ -128,7 +128,7 @@ module.exports = !global.ZeresPluginLibrary? class {
 				name: "openDM",
 				options: [
 					{
-						name: "user",
+						name: "userID",
 						required: true,
 						type: 3,
 						get description(){
