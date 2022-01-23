@@ -44,7 +44,8 @@ module.exports = !global.ZeresPluginLibrary? class {
 }:(([Plugin, Api])=> {
 	const {
 		WebpackModules, DiscordModules,
-		PluginUpdater, Logger
+		Logger, Toasts,
+		PluginUpdater,
 	} = Api;
 
 	return class OpenUserProfile extends Plugin {
@@ -52,7 +53,10 @@ module.exports = !global.ZeresPluginLibrary? class {
 			try {
 				await PluginUpdater.checkForUpdate(this.getName(), this.getVersion(), config.info.github_raw);
 			} catch(error){
-				Logger.error(config.info.name, error);
+				Logger.error(error);
+				Toasts.show(`플러그인의 업데이트를 확인하는 도중 오류가 발생했습니다. [${config.info.name}]`, {
+					type:"error", timeout:5000
+				});
 			}
 			
 			//Modals.showChangelogModal("Changelog", config.info.version, config.changelog);
