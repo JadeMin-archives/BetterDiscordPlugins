@@ -1,6 +1,5 @@
 /**
  * @name OpenDMChannel
- * @name ReportMessages
  * @source https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/OpenDMChannel/OpenDMChannel.plugin.js
 **/
 const config = {
@@ -83,32 +82,41 @@ module.exports = !global.ZeresPluginLibrary? class {
 						const userId = argumentUser.value;
 						const targetUser = DiscordModules.UserStore.getUser(userId);
 
-						try {
-							await WebpackModules.getByProps("openPrivateChannel").openPrivateChannel(userId);
+						if(targetUser) {
+							try {
+								await WebpackModules.getByProps("openPrivateChannel").openPrivateChannel(userId);
 
-							sendBotMessage(false, '', [{
-								title: 'Successfully opened the DM!',
-								footer: {
-									text: `${targetUser.tag}`,
-									icon_url: `https://cdn.discordapp.com/avatars/${targetUser.id}/${targetUser.avatar}?size=40`
-								}
-							}]);
-						} catch(error){
-							Logger.error(error);
+								sendBotMessage(false, '', [{
+									title: 'Successfully opened the DM!',
+									footer: {
+										text: `${targetUser.tag}`,
+										icon_url: `https://cdn.discordapp.com/avatars/${targetUser.id}/${targetUser.avatar}?size=40`
+									}
+								}]);
+							} catch(error){
+								Logger.error(error);
 
-							sendBotMessage(false, '', [{
-								title: 'An error occurred while creating the DM',
-								description: "Please send the console error to the developer.",
-								footer: {
-									text: error.message
-								}
-							}]);
+								sendBotMessage(false, '', [{
+									title: 'An error occurred while creating the DM',
+									description: "Please send the console error to the developer.",
+									footer: {
+										text: error.message
+									}
+								}]);
+							}
+						} else {
+							if(!/^[0-9]{18,}$/.test(userId)) {
+								return sendBotMessage(false, '', [{
+									title: "OOOF!",
+									description: `"${userId}" <- This is not an valid user ID.`
+								}]);
+							} else {
+								return sendBotMessage(false, '', [{
+									title: "OOOF! I didn't get this user.",
+									description: "Seems you given something wrong user's ID."
+								}]);
+							}
 						}
-					} else {
-						sendBotMessage(false, '', [{
-							title: 'What?',
-							description: "How did you get this place?\n__If you feel sick, please send the console error to the developer.__"
-						}]);
 					}
 				},
 				id: "OpenPrivateChannel",
