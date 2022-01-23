@@ -156,7 +156,7 @@ module.exports = (()=> {
 				DiscordModules, Patcher,
 				PluginUtilities,
 				PluginUpdater,
-				Modals, Toasts, Logger
+				Logger, Toasts, Modals
 			} = Library;
 			
 
