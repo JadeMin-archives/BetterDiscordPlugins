@@ -238,8 +238,8 @@ module.exports = (()=> {
 					try {
 						if(Object.keys(this.getSettings()).length) {
 							if(this.getSettings().dev.logger) {
-								Logger.log(config.info.name, this.getSettings());
-								Logger.log(config.info.name, config.info.version);
+								Logger.log(this.getSettings());
+								Logger.log(config.info.version);
 							}
 
 							if(this.getSettings().dev.changeVersion != config.info.version) {
@@ -251,7 +251,7 @@ module.exports = (()=> {
 							}
 						} else this.showChangelogModal(true);
 					} catch(error){
-						Logger.error(config.info.name, error);
+						Logger.error(error);
 						Toasts.show(`업데이트 내역 창을 띄우는 도중 오류가 발생했습니다. [${config.info.name}]`, {
 							type:"error"
 						});
@@ -262,7 +262,7 @@ module.exports = (()=> {
 					try {
 						PluginUpdater.checkForUpdate(this.getName(), this.getVersion(), config.info.github_raw);
 					} catch(error){
-						Logger.error(config.info.name, error);
+						Logger.error(error);
 						Toasts.show(`플러그인의 업데이트를 확인하는 도중 오류가 발생했습니다. [${config.info.name}]`, {
 							type:"error", timeout:5000
 						});
@@ -320,9 +320,9 @@ module.exports = (()=> {
 				};
 				onSwitch() {
 					if(this.getSettings()?.dev?.logger) {
-						Logger.log(config.info.name, this.currentUser());
-						Logger.log(config.info.name, this._premiumType);
-						Logger.log(config.info.name, _currentUser);
+						Logger.log(this.currentUser());
+						Logger.log(this._premiumType);
+						Logger.log(_currentUser);
 					}
 				};
 
