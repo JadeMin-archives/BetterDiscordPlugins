@@ -44,8 +44,8 @@ module.exports = !global.ZeresPluginLibrary? class {
 }:(([Plugin, Api])=> {
 	const {
 		WebpackModules, DiscordModules,
-		Logger, Toasts,
 		PluginUpdater,
+		Logger, Toasts,
 	} = Api;
 
 	return class OpenUserProfile extends Plugin {
