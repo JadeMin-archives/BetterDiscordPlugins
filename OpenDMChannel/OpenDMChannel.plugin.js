@@ -48,7 +48,7 @@ module.exports = !global.ZeresPluginLibrary? class {
 		Logger, Toasts,
 	} = Api;
 
-	return class OpenUserProfile extends Plugin {
+	return class OpenDmChannel extends Plugin {
 		async load() {
 			try {
 				await PluginUpdater.checkForUpdate(this.getName(), this.getVersion(), config.info.github_raw);
@@ -81,7 +81,7 @@ module.exports = !global.ZeresPluginLibrary? class {
 			this.CUSTOM_CMD_INDEX = BUILT_IN_COMMANDS.push({
 				applicationId: "KlartNET",
 				execute: async (args, {guild, channel}) => {
-					const argumentUser = args.find(arg=> arg.name == "userID");
+					const argumentUser = args.find(arg=> arg.name == "UserID");
 					if(argumentUser) {
 						const userId = argumentUser.value;
 						const targetUser = DiscordModules.UserStore.getUser(userId);
@@ -128,7 +128,7 @@ module.exports = !global.ZeresPluginLibrary? class {
 				name: "openDM",
 				options: [
 					{
-						name: "userID",
+						name: "UserID",
 						required: true,
 						type: 3,
 						get description(){
