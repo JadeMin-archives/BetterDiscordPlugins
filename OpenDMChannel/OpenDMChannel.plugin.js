@@ -68,14 +68,14 @@ module.exports = !global.ZeresPluginLibrary? class {
 			};
 
 			BUILT_IN_SECTIONS["BetterDiscord"] = {
-				id: "BetterDiscord",
+				id: "KlartNET",
 				type: 0,
 				get name(){
-					return "BetterDiscord";
+					return "KlartNET Plugins";
 				}
 			};
 			this.CUSTOM_CMD_INDEX = BUILT_IN_COMMANDS.push({
-				applicationId: "BetterDiscord",
+				applicationId: "KlartNET",
 				execute: async (args, {guild, channel}) => {
 					const argumentUser = args.find(arg=> arg.name == "user");
 					if(argumentUser) {
