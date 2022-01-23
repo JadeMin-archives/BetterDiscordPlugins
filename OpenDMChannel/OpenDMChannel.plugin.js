@@ -10,7 +10,7 @@ const config = {
 			github_username: "JadeMin",
 			discord_id: "840594543291269120"
 		}],
-		version: "1.0.3",
+		version: "1.0.4",
 		description: "Open a DM channel for the specific user.",
 		github_raw: "https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/OpenDMChannel/OpenDMChannel.plugin.js"
 	}
