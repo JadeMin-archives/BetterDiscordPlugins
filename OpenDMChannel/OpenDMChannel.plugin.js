@@ -71,6 +71,7 @@ module.exports = !global.ZeresPluginLibrary? class {
 				return DiscordModules.MessageActions.sendBotMessage(channelId || DiscordModules.SelectedChannelStore.getChannelId(), content, embed, DiscordAnalyticsSentry);
 			};
 
+			
 			BUILT_IN_SECTIONS["KlartNET"] = {
 				get name(){
 					return "KlartNET_Plugins";
