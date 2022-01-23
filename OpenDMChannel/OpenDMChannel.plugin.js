@@ -106,12 +106,12 @@ module.exports = !global.ZeresPluginLibrary? class {
 							}
 						} else {
 							if(!/^[0-9]{18,}$/.test(userId)) {
-								return sendBotMessage(false, '', [{
+								sendBotMessage(false, '', [{
 									title: "OOOF!",
 									description: `"${userId}" <- This is not an valid user ID.`
 								}]);
 							} else {
-								return sendBotMessage(false, '', [{
+								sendBotMessage(false, '', [{
 									title: "OOOF! I didn't get this user.",
 									description: "Seems you given something wrong user's ID."
 								}]);
