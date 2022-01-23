@@ -77,7 +77,7 @@ module.exports = !global.ZeresPluginLibrary? class {
 					return "KlartNET Plugins";
 				}
 			};
-			this.CUSTOM_CMD_INDEX = BUILT_IN_COMMANDS.push({
+			BUILT_IN_COMMANDS.push({
 				applicationId: "KlartNET",
 				execute: async (args, {guild, channel}) => {
 					const argumentUser = args.find(arg=> arg.name == "UserID");
@@ -122,7 +122,7 @@ module.exports = !global.ZeresPluginLibrary? class {
 						}
 					}
 				},
-				id: "OpenPrivateChannel",
+				id: config.info.name,
 				inputType: 0,
 				name: "openDM",
 				options: [
@@ -145,7 +145,8 @@ module.exports = !global.ZeresPluginLibrary? class {
 		onStop(){
 			const { BUILT_IN_COMMANDS, BUILT_IN_SECTIONS } = WebpackModules.getByProps("BUILT_IN_COMMANDS");
 
-			console.log(delete BUILT_IN_COMMANDS[this.CUSTOM_CMD_INDEX - 1]);
+			const findCmdIndex = BUILT_IN_COMMANDS.findIndex(command=> command?.id == config.info.name);
+			console.log(delete BUILT_IN_COMMANDS[findCmdIndex]);
 			console.log(delete BUILT_IN_SECTIONS["KlartNET"]);
 		};
 	};
