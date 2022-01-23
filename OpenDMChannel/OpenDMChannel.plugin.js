@@ -74,7 +74,7 @@ module.exports = !global.ZeresPluginLibrary? class {
 			
 			BUILT_IN_SECTIONS["KlartNET"] = {
 				get name(){
-					return "KlartNET_Plugins";
+					return "KlartNET Plugins";
 				}
 			};
 			this.CUSTOM_CMD_INDEX = BUILT_IN_COMMANDS.push({
