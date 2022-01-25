@@ -48,7 +48,7 @@ module.exports = !global.ZeresPluginLibrary? class {
 		Logger, Toasts
 	} = Library;
 
-	return class OpenDmChannel extends Plugin {
+	return class OpenDMChannel extends Plugin {
 		async load() {
 			try {
 				await PluginUpdater.checkForUpdate(this.getName(), this.getVersion(), config.info.github_raw);
