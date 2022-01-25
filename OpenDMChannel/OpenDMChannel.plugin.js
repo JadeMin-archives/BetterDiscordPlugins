@@ -41,12 +41,12 @@ module.exports = !global.ZeresPluginLibrary? class {
 	}
 	start() {}
 	stop() {}
-}:(([Plugin, Api])=> {
+}:(([Plugin, Library])=> {
 	const {
 		WebpackModules, DiscordModules,
 		PluginUpdater,
-		Logger, Toasts,
-	} = Api;
+		Logger, Toasts
+	} = Library;
 
 	return class OpenDmChannel extends Plugin {
 		async load() {
