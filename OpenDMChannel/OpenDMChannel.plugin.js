@@ -78,7 +78,7 @@ module.exports = !global.ZeresPluginLibrary? class {
 			
 			DiscordCommands.BUILT_IN_SECTIONS[config.info.name] = {
 				//idk icon: "https://github.com/BetterDiscord.png",
-				// id: config.info.name,
+				//WillBeUsedLater id: config.info.name,
 				get name(){
 					return config.info.name;
 				}
@@ -106,47 +106,46 @@ module.exports = !global.ZeresPluginLibrary? class {
 					const userId = argumentUser.value;
 					const targetUser = DiscordModules.UserStore.getUser(userId);
 					
-					if(userId !== DiscordModules.UserStore.getCurrentUser().id){
-						if(targetUser) {
-							try {
-								await WebpackModules.getByProps("openPrivateChannel").openPrivateChannel(userId);
-
-								sendBotMessage(false, '', [{
-									title: 'Successfully opened the DM!',
-									footer: {
-										text: `${targetUser.tag}`,
-										icon_url: `https://cdn.discordapp.com/avatars/${targetUser.id}/${targetUser.avatar}?size=40`
-									}
-								}]);
-							} catch(error){
-								Logger.error(error);
-
-								sendBotMessage(false, '', [{
-									title: 'An error occurred while opening the DM',
-									description: "Please send the Console error to the developer.",
-									footer: {
-										text: error.message
-									}
-								}]);
-							}
-						} else {
-							if(!/^[0-9]{18,}$/.test(userId)) {
-								sendBotMessage(false, '', [{
-									title: "OOOF!",
-									description: `"${userId}" <- This is not an valid user ID.`
-								}]);
-							} else {
-								sendBotMessage(false, '', [{
-									title: "OOOF! I didn't get this user.",
-									description: "Seems you given something wrong user's ID."
-								}]);
-							}
-						}
-					} else {
-						sendBotMessage(false, '', [{
+					if(userId == DiscordModules.UserStore.getCurrentUser().id) {
+						return sendBotMessage(false, '', [{
 							title: "OOOF!",
 							description: "You cannot open your DM by yourself."
 						}]);
+					}
+					if(targetUser) {
+						try {
+							await WebpackModules.getByProps("openPrivateChannel").openPrivateChannel(userId);
+
+							sendBotMessage(false, '', [{
+								title: 'Successfully opened the DM!',
+								footer: {
+									text: `${targetUser.tag}`,
+									icon_url: `https://cdn.discordapp.com/avatars/${targetUser.id}/${targetUser.avatar}?size=40`
+								}
+							}]);
+						} catch(error){
+							Logger.error(error);
+
+							sendBotMessage(false, '', [{
+								title: 'An error occurred while opening the DM!',
+								description: "Please send the Console error to the developer.",
+								footer: {
+									text: error.message
+								}
+							}]);
+						}
+					} else {
+						if(!/^[0-9]{18,}$/.test(userId)) {
+							sendBotMessage(false, '', [{
+								title: "OOOF!",
+								description: `"${userId}" <- This is not an valid user ID.`
+							}]);
+						} else {
+							sendBotMessage(false, '', [{
+								title: "OOOF! I didn't get this user.",
+								description: "Seems you given something wrong user ID."
+							}]);
+						}
 					}
 				},
 			});
