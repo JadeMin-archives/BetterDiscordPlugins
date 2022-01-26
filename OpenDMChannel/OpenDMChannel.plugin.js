@@ -10,7 +10,7 @@ const config = {
 			github_username: "JadeMin",
 			discord_id: "840594543291269120"
 		}],
-		version: "1.0.4",
+		version: "1.0.5",
 		description: "Open a DM channel for the specific user.",
 		github_raw: "https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/OpenDMChannel/OpenDMChannel.plugin.js"
 	}
@@ -19,7 +19,7 @@ const config = {
 
 
 module.exports = !global.ZeresPluginLibrary? class {
-	constructor(){ this._config = config; }
+	constructor(){ this._config = config; };
 
 	load() {
 		BdApi.showConfirmationModal(
@@ -38,9 +38,9 @@ module.exports = !global.ZeresPluginLibrary? class {
 				});
 			}
 		});
-	}
-	start() {}
-	stop() {}
+	};
+	start(){};
+	stop(){};
 }:(([Plugin, Library])=> {
 	const {
 		WebpackModules, DiscordModules,
@@ -66,25 +66,47 @@ module.exports = !global.ZeresPluginLibrary? class {
 
 
 		onStart() {
-			const { BUILT_IN_COMMANDS, BUILT_IN_SECTIONS } = WebpackModules.getByProps("BUILT_IN_COMMANDS");
+			const DiscordCommands = BdApi.findModuleByProps("BUILT_IN_COMMANDS");
+			const {
+				ApplicationCommandType: Types,
+				ApplicationCommandOptionType: OptionTypes
+			} = WebpackModules.getByProps("ApplicationCommandType");
 			const sendBotMessage = (channelId, content, embed, DiscordAnalyticsSentry=null)=> {
 				return DiscordModules.MessageActions.sendBotMessage(channelId || DiscordModules.SelectedChannelStore.getChannelId(), content, embed, DiscordAnalyticsSentry);
 			};
 
 			
-			BUILT_IN_SECTIONS["KlartNET"] = {
+			DiscordCommands.BUILT_IN_SECTIONS[config.info.name] = {
+				//idk icon: "https://github.com/BetterDiscord.png",
+				// id: config.info.name,
 				get name(){
-					return "KlartNET Plugins";
+					return config.info.name;
 				}
 			};
-			BUILT_IN_COMMANDS.push({
-				applicationId: "KlartNET",
+			DiscordCommands.BUILT_IN_COMMANDS.push({
+				id: config.info.name,
+				applicationId: config.info.name,
+				type: Types.CHAT,
+				options: [
+					{
+						name: "UserID",
+						required: true,
+						type: OptionTypes.STRING,
+						get description(){
+							return "The user ID that will be used to open the user's DM.";
+						}
+					}
+				],
+				name: "openDM",
+				get description(){
+					return config.info.description;
+				},
 				execute: async (args, {guild, channel}) => {
-					const argumentUser = args.find(arg=> arg.name == "UserID");
-					if(argumentUser) {
-						const userId = argumentUser.value;
-						const targetUser = DiscordModules.UserStore.getUser(userId);
-
+					const argumentUser = args.find(argument=> argument?.name == "UserID");
+					const userId = argumentUser.value;
+					const targetUser = DiscordModules.UserStore.getUser(userId);
+					
+					if(userId !== DiscordModules.UserStore.getCurrentUser().id){
 						if(targetUser) {
 							try {
 								await WebpackModules.getByProps("openPrivateChannel").openPrivateChannel(userId);
@@ -100,8 +122,8 @@ module.exports = !global.ZeresPluginLibrary? class {
 								Logger.error(error);
 
 								sendBotMessage(false, '', [{
-									title: 'An error occurred while creating the DM',
-									description: "Please send the console error to the developer.",
+									title: 'An error occurred while opening the DM',
+									description: "Please send the Console error to the developer.",
 									footer: {
 										text: error.message
 									}
@@ -120,34 +142,21 @@ module.exports = !global.ZeresPluginLibrary? class {
 								}]);
 							}
 						}
+					} else {
+						sendBotMessage(false, '', [{
+							title: "OOOF!",
+							description: "You cannot open your DM by yourself."
+						}]);
 					}
 				},
-				id: config.info.name,
-				inputType: 0,
-				name: "openDM",
-				options: [
-					{
-						name: "UserID",
-						required: true,
-						type: 3,
-						get description(){
-							return "The user's ID to be open a DM";
-						}
-					}
-				],
-				type: 1,
-				get description(){
-					return config.info.description;
-				}
 			});
 		};
 
 		onStop(){
 			const { BUILT_IN_COMMANDS, BUILT_IN_SECTIONS } = WebpackModules.getByProps("BUILT_IN_COMMANDS");
 
-			const findCmdIndex = BUILT_IN_COMMANDS.findIndex(command=> command?.id == config.info.name);
-			console.log(delete BUILT_IN_COMMANDS[findCmdIndex]);
-			console.log(delete BUILT_IN_SECTIONS["KlartNET"]);
+			Logger.log(delete BUILT_IN_COMMANDS[BUILT_IN_COMMANDS.findIndex(cmd=> cmd?.id == config.info.name)]);
+			Logger.log(delete BUILT_IN_SECTIONS[config.info.name]);
 		};
 	};
 })(global.ZeresPluginLibrary.buildPlugin(config));
