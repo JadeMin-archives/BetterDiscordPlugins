@@ -36,7 +36,7 @@ module.exports = (()=> {
 	
 	const config = {
 		info: {
-			name: "YTEmbedSuggestion",
+			name: "YTEmbedSuggestions",
 			authors: [{
 				name: "KlartNET",
 				github_username: "JadeMin"
@@ -45,7 +45,7 @@ module.exports = (()=> {
 			//vash: "0.0.0.2",
 			description: "Replaces irrelevant video recommendations with only displaying videos from the uploader when you pause a Youtube embed video on Discord",
 			github: "https://github.com/JadeMin/BetterDiscordPlugins/",
-			github_raw: "https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/YTEmbedSuggestion/YTEmbedSuggestion.plugin.js"
+			github_raw: "https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/YTEmbedSuggestions/YTEmbedSuggestions.plugin.js"
 		},
 		changelog: [
 			{
@@ -116,7 +116,7 @@ module.exports = (()=> {
 			const { PluginUtilities, Toasts, Modals, PluginUpdater, Logger } = Library;
 			const settings = PluginUtilities.loadSettings(config.info.name);
 
-			return class YTEmbedSuggestion extends Plugin {
+			return class YTEmbedSuggestions extends Plugin {
 				constructor(){ super(); }
 				showChangelogModal(legacy=false){
 					if(legacy) {
