@@ -1,6 +1,6 @@
 /**
  * @name OpenDMChannel
- * @source https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/OpenDMChannel/OpenDMChannel.plugin.js
+ * @source https://github.com/JadeMin/BetterDiscordPlugins/blob/main/OpenDMChannel/OpenDMChannel.plugin.js
 **/
 const config = {
 	info: {
