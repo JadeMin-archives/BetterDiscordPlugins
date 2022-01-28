@@ -1,8 +1,7 @@
 /**
  * @name NitroBypass
  * @authorId 000000000000000000
- * @website https://github.com/JadeMin/BetterDiscordPlugins/
- * @source https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/NitroBypass/NitroBypass.plugin.js
+ * @source https://github.com/JadeMin/BetterDiscordPlugins/blob/main/NitroBypass/NitroBypass.plugin.js
 **/
 /*@cc_on
 @if (@_jscript)
