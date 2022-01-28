@@ -1,7 +1,6 @@
 /**
  * @name ReportMessages
- * @website https://github.com/JadeMin/BetterDiscordPlugins/
- * @source https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/ReportMessages/ReportMessages.plugin.js
+ * @source https://github.com/JadeMin/BetterDiscordPlugins/blob/main/ReportMessages/ReportMessages.plugin.js
 **/
 /*@cc_on
 @if (@_jscript)
