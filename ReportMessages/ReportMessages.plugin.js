@@ -107,12 +107,14 @@ module.exports = (()=> {
 				confirmText: "다운로드",
 				cancelText: "취소",
 				onConfirm: ()=> {
-					const libraryUrl = "https://rauenzi.github.io/BDPluginLibrary/release/0PluginLibrary.plugin.js";
-					request.get(libraryUrl, async (error, response, body)=> {
-						if(error) return Electron.shell.openExternal(libraryUrl);
+					const libraryUrl = new URL("https://rauenzi.github.io/BDPluginLibrary/release/0PluginLibrary.plugin.js");
+					const libraryFileName = libraryUrl.pathname.split('/')[libraryUrl.pathname.split('/').length - 1];
+					
+					request.get(libraryUrl.href, async (error, response, body) => {
+						if(error) return Electron.shell.openExternal(libraryUrl.href);
 						
 						await new Promise(resolve=> {
-							fs.writeFile(Path.join(BdApi.Plugins.folder, "0PluginLibrary.plugin.js"), body, resolve);
+							fs.writeFile(Path.join(BdApi.Plugins.folder, libraryFileName), body, resolve);
 						});
 					});
 				}
