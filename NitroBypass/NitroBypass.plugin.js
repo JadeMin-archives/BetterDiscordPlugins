@@ -1,5 +1,6 @@
 /**
  * @name NitroBypass
+ * @invite PEsMUjatGu
  * @authorId 000000000000000000
  * @source https://github.com/JadeMin/BetterDiscordPlugins/blob/main/NitroBypass/NitroBypass.plugin.js
 **/
@@ -58,11 +59,12 @@ module.exports = (()=> {
 				]
 			},*/
 			{
-				title: "새 기능:",
+				title: "추가됨:",
 				type: "added",
 				items: [
 					"__**``니트로 이모티콘 우회`` 기능이 추가됐습니다!**__",
-					"_(주의: 본 기능은 니트로 시스템을 우회하는 것이 아닌 이모티콘의 사진 링크를 대신 보내는 방식입니다.)_"
+					"_(주의: 본 기능은 니트로 시스템을 우회하는 것이 아닌 이모티콘의 사진 링크를 대신 보내는 방식입니다.)_",
+					"서포트(지원) 디스코드 서버를 추가했습니다. 플러그인 목록에서 서포트 서버에 참여해보세요!"
 				]
 			},
 			{
