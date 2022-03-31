@@ -1,5 +1,6 @@
 /**
  * @name OpenDMChannel
+ * @invite PEsMUjatGu
  * @source https://github.com/JadeMin/BetterDiscordPlugins/blob/main/OpenDMChannel/OpenDMChannel.plugin.js
 **/
 const config = {
