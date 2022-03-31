@@ -1,5 +1,6 @@
 /**
  * @name ReportMessages
+ * @invite PEsMUjatGu
  * @source https://github.com/JadeMin/BetterDiscordPlugins/blob/main/ReportMessages/ReportMessages.plugin.js
 **/
 /*@cc_on
@@ -40,7 +41,7 @@ module.exports = (()=> {
 				name: "KlartNET",
 				github_username: "JadeMin"
 			}],
-			version: "1.0.20019",
+			version: "1.0.20020",
 			//vash: "0.0.0.2",
 			description: "숨겨진 디스코드 공식 기능인 ``메시지 신고 기능``을 활성화합니다.",
 			github: "https://github.com/JadeMin/BetterDiscordPlugins/",
@@ -60,7 +61,7 @@ module.exports = (()=> {
 				title: "수정:",
 				type: "fix",
 				items: [
-					"플러그인 종료 시 플러그인 기능과 관련된 모든 패치가 언패치되지 않은채로 작동해 메모리 낭비가 발생하는 문제를 해결했습니다."
+					"예외 처리가 올바르지 않아 과도한 오류가 발생하는 문제를 해결했습니다."
 				]
 			},
 			{
@@ -203,7 +204,7 @@ module.exports = (()=> {
 
 				
 				load() {
-					this.currentUser = ()=> DiscordModules.UserStore.getCurrentUser();
+					this.currentUser = () => DiscordModules.UserStore.getCurrentUser();
 					
 					// Shows changelog
 					try {
@@ -250,12 +251,12 @@ module.exports = (()=> {
 					//const MenuItem = WebpackModules.getModule(module=> module?.default?.displayName === "MenuItem");
 					
 					this.patches = [
-						Patcher.after(MiniPopover, 'default', (_thisObject, args)=> {
-							const children = args[0].children.filter(element=> element?.hasOwnProperty("props"));
+						Patcher.after(MiniPopover, 'default', (_thisObject, args) => {
+							const children = args[0].children;
 
-							if(children.length) {
-								const props = children[0].props;
-
+							if(children instanceof Array) {
+								const props = children[1].props;
+								
 								if(props?.message?.author?.id !== this.currentUser().id) {
 									props.canReport = true;
 								}
