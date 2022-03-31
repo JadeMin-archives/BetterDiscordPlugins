@@ -1,6 +1,6 @@
 /**
  * @name NitroBypass
- * @invite PEsMUjatGu
+ * @invite fm3dW2enWt
  * @authorId 000000000000000000
  * @source https://github.com/JadeMin/BetterDiscordPlugins/blob/main/NitroBypass/NitroBypass.plugin.js
 **/
