@@ -58,6 +58,13 @@ module.exports = (()=> {
 				]
 			},*/
 			{
+				title: "추가됨:",
+				type: "added",
+				items: [
+					"서포트(지원) 서버가 추가됐습니다. 플러그인 목록에서 확인하실 수 있습니다"
+				]
+			},
+			{
 				title: "수정:",
 				type: "fix",
 				items: [
