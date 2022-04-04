@@ -81,7 +81,7 @@ module.exports = !global.ZeresPluginLibrary? class {
 			
 			DiscordCommands.BUILT_IN_SECTIONS[config.info.name] = {
 				//idk icon: "https://github.com/BetterDiscord.png",
-				//WillBeUsedLater id: config.info.name,
+				//idk2 id: config.info.name,
 				get name(){
 					return config.info.name;
 				}
