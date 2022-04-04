@@ -23,7 +23,7 @@ class NOTEY {
 const Notey = new NOTEY();
 
 
-// fetches all users' note data from Discord API (Endpoints)
+// fetch all users' note data from Discord API (Endpoints)
 Notey.fetchNotes().then(([userNotes, _ApiResponse])=> {
 	for(const id in userNotes) {
 		const targetUser = DiscordModules.UserStore.getUser(id);
