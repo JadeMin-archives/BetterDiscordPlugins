@@ -1,6 +1,6 @@
 /**
  * @name ReportMessages
- * @invite PEsMUjatGu
+ * @invite fm3dW2enWt
  * @source https://github.com/JadeMin/BetterDiscordPlugins/blob/main/ReportMessages/ReportMessages.plugin.js
 **/
 /*@cc_on
