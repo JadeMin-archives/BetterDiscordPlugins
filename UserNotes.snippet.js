@@ -31,5 +31,5 @@ Notey.fetchNotes().then(([userNotes, _ApiResponse])=> {
 	}
 });
 
-// edits a specific user's note
+// edits specific user's note
 Notey.updateNote('id', "a note content to be edited");
