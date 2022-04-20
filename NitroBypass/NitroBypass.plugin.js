@@ -43,7 +43,7 @@ module.exports = (()=> {
 				github_username: "JadeMin"
 			}],
 			version: "1.0.50011",
-			description: "고해상도의 방송 송출을 니트로 없이 사용하세요!",
+			description: "고해상도의 방송(라이브) 송출과 이모티콘을 니트로 없이 사용하세요! (스티커는 아직 지원하지 않습니다)",
 			github: "https://github.com/JadeMin/BetterDiscordPlugins/",
 			github_raw: "https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/NitroBypass/NitroBypass.plugin.js"
 		},
@@ -64,13 +64,6 @@ module.exports = (()=> {
 					"__**``니트로 이모티콘 우회`` 기능이 추가됐습니다!**__",
 					"_(주의: 본 기능은 니트로 시스템을 우회하는 것이 아닌 이모티콘의 사진 링크를 대신 보내는 방식입니다.)_",
 					"서포트(지원) 디스코드 서버를 추가했습니다. 플러그인 목록에서 서포트 서버에 참여해보세요!"
-				]
-			},
-			{
-				title: "수정:",
-				type: "fix",
-				items: [
-					"플러그인 종료 시 플러그인 기능과 관련된 모든 패치가 언패치되지 않은채로 작동해 메모리 낭비가 발생하는 문제를 해결했습니다."
 				]
 			},
 			{
