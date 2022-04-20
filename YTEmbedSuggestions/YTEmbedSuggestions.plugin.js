@@ -42,7 +42,7 @@ module.exports = (()=> {
 			}],
 			version: "1.0.30020",
 			//vash: "0.0.0.2",
-			description: "Replaces irrelevant video recommendations with only displaying videos from the uploader when you pause a Youtube embed video on Discord",
+			description: "When you pause a Youtube embed video on Discord, replace the irrelevant video recommendations with only displaying videos from the uploader.",
 			github: "https://github.com/JadeMin/BetterDiscordPlugins/",
 			github_raw: "https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/YTEmbedSuggestions/YTEmbedSuggestions.plugin.js"
 		},
