@@ -215,15 +215,15 @@ module.exports = (()=> {
 					}
 				}
 				appendRel(iframeElement){
-					if( !(iframeElement instanceof HTMLIFrameElement) ) return;
-					
-					if(iframeElement.src.startsWith("https://www.youtube.com/embed/")) {
-						const identifier = !~iframeElement.src.indexOf("&rel=0");
-						
-						if(this.getSettings()?.dev?.logger) {
-							Logger.log("in Observer", {iframeElement, identifier});
+					if(iframeElement instanceof HTMLIFrameElement) {
+						if(iframeElement.src.startsWith("https://www.youtube.com/embed/")) {
+							const identifier = !~iframeElement.src.indexOf("&rel=0");
+
+							if(this.getSettings()?.dev?.logger) {
+								Logger.log("in Observer", {iframeElement, identifier});
+							}
+							iframeElement.src += "&rel=0";
 						}
-						iframeElement.src += "&rel=0";
 					}
 				}
 
