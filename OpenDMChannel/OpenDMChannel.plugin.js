@@ -12,7 +12,7 @@ const config = {
 			discord_id: "840594543291269120"
 		}],
 		version: "1.0.6",
-		description: "Open a DM channel for specific user.",
+		description: "Open a DM channel for a specific user using UserID.",
 		github_raw: "https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/OpenDMChannel/OpenDMChannel.plugin.js"
 	}
 };
