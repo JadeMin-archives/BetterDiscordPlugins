@@ -1,17 +1,16 @@
 /**
- * @name OpenDMChannel
+ * @name OpenDMChannels
  * @invite fm3dW2enWt
  * @source https://github.com/JadeMin/BetterDiscordPlugins/blob/main/OpenDMChannel/OpenDMChannel.plugin.js
 **/
 const config = {
 	info: {
-		name: "OpenDMChannel",
+		name: "OpenDMChannels",
 		authors: [{
 			name: "KlartNET",
-			github_username: "JadeMin",
-			discord_id: "840594543291269120"
+			github_username: "JadeMin"
 		}],
-		version: "1.0.6",
+		version: "1.0.7",
 		description: "Open a DM channel for a specific user using UserID.",
 		github_raw: "https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/OpenDMChannel/OpenDMChannel.plugin.js"
 	}
@@ -87,6 +86,7 @@ module.exports = !global.ZeresPluginLibrary? class {
 				}
 			};
 			DiscordCommands.BUILT_IN_COMMANDS.push({
+				name: "openDM",
 				id: config.info.name,
 				applicationId: config.info.name,
 				type: Types.CHAT,
@@ -100,7 +100,6 @@ module.exports = !global.ZeresPluginLibrary? class {
 						}
 					}
 				],
-				name: "openDM",
 				get description(){
 					return config.info.description;
 				},
@@ -120,7 +119,7 @@ module.exports = !global.ZeresPluginLibrary? class {
 							await WebpackModules.getByProps("openPrivateChannel").openPrivateChannel(userId);
 
 							sendBotMessage(false, '', [{
-								title: 'Successfully opened the DM!',
+								title: "Successfully opened the DM!",
 								footer: {
 									text: `${targetUser.tag}`,
 									icon_url: `https://cdn.discordapp.com/avatars/${targetUser.id}/${targetUser.avatar}?size=40`
@@ -130,8 +129,8 @@ module.exports = !global.ZeresPluginLibrary? class {
 							Logger.error(error);
 
 							sendBotMessage(false, '', [{
-								title: 'An error occurred while opening the DM!',
-								description: "Please send the Console error to the developer.",
+								title: "An error occurred while opening the DM!",
+								description: "Please contact to the developer.",
 								footer: {
 									text: error.message
 								}
@@ -141,12 +140,12 @@ module.exports = !global.ZeresPluginLibrary? class {
 						if(!/^[0-9]{18,}$/.test(userId)) {
 							sendBotMessage(false, '', [{
 								title: "OOOF!",
-								description: `"${userId}" <- This is not an valid user ID.`
+								description: `"${userId}" <- This is not a valid user ID.`
 							}]);
 						} else {
 							sendBotMessage(false, '', [{
 								title: "OOOF! I didn't get this user.",
-								description: "Seems you given something wrong user ID."
+								description: "Seems you given a wrong user ID."
 							}]);
 						}
 					}
