@@ -42,7 +42,7 @@ module.exports = (()=> {
 				discord_id: "000000000000000000",*/
 				github_username: "JadeMin"
 			}],
-			version: "1.0.50011",
+			version: "1.0.50013",
 			description: "고해상도의 방송(라이브) 송출과 이모티콘을 니트로 없이 사용하세요! (스티커는 아직 지원하지 않습니다)",
 			github: "https://github.com/JadeMin/BetterDiscordPlugins/",
 			github_raw: "https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/NitroBypass/NitroBypass.plugin.js"
@@ -64,6 +64,14 @@ module.exports = (()=> {
 					"__**``니트로 이모티콘 우회`` 기능이 추가됐습니다!**__",
 					"_(주의: 본 기능은 니트로 시스템을 우회하는 것이 아닌 이모티콘의 사진 링크를 대신 보내는 방식입니다.)_",
 					"서포트(지원) 디스코드 서버를 추가했습니다. 플러그인 목록에서 서포트 서버에 참여해보세요!"
+				]
+			},
+			{
+				title: "수정:",
+				type: "fixed",
+				items: [
+					"간헐적으로 디스코드가 충돌하는 문제를 해결했습니다.",
+					"업데이트 이후에도 계속 디스코드가 충돌한다면 다른 플러그인으로 인한 크래시일 수 있습니다"
 				]
 			},
 			{
@@ -226,9 +234,6 @@ module.exports = (()=> {
 				
 				
 				load() {
-					this.currentUser = ()=> DiscordModules.UserStore.getCurrentUser();
-					this._premiumType = this.currentUser().premiumType;
-
 					// Shows changelog
 					try {
 						if(Object.keys(this.getSettings()).length) {
@@ -267,7 +272,11 @@ module.exports = (()=> {
 				
 				
 				setPremiumType(type) {
-					return this.currentUser().premiumType = type;
+					if(!this.hasOwnProperty("_premiumType")) {
+						this._premiumType = DiscordModules.UserStore.getCurrentUser().premiumType;
+					}
+
+					return DiscordModules.UserStore.getCurrentUser().premiumType = type;
 				};
 				setEmojiBypass() {
 					const MessageActions = DiscordModules.MessageActions;
@@ -311,15 +320,14 @@ module.exports = (()=> {
 				};
 				onStop() {
 					this.setPremiumType(this._premiumType);
-					this.patches?.forEach(unpatch=> unpatch());
+					this.patches.forEach(unpatch=> unpatch?.());
 				};
 				onSwitch() {
 					if(this.getSettings()?.dev?.logger) {
-						Logger.log(this.currentUser());
 						Logger.log(this._premiumType);
-						Logger.log(_currentUser);
 					}
 				};
+
 
 				getSettingsPanel() {
 					const panel = this.buildSettingsPanel();
