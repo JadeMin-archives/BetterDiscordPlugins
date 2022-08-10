@@ -1,7 +1,7 @@
 /**
  * @name NitroBypass
- * @invite fm3dW2enWt
  * @version 1.0.60011
+ * @invite fm3dW2enWt
  * @source https://github.com/JadeMin/BetterDiscordPlugins/blob/main/NitroBypass/NitroBypass.plugin.js
 **/
 /*@cc_on
