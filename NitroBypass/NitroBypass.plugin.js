@@ -37,7 +37,7 @@ module.exports = (()=> {
 			authors: [{
 				name: "JadeMin"
 			}],
-			version: "1.0.50013",
+			version: "1.0.60004",
 			description: "고해상도의 방송(라이브) 송출과 이모티콘을 니트로 없이 사용하세요! (스티커는 아직 지원하지 않습니다)",
 			github: "https://github.com/JadeMin/BetterDiscordPlugins/",
 			github_raw: "https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/NitroBypass/NitroBypass.plugin.js"
