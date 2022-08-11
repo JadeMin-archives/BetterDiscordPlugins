@@ -1,6 +1,6 @@
 /**
- * @name 플러그인 로딩 실패
- * @description 라이브러리 플러그인 설치가 필요합니다.
+ * @name NitroBypass
+ * @description 플러그인 로딩 실패! (라이브러리 플러그인을 찾을 수 없습니다.)
  * @version 1.0.60013
  * @invite fm3dW2enWt
  * @source https://github.com/JadeMin/BetterDiscordPlugins/blob/main/NitroBypass/NitroBypass.plugin.js
