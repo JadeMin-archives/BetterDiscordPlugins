@@ -1,5 +1,7 @@
 /**
- * @name NitroBypass
+ * @name 플러그인 로딩 실패
+ * @description 라이브러리 플러그인 설치가 필요합니다.
+ * @version 1.0.60013
  * @invite fm3dW2enWt
  * @source https://github.com/JadeMin/BetterDiscordPlugins/blob/main/NitroBypass/NitroBypass.plugin.js
 **/
@@ -39,7 +41,6 @@ module.exports = (()=> {
 			}],
 			version: "1.0.60013",
 			description: "고해상도의 방송(라이브) 송출과 이모티콘을 니트로 없이 사용하세요! (스티커는 아직 지원하지 않습니다)",
-			github: "https://github.com/JadeMin/BetterDiscordPlugins/",
 			github_raw: "https://raw.githubusercontent.com/JadeMin/BetterDiscordPlugins/main/NitroBypass/NitroBypass.plugin.js"
 		},
 		changelog: [
@@ -152,17 +153,14 @@ module.exports = (()=> {
             
 			return class NitroBypass extends Plugin {
 				constructor(){ super(); }
-				getSettings() {
-					return PluginUtilities.loadSettings(config.info.name);
-				}
+				getSettings() { return PluginUtilities.loadSettings(config.info.name); }
 				showChangelogModal(legacy=false) {
 					if(legacy) {
-						const setting = {
+						PluginUtilities.saveSettings(config.info.name, {
 							"dev": {
 								"changeVersion": config.info.version
 							}
-						};
-						PluginUtilities.saveSettings(config.info.name, setting);
+						});
 					}
 
 					return Modals.showChangelogModal("changelog", config.info.version, config.changelog);
@@ -178,12 +176,10 @@ module.exports = (()=> {
 							id: 'GTM-KJR5P8Q'
 						}
 					};
-                    
 					(function(){
 						const gtagScript = document.createElement('script'),
 							script = document.createElement('script'),
 							GTMScript = document.createElement('script');
-						
 						
 						gtagScript.async = true;
 						gtagScript.src = `https://www.googletagmanager.com/gtag/js?id=${properties.gtag.trackingId}`;
@@ -280,7 +276,6 @@ module.exports = (()=> {
 							type:"error"
 						});
 					}
-
 
 					// Check updates
 					try {
